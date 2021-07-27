@@ -38,6 +38,7 @@ public class MenuJoueur {
 	static double prixAmeliorationBoutique = 5.00;
 	static double prixAmeliorationRestaurant = 5.00;
 	static double prixEntree = 45.00;
+	private static double prixTerrain=100;
 
 
 	public static int generateRandomInt(int max){
@@ -143,7 +144,26 @@ public class MenuJoueur {
 		}
 
 		for (Attraction a : parc.getAttractions()) {
-			capaciteMax += a.getAffluence();
+			int alea = generateRandomInt(11);
+			double incident = 1;
+			if (alea <a.getTauxIncident()/10)
+			{
+				// il y a eu un incident
+				//on récupère les employés au salaire > 50 et selon leur salaire, l'incident sera + ou - impactant
+				double impact_e = 0;
+				for (Employe e : parc.getEmployes()) {
+					if (e.getSalaire()>50) {
+						impact_e = impact_e + e.getSalaire();
+					}
+				}
+				incident = 1-1/impact_e;//+ l'impact est grd, - 1/impact est grand, + incident est proche de 1
+			}
+			else
+			{
+				incident = 1; //pas d'incident
+			}
+			
+			capaciteMax += a.getAffluence()*incident;
 			prixFonctionnement += a.getPrixFonctionnement();
 		}
 
@@ -158,36 +178,36 @@ public class MenuJoueur {
 		}
 
 
-		attractivite = (parc.getCommodites().size()+parc.getEmployes().size())/100;
+		attractivite = (parc.getCommodites().size()+parc.getEmployes().size()+parc.getAttractions().size()+parc.getBoutiques().size()+parc.getRestaurants().size())/100;
 		if (attractivite > 1) {attractivite = 1;}
-
+		else if (attractivite == 0) {attractivite = 0.1;}
 
 
 		switch (tempsJournee)
 		{
 		case 0 : System.out.println("\nAujourd'hui il a beaucoup plu");
-		nbVisiteur = capaciteMax*attractivite*0.1;
+		nbVisiteur = capaciteMax*attractivite*0.7;
 		break;
 		case 1 : System.out.println("\nAujourd'hui il a un peu plu");
-		nbVisiteur = capaciteMax*attractivite*0.5;
+		nbVisiteur = capaciteMax*attractivite*0.7;
 		break;
 		case 2 : System.out.println("\nAujourd'hui il a fait nuageux");
-		nbVisiteur = capaciteMax*attractivite*0.8;
+		nbVisiteur = capaciteMax*attractivite*0.9;
 		break;
 		case 3 : System.out.println("\nAujourd'hui il a fait beau");
 		nbVisiteur = capaciteMax*attractivite;
 		break;
 		case 4 : System.out.println("\nAujourd'hui il a fait très chaud");
-		nbVisiteur = capaciteMax*attractivite*0.5;
+		nbVisiteur = capaciteMax*attractivite*0.7;
 		break;
 		}
 
 		argentGagne = nbVisiteur*prixEntree;
 		parc.setArgent(parc.getArgent()+argentGagne-salaire-prixFonctionnement);
 
-		System.out.println("Vous avez re�u "+Math.round(nbVisiteur)+" visiteurs");
-		System.out.println("Vous avez gagner "+argentGagne+"� et d�pens� "+(salaire+prixFonctionnement)+"�");
-		System.out.println("Vous avez maintenant "+parc.getArgent()+"�");
+		System.out.println("Vous avez reçu "+Math.round(nbVisiteur)+" visiteurs");
+		System.out.println("Vous avez gagner "+argentGagne+"€ et dépensé "+(salaire+prixFonctionnement)+"€");
+		System.out.println("Vous avez maintenant "+parc.getArgent()+"€");
 	}
 
 	
@@ -213,7 +233,6 @@ public class MenuJoueur {
 
 
 
-	private static double prixTerrain;
 	private static void menuAchatTerrain() {
 		System.out.println("Le prix du m² est de "+prixTerrain+"€");
 		System.out.println("Vous avez actuellement "+parc.getArgent()+"€");
