@@ -91,9 +91,8 @@ public class Menu {
 			{
 				System.out.println("\nIdentifiants invalides !");
 				
-				int choix = saisieInt("Veux-tu rééssayer ?");  
-				System.out.println("1-OUI");
-				System.out.println("2-NON, retour menu précédent");
+				int choix = saisieInt("Veux-tu rééssayer ?\n1-OUI \n2-Non, retour menu principal");  
+				
 				switch(choix) 
 				{
 				case 1 : seConnecter();break;
