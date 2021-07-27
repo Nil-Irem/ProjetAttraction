@@ -554,7 +554,7 @@ public class MenuJoueur {
 	}
 
 private static void ShowRestaurant() {
-		System.out.println("Voici toutes les attractions présentes dans votre parc :");
+		System.out.println("Voici touts les restaurants présents dans votre parc :");
 
 		for (Restaurant r : parc.getRestaurants())
 		{
@@ -564,7 +564,7 @@ private static void ShowRestaurant() {
 	}
 
 	private static void ShowCommodites() {
-		System.out.println("Voici toutes les attractions présentes dans votre parc :");
+		System.out.println("Voici toutes les commodites présentes dans votre parc :");
 
 		for (Commodite c : parc.getCommodites())
 		{
@@ -574,7 +574,7 @@ private static void ShowRestaurant() {
 	}
 
 	private static void ShowBoutique() {
-		System.out.println("Voici toutes les attractions présentes dans votre parc :");
+		System.out.println("Voici toutes les boutiques présentes dans votre parc :");
 
 		for (Boutique b : parc.getBoutiques())
 		{
