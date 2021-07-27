@@ -26,7 +26,7 @@ public class DAORestaurant implements IDAO<Restaurant,Integer> {
 
 			while(rs.next()) 
 			{
-				 r = new Restaurant(rs.getInt("id_restaurant"), rs.getString("nom"), rs.getDouble("prix_acquisition"),rs.getDouble("prix_fonctionnement"),rs.getInt("nb_ameliorations"), rs.getDouble("taux_incident"), rs.getDouble("taille"), rs.getInt("affluence_max"),rs.getDouble("rev_jour_pers"));	
+				 r = new Restaurant(rs.getInt("id_restaurant"), rs.getString("nom"), rs.getDouble("prix_acquisition"),rs.getDouble("prix_fonctionnement"),rs.getInt("nb_ameliorations"), rs.getDouble("taux_incident"), rs.getDouble("taille"), rs.getInt("affluence_max"),rs.getDouble("revenuJourPersonne"));	
 			}
 			rs.close();
 			ps.close();
@@ -52,7 +52,7 @@ public class DAORestaurant implements IDAO<Restaurant,Integer> {
 
 			while(rs.next()) 
 			{
-				Restaurant r = new Restaurant(rs.getInt("id_restaurant"), rs.getString("nom"), rs.getDouble("prix_acquisition"),rs.getDouble("prix_fonctionnement"),rs.getInt("nb_ameliorations"), rs.getDouble("taux_incident"), rs.getDouble("taille"), rs.getInt("affluence_max"),rs.getDouble("rev_jour_pers"));	
+				Restaurant r = new Restaurant(rs.getInt("id_restaurant"), rs.getString("nom"), rs.getDouble("prix_acquisition"),rs.getDouble("prix_fonctionnement"),rs.getInt("nb_ameliorations"), rs.getDouble("taux_incident"), rs.getDouble("taille"), rs.getInt("affluence_max"),rs.getDouble("revenuJourPersonne"));	
 				restaurants.add(r);
 			}
 			rs.close();
@@ -71,7 +71,7 @@ public class DAORestaurant implements IDAO<Restaurant,Integer> {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(urlBDD,loginBDD,passwordBDD);
 			
-			PreparedStatement ps = conn.prepareStatement("INSERT into restaurant (nom,prix_acquisition,prix_fonctionnement,nb_ameliorations,affluence_max, rev_jr_pers, taux_incident,taille) VALUES (?,?,?,?,?,?,?,?)");
+			PreparedStatement ps = conn.prepareStatement("INSERT into restaurant (nom,prix_acquisition,prix_fonctionnement,nb_ameliorations,affluence_max, revenuJourPersonne, taux_incident,taille) VALUES (?,?,?,?,?,?,?,?)");
 			
 			ps.setString(1, r.getNom());
 			ps.setDouble(2, r.getPrixAcquisition());
@@ -99,7 +99,7 @@ public class DAORestaurant implements IDAO<Restaurant,Integer> {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(urlBDD,loginBDD,passwordBDD);
 
-			PreparedStatement ps = conn.prepareStatement("UPDATE restaurant set nom=?,prix_acquisition=?,prix_fonctionnement=?,nb_ameliorations=?,affluence_max=?,rev_jour_pers=?,taux_incident=?,taille=? where id_restaurant=?");
+			PreparedStatement ps = conn.prepareStatement("UPDATE restaurant set nom=?,prix_acquisition=?,prix_fonctionnement=?,nb_ameliorations=?,affluence_max=?,revenuJourPersonne=?,taux_incident=?,taille=? where id_restaurant=?");
 
 			ps.setString(1, r.getNom());
 			ps.setDouble(2, r.getPrixAcquisition());
