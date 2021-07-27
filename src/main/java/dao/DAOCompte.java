@@ -41,8 +41,7 @@ public class DAOCompte implements IDAO<Compte,Integer> {
 			if (c instanceof Joueur) {
 				Joueur j = (Joueur) c;
 				PreparedStatement ps2 = conn.prepareStatement("SELECT Last_insert_id()");
-				ps2.executeUpdate();
-				ResultSet rs = ps.executeQuery();
+				ResultSet rs = ps2.executeQuery();
 
 				while(rs.next()) 
 				{

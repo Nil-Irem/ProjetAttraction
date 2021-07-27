@@ -225,6 +225,7 @@ public class MenuJoueur {
 		{
 			parc.setTaille(parc.getTaille()+choix);
 			parc.setArgent(parc.getArgent()-choix*prixTerrain);
+			System.out.println("\nFélicitation vous avez maintenant "+parc.getArgent()+"€ et "+parc.getTaille()+" m² de terrain");
 		}
 		
 	}
