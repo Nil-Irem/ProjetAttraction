@@ -32,5 +32,4 @@ public enum Difficulte {
 	public void setArgent(double argent) {
 		this.argent = argent;
 	}
-	
 }

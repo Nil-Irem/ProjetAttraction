@@ -188,25 +188,46 @@ public class MenuJoueur {
 		System.out.println("Vous avez maintenant "+parc.getArgent()+"�");
 	}
 
+	
 	public static void menuModification() {
-
 		System.out.println("\n Quelles modifications voulez vous apporter au Parc ?");
 		System.out.println("1- Ameliorer les structures deja en place");
-		System.out.println("2- Acheter de nouvelles strucutures");
-		System.out.println("3- Voir nos possesions");
-		System.out.println("4- Fin des modifications");
+		System.out.println("2- Acheter de nouvelles structures");
+		System.out.println("3- Acheter du terrain");
+		System.out.println("4- Voir nos possesions");
+		System.out.println("5- Fin des modifications");
 		int choix = saisieInt("Choisir un menu");
 
 		switch(choix) 
 		{
 		case 1 : menuAmelioration();break;
 		case 2 : menuAchat();break;
-		case 3 : menuPossesion();break;
-		case 4 : menuJouer();break;
+		case 3 : menuAchatTerrain();break;
+		case 4 : menuPossesion();break;
+		case 5 : menuJouer();break;
 		}
 		menuModification();
 	}
 
+
+
+	private static double prixTerrain;
+	private static void menuAchatTerrain() {
+		System.out.println("Le prix du m² est de "+prixTerrain+"€");
+		System.out.println("Vous avez actuellement "+parc.getArgent()+"€");
+		int choix = saisieInt("Combien de m² voulez vous acheter ? (Donnez un nombre entier)");
+		
+		if (choix*prixTerrain > parc.getArgent()) {
+			System.out.println("Vous n'avez pas assez d'argent pour acheter autant de terrain");
+			menuModification();
+		}
+		else
+		{
+			parc.setTaille(parc.getTaille()+choix);
+			parc.setArgent(parc.getArgent()-choix*prixTerrain);
+		}
+		
+	}
 
 
 	private static void menuAchat() {
