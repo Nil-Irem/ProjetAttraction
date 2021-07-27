@@ -93,6 +93,7 @@ public class DAOParc implements IDAO<Parc,Integer> {
 
 	public Parc insert(Parc p,int id_joueur) {
 		try {
+			
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(urlBDD,loginBDD,passwordBDD);
 			
@@ -106,6 +107,14 @@ public class DAOParc implements IDAO<Parc,Integer> {
 			ps.setInt(6, id_joueur);
 			ps.executeUpdate();
 			
+			PreparedStatement ps1 = conn.prepareStatement("SELECT LAST_INSERT_ID()");
+			ResultSet rs = ps1.executeQuery();
+			
+			rs.next();
+			p.setId(rs.getInt(1));
+			
+			ps1.close();
+			rs.close();
 			ps.close();
 			conn.close();
 		}
@@ -206,4 +215,44 @@ public class DAOParc implements IDAO<Parc,Integer> {
 		catch (Exception e) {e.printStackTrace();}
 		return parcs;
 	}
+
+
+
+	public boolean checkSameParcName(String nomParc, int id_joueur) 
+	{	/*
+			BUT: Verifier qu'un parc du même nom n'est pas déja présent
+			IN ==> Le nom du parc a verifier
+			OUT==> boolean: TRUE: Nom de parc existant
+							FALSE: Nom de parc dispo
+		*/
+		
+		boolean b=false;
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(urlBDD,loginBDD,passwordBDD);
+	
+			PreparedStatement ps = conn.prepareStatement("SELECT * from parc where id_joueur = ? AND nom like ?");
+			ps.setInt(1, id_joueur);
+			ps.setString(2, nomParc);
+	
+			ResultSet rs = ps.executeQuery();
+			
+			
+			if (rs.next())
+			{	
+				b= false;
+			}
+			else
+			{
+				b=true;
+			}
+			
+			rs.close();
+			ps.close();
+			conn.close();
+		} 
+		catch (Exception e) {e.printStackTrace();}
+		return b;
+	}
+
 }
