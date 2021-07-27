@@ -25,12 +25,6 @@ public class DAOCompte implements IDAO<Compte,Integer> {
 	}
 	
 
-//	@Override
-//	public Compte insert(Compte o) {
-//		System.out.println("Attention une methode inutile a été appelé (Compte insert)");
-//		return null;
-//	}
-
 
 	public Compte insert (Compte c) {
 		try {
@@ -46,23 +40,22 @@ public class DAOCompte implements IDAO<Compte,Integer> {
 			
 			if (c instanceof Joueur) {
 				Joueur j = (Joueur) c;
-				PreparedStatement ps2 = conn.prepareStatement("SELECT id into compte where login like ?");
-				ps2.setString(1, c.getLogin());
+				PreparedStatement ps2 = conn.prepareStatement("SELECT Last_insert_id()");
 				ps2.executeUpdate();
 				ResultSet rs = ps.executeQuery();
 
 				while(rs.next()) 
 				{
-					j.setId(rs.getInt("id_compte"));
+					j.setId(rs.getInt(1));
 				}
 				ps2.close();
+				rs.close();
 				return j;
 			}
 			ps.close();
 			conn.close();
 		}
 		catch(Exception e) {e.printStackTrace();}
-		
 		return c;
 	}
 
