@@ -111,11 +111,9 @@ public class GestionJeu {
 	
 	public static void deleteGame(int id_parc) {
 		
-			daoP.delete(id_parc);
-	System.out.println("Partie supprimée");
-
-	 Menu.menuPrincipal();
-	
+		daoP.delete(id_parc);
+				
+		System.out.println("Partie supprimée");
 	}
 
 
