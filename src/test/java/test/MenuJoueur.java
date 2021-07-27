@@ -175,7 +175,7 @@ public class MenuJoueur {
 		case 3 : System.out.println("\nAujourd'hui il a fait beau");
 		nbVisiteur = capaciteMax*attractivite;
 		break;
-		case 4 : System.out.println("\nAujourd'hui il a fait tr�s chaud");
+		case 4 : System.out.println("\nAujourd'hui il a fait très chaud");
 		nbVisiteur = capaciteMax*attractivite*0.5;
 		break;
 		}

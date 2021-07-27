@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-import dao.DAOCompte;
+import dao.DAOLien;
 import dao.DAOParc;
 import metier.Difficulte;
 import metier.Joueur;
@@ -61,41 +61,34 @@ public class GestionJeu {
 
 	public static void chargerPartie(Joueur joueur)
 	{	
-		/*
-			IN: Joueur joueur ==> Le compte Connected
-			OUT: Parc ==> Le parc avec lequel le joueur veut joué 
-						  (car il peut avoir plusieurs parc)
-			WORK: -Afficher la liste des parcs du compte joueur (Appel BDD)
-				  -Selection du parc via son id 
-				  -Revoie de l'objet Parc vers 	(MenuJoueur) menuPartie(Parc parcJoueur)  
-		 */
-
 		List<Parc> parcs = new ArrayList();
-		
 		parcs = daoP.findByIdJoueur(joueur.getId());
 		
 		if(!parcs.isEmpty()) {
+			for (Parc p : parcs) {
+				p.setAttractions(DAOLien.findAllAttractionById(p.getId()));
+				p.setBoutiques(DAOLien.findAllBoutiqueById(p.getId()));
+				p.setCommodites(DAOLien.findAllCommoditeById(p.getId()));
+				p.setEmployes(DAOLien.findAllEmployeById(p.getId()));
+				p.setRestaurants(DAOLien.findAllRestaurantById(p.getId()));
+			}
 			
 			System.out.println("Cher " + joueur.getLogin() + " Sur quel parc souhaites-tu t'amuser ?");
-				
 			System.out.println(parcs);
 
 			int choix = saisieInt("Saisir l'id du parc à selectionner");
 			
 			for(Parc p1 : parcs)
 			{
-				if( p1.getId() == choix)
-				{
-					MenuJoueur.menuPartie(p1);
-				}
+				if( p1.getId() == choix) {MenuJoueur.menuPartie(p1);}
 			}
-			
-		}else
-		{
-			System.out.println(joueur.getLogin() + " tu n'as pas de partie à charger ! Retournes en creer une !");
-			MenuJoueur.menuJoueur(joueur);
 		}
 		
+		else
+		{
+			System.out.println("Désolé " +joueur.getLogin() + " tu n'as pas de partie à charger ! Retournes en creer une !");
+			MenuJoueur.menuJoueur(joueur);
+		}
 	}
 
 
@@ -105,6 +98,7 @@ public class GestionJeu {
 	}
 
 
+	
 	public static void deleteGame(int id_parc) {
 			daoP.delete(id_parc);
 	}
