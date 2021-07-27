@@ -73,12 +73,14 @@ public class MenuJoueur {
 		System.out.println("\nC'est parti pour jouer !");
 		System.out.println("1- Nouvelle Partie");
 		System.out.println("2- Charger Partie");
+		System.out.println("3- Se déconnecter");
 		int choix = saisieInt("Choisir un menu");
 
 		switch(choix) 
 		{
 		case 1 : GestionJeu.creerPartie(joueur) ;break;
 		case 2 : GestionJeu.chargerPartie(joueur);break;
+		case 3 : Menu.menuPrincipal();break;
 		}
 		menuJoueur(connected);
 	}
@@ -91,7 +93,7 @@ public class MenuJoueur {
 		System.out.println("1- Sauvegarder la Partie");
 		System.out.println("2- Supprimer la Partie");
 		System.out.println("3- Jouer");
-		System.out.println("4- Retour menu joueur");
+		System.out.println("4- Retour au menu précédent");
 		int choix = saisieInt("Choisir un menu");
 
 		switch(choix) 
@@ -110,7 +112,7 @@ public class MenuJoueur {
 		System.out.println("\nC'est le moment de jouer !");
 		System.out.println("1- Modifier le parc");
 		System.out.println("2- Finir la journée");
-		System.out.println("3- Retour au menu Partie");
+		System.out.println("3- Retour au menu précédent");
 		int choix = saisieInt("Choisir un menu");
 
 		switch(choix) 

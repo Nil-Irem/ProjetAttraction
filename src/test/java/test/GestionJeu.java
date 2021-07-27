@@ -90,6 +90,7 @@ public class GestionJeu {
 			{
 				if( p1.getId() == choix) {MenuJoueur.menuPartie(p1);}
 			}
+			System.out.println("Ce parc n'existe pas");
 		}
 		
 		else
