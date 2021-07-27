@@ -18,22 +18,18 @@ import metier.Attraction;
 import metier.Boutique;
 import metier.Commodite;
 import metier.Employe;
+import metier.Parc;
 import metier.Restaurant;
 
 
-public class DAOLien {
+public abstract class DAOLien implements IDAO<Parc,Integer> {
 	
 	static DAOAttraction DaoA = new DAOAttraction();
 	static DAOBoutique DaoB = new DAOBoutique();
 	static DAOCommodite DaoC = new DAOCommodite();
 	static DAOCompte DaoCpt = new DAOCompte();
 	static DAOEmploye DaoE = new DAOEmploye();
-	static DAORestaurant DaoR = new DAORestaurant();
-	
-	private static String urlBDD="jdbc:mysql://localhost:8889/projetattraction";
-	private static String loginBDD="root";
-	private static String passwordBDD="root";
-	
+	static DAORestaurant DaoR = new DAORestaurant();	
 	
 	
 	public static List<Attraction> findAllAttractionById(Integer id_parc) {

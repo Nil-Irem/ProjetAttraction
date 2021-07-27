@@ -73,14 +73,12 @@ public class MenuJoueur {
 		System.out.println("\nC'est parti pour jouer !");
 		System.out.println("1- Nouvelle Partie");
 		System.out.println("2- Charger Partie");
-		System.out.println("3- Se déconnecter");
 		int choix = saisieInt("Choisir un menu");
 
 		switch(choix) 
 		{
 		case 1 : GestionJeu.creerPartie(joueur) ;break;
 		case 2 : GestionJeu.chargerPartie(joueur);break;
-		case 3 : Menu.menuPrincipal();;break;
 		}
 		menuJoueur(connected);
 	}
@@ -93,7 +91,7 @@ public class MenuJoueur {
 		System.out.println("1- Sauvegarder la Partie");
 		System.out.println("2- Supprimer la Partie");
 		System.out.println("3- Jouer");
-		System.out.println("4- Retourner au menu précédent");
+		System.out.println("4- Retour menu joueur");
 		int choix = saisieInt("Choisir un menu");
 
 		switch(choix) 
@@ -112,7 +110,7 @@ public class MenuJoueur {
 		System.out.println("\nC'est le moment de jouer !");
 		System.out.println("1- Modifier le parc");
 		System.out.println("2- Finir la journée");
-		System.out.println("3- Retourner au menu précédent");
+		System.out.println("3- Retour au menu Partie");
 		int choix = saisieInt("Choisir un menu");
 
 		switch(choix) 
@@ -177,7 +175,7 @@ public class MenuJoueur {
 		case 3 : System.out.println("\nAujourd'hui il a fait beau");
 			nbVisiteur = capaciteMax*attractivite;
 			break;
-		case 4 : System.out.println("\nAujourd'hui il a fait très chaud");
+		case 4 : System.out.println("\nAujourd'hui il a fait tr�s chaud");
 			nbVisiteur = capaciteMax*attractivite*0.5;
 			break;
 		}
@@ -185,9 +183,9 @@ public class MenuJoueur {
 		argentGagne = nbVisiteur*prixEntree;
 		parc.setArgent(parc.getArgent()+argentGagne-salaire-prixFonctionnement);
 		
-		System.out.println("Vous avez reçu "+Math.round(nbVisiteur)+" visiteurs");
-		System.out.println("Vous avez gagner "+argentGagne+"€ et dépensé "+(salaire+prixFonctionnement)+"€");
-		System.out.println("Vous avez maintenant "+parc.getArgent()+"€");
+		System.out.println("Vous avez re�u "+Math.round(nbVisiteur)+" visiteurs");
+		System.out.println("Vous avez gagner "+argentGagne+"� et d�pens� "+(salaire+prixFonctionnement)+"�");
+		System.out.println("Vous avez maintenant "+parc.getArgent()+"�");
 	}
 
 	public static void menuModification() {
@@ -236,7 +234,7 @@ public class MenuJoueur {
 
 
 	private static void achatRestaurant() {
-		saisieInt("Voici tous les restaurants disponibles :");
+		System.out.println("Voici tous les restaurants disponibles :");
 		for (Restaurant r : DaoR.findAll()){System.out.println(r);}
 
 		int choix = saisieInt("Choississez votre nouveau restaurant (donner son numero) :");
@@ -259,7 +257,7 @@ public class MenuJoueur {
 
 
 	private static void achatCommodite() {
-		saisieInt("Voici toutes les commodites disponibles :");
+		System.out.println("Voici toutes les commodites disponibles :");
 		for (Commodite c : DaoC.findAll()){System.out.println(c);}
 
 		int choix = saisieInt("Choississez votre nouvelle commodite (donner son numero) :");
@@ -280,7 +278,7 @@ public class MenuJoueur {
 
 
 	private static void achatBoutique() {
-		saisieInt("Voici tous les magasins disponibles :");
+		System.out.println("Voici tous les magasins disponibles :");
 		for (Boutique b : DaoB.findAll()){System.out.println(b);}
 
 		int choix = saisieInt("Choississez votre nouveau magasin (donner son numero) :");
@@ -302,7 +300,7 @@ public class MenuJoueur {
 
 
 	private static void achatEmploye() {
-		saisieInt("Voici tous les employes disponibles :");
+		System.out.println("Voici tous les employes disponibles :");
 		for (Employe e : DaoE.findAll()){System.out.println(e);}
 
 		int choix = saisieInt("Choississez votre nouvel employe (donner son numero) :");
@@ -320,11 +318,21 @@ public class MenuJoueur {
 
 
 
+<<<<<<< Updated upstream
 	private static void achatAttraction() {
-		saisieInt("Voici toutes les attractions disponibles :");
+		System.out.println("Voici toutes les attractions disponibles :");
 		for (Attraction a : DaoA.findAll()){System.out.println(a);}
+=======
+	private static void achatAttraction() { //attention remettre en private
+		System.out.println("Voici toutes les attractions disponibles :");
+		
+		for (Attraction a : DaoA.findAll())
+		{
+			System.out.println(a);
+		}
+>>>>>>> Stashed changes
 
-		int choix = saisieInt("Choississez votre nouvel attraction (donner son numero) :");
+		int choix = saisieInt("Choississez votre nouvelle attraction (donner son numero) :");
 		Attraction newattrac = DaoA.findById(choix);
 
 		if (newattrac.getPrixAcquisition() <= parc.getArgent() && newattrac.getTaille() <= parc.getTaille())
