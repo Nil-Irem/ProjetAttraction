@@ -322,7 +322,7 @@ public class MenuJoueur {
 		System.out.println("Voici toutes les attractions disponibles :");
 		for (Attraction a : DaoA.findAll()){System.out.println(a);}
 
-		int choix = saisieInt("Choississez votre nouvel attraction (donner son numero) :");
+		int choix = saisieInt("Choississez votre nouvelle attraction (donner son numero) :");
 		Attraction newattrac = DaoA.findById(choix);
 
 		if (newattrac.getPrixAcquisition() <= parc.getArgent() && newattrac.getTaille() <= parc.getTaille())
