@@ -435,8 +435,9 @@ public class MenuJoueur {
 		System.out.println("1- Liste de mes Attracttions");
 		System.out.println("2-  Liste de mes Restaurants");
 		System.out.println("3-  Liste de mes Comodités");
-		System.out.println("3-  Liste de mes Boutiques");
-		System.out.println("5- Retour Menu Modification");
+		System.out.println("4-  Liste de mes Boutiques");
+		System.out.println("5- Liste des employés");
+		System.out.println("6- Retour Menu Modification");
 
 		int choix = saisieInt("Choisir un menu");
 
@@ -446,11 +447,25 @@ public class MenuJoueur {
 		case 2 : ShowRestaurant();break;
 		case 3 : ShowCommodites();break;
 		case 4 : ShowBoutique();break;
-		case 5 : menuModification();break;
+		case 5 : ShowEmploye();break;
+		case 6 : menuModification();break;
 		}
 		menuPossesion();
 
 	}
+	
+	
+	private static void ShowEmploye() {
+		System.out.println("Voici touts les employés présents dans votre parc :");
+
+		for (Employe emp : parc.getEmployes())
+		{
+			System.out.println(emp);
+		}
+		
+	}
+	
+	
 	private static void ShowAttraction() {
 		System.out.println("Voici toutes les attractions présentes dans votre parc :");
 
