@@ -26,7 +26,7 @@ public class DAOBoutique implements IDAO<Boutique,Integer> {
 			while(rs.next()) 
 			{
 				 b = new Boutique(rs.getInt("id_boutique"),rs.getString("nom"),rs.getDouble("prix_acquisition"),rs.getDouble("prix_fonctionnement"),rs.getInt("nb_ameliorations"),
-				 	rs.getDouble("taux_incident"),rs.getDouble("taille"),rs.getInt("affluence_max"),rs.getDouble("rev_jour_pers"));	
+				 	rs.getDouble("taux_incident"),rs.getDouble("taille"),rs.getInt("affluence_max"),rs.getDouble("rev_jr_pers"));	
 			}
 			rs.close();
 			ps.close();
