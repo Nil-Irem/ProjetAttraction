@@ -1,5 +1,6 @@
 package test;
 
+import java.util.Random;
 import java.util.Scanner;
 
 import dao.DAOAttraction;
@@ -36,7 +37,13 @@ public class MenuJoueur {
 	static double prixAmeliorationAttraction = 5.00;
 	static double prixAmeliorationBoutique = 5.00;
 	static double prixAmeliorationRestaurant = 5.00;
+	static double prixEntree = 45.00;
 
+
+	public static int generateRandomInt(int max){
+		Random random = new Random();
+		return random.nextInt(max);
+	}
 
 
 	public static int saisieInt(String msg) 
@@ -109,13 +116,77 @@ public class MenuJoueur {
 		switch(choix) 
 		{
 		case 1 : menuModification();break;
-		//case 2 : finJournee();break;
+		case 2 : finJournee();break;
 		case 3 : menuPartie(parc);break;
 
 		}
 		menuJouer();
 	}
 
+
+	
+
+
+	public static void finJournee() {
+		double prixFonctionnement=0;
+		double attractivite=0;
+		double argentGagne=0;
+		double nbVisiteur=0;
+		double salaire=0;
+		int capaciteMax=0;
+		int tempsJournee= generateRandomInt(5);
+		
+		for (Employe e : parc.getEmployes()) {
+			salaire += e.getSalaire();
+		}
+		
+		for (Attraction a : parc.getAttractions()) {
+			capaciteMax += a.getAffluence();
+			prixFonctionnement += a.getPrixFonctionnement();
+		}
+		
+		for (Boutique b : parc.getBoutiques()) {
+			capaciteMax += b.getAffluence();
+			prixFonctionnement += b.getPrixFonctionnement();
+		}
+		
+		for (Restaurant r : parc.getRestaurants()) {
+			capaciteMax += r.getAffluence();
+			prixFonctionnement += r.getPrixFonctionnement();
+		}
+		
+		
+		attractivite = (parc.getCommodites().size()+parc.getEmployes().size())/100;
+		if (attractivite > 1) {attractivite = 1;}
+		
+		
+
+		switch (tempsJournee)
+		{
+		case 0 : System.out.println("\nAujourd'hui il a beaucoup plu");
+			nbVisiteur = capaciteMax*attractivite*0.1;
+			break;
+		case 1 : System.out.println("\nAujourd'hui il a un peu plu");
+			nbVisiteur = capaciteMax*attractivite*0.5;
+			break;
+		case 2 : System.out.println("\nAujourd'hui il a fait nuageux");
+			nbVisiteur = capaciteMax*attractivite*0.8;
+			break;
+		case 3 : System.out.println("\nAujourd'hui il a fait beau");
+			nbVisiteur = capaciteMax*attractivite;
+			break;
+		case 4 : System.out.println("\nAujourd'hui il a fait très chaud");
+			nbVisiteur = capaciteMax*attractivite*0.5;
+			break;
+		}
+
+		argentGagne = nbVisiteur*prixEntree;
+		parc.setArgent(parc.getArgent()+argentGagne-salaire-prixFonctionnement);
+		
+		System.out.println("Vous avez reçu "+Math.round(nbVisiteur)+" visiteurs");
+		System.out.println("Vous avez gagner "+argentGagne+"€ et dépensé "+(salaire+prixFonctionnement)+"€");
+		System.out.println("Vous avez maintenant "+parc.getArgent()+"€");
+	}
 
 	public static void menuModification() {
 
