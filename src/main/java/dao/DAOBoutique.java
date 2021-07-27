@@ -26,7 +26,7 @@ public class DAOBoutique implements IDAO<Boutique,Integer> {
 			while(rs.next()) 
 			{
 				 b = new Boutique(rs.getInt("id_boutique"),rs.getString("nom"),rs.getDouble("prix_acquisition"),rs.getDouble("prix_fonctionnement"),rs.getInt("nb_ameliorations"),
-				 	rs.getDouble("taux_incident"),rs.getDouble("taille"),rs.getInt("affluence_max"),rs.getDouble("rev_jour_pers"));	
+				 	rs.getDouble("taux_incident"),rs.getDouble("taille"),rs.getInt("affluence_max"),rs.getDouble("rev_jr_pers"));	
 			}
 			rs.close();
 			ps.close();
@@ -51,7 +51,7 @@ public class DAOBoutique implements IDAO<Boutique,Integer> {
 			while(rs.next()) 
 			{
 				Boutique b = new Boutique(rs.getInt("id_boutique"),rs.getString("nom"),rs.getDouble("prix_acquisition"),rs.getDouble("prix_fonctionnement"),
-				rs.getInt("nb_ameliorations"),rs.getDouble("taux_incident"),rs.getDouble("taille"),rs.getInt("affluence_max"),rs.getDouble("rev_jour_pers"));
+				rs.getInt("nb_ameliorations"),rs.getDouble("taux_incident"),rs.getDouble("taille"),rs.getInt("affluence_max"),rs.getDouble("rev_jr_pers"));
 				boutiques.add(b);
 			}
 			rs.close();
@@ -69,7 +69,7 @@ public class DAOBoutique implements IDAO<Boutique,Integer> {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(urlBDD,loginBDD,passwordBDD);
 			
-			PreparedStatement ps = conn.prepareStatement("INSERT into boutique (nom,prix_acquisition,prix_fonctionnement,nb_ameliorations,affluence_max,taux_incident,taille,rev_jour_pers) VALUES (?,?,?,?,?,?,?,?)");
+			PreparedStatement ps = conn.prepareStatement("INSERT into boutique (nom,prix_acquisition,prix_fonctionnement,nb_ameliorations,affluence_max,taux_incident,taille,rev_jr_pers) VALUES (?,?,?,?,?,?,?,?)");
 
 			ps.setString(1, b.getNom());
 			ps.setDouble(2, b.getPrixAcquisition());
@@ -98,7 +98,7 @@ public class DAOBoutique implements IDAO<Boutique,Integer> {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(urlBDD,loginBDD,passwordBDD);
 
-			PreparedStatement ps = conn.prepareStatement("UPDATE boutique set nom=?,prix_acquisition=?,prix_fonctionnement=?,nb_ameliorations=?,affluence_max=?,taux_incident=?,taille=?,rev_jour_pers=? where id_boutique=?");
+			PreparedStatement ps = conn.prepareStatement("UPDATE boutique set nom=?,prix_acquisition=?,prix_fonctionnement=?,nb_ameliorations=?,affluence_max=?,taux_incident=?,taille=?,rev_jr_pers=? where id_boutique=?");
 
 			ps.setString(1, b.getNom());
 			ps.setDouble(2, b.getPrixAcquisition());
