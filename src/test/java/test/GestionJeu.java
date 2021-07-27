@@ -56,7 +56,12 @@ public class GestionJeu {
 		Double tailleP = saisieDouble("Veuillez choisir une taille pour votre parc et la saisir");
 
 		Parc p = new Parc (nomParc,tailleP,0,argentJ,diff);
-		//constructeur : Parc(String nomParc,double taille, int nbjour,double argent,Difficulte typeDifficulte)
+		
+		daoP.insert(p);
+		int idJ = joueur.getId();
+		
+		
+		daoP.update(p, idJ);
 
 		// Taille du parc ??? nbjour =0 argent => difficulté 
 

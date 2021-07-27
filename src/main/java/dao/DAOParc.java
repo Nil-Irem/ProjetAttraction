@@ -203,6 +203,7 @@ public class DAOParc implements IDAO<Parc,Integer> {
 			while(rs.next()) 
 			{
 				//String nomParc,double taille, int nbjour,double argent,Difficulte typeDifficulte
+				
 				Parc p = new Parc(rs.getInt("id_parc"),rs.getString("nom"),rs.getDouble("taille"),
 							rs.getInt("nbjour"),rs.getDouble("argent"),Difficulte.valueOf(rs.getString("typeDifficulte")));
 				
