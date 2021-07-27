@@ -73,12 +73,14 @@ public class MenuJoueur {
 		System.out.println("\nC'est parti pour jouer !");
 		System.out.println("1- Nouvelle Partie");
 		System.out.println("2- Charger Partie");
+		System.out.println("3- Se d√©connecter");
 		int choix = saisieInt("Choisir un menu");
 
 		switch(choix) 
 		{
 		case 1 : GestionJeu.creerPartie(joueur) ;break;
 		case 2 : GestionJeu.chargerPartie(joueur);break;
+		case 3 : Menu.menuPrincipal();;break;
 		}
 		menuJoueur(connected);
 	}
@@ -91,7 +93,7 @@ public class MenuJoueur {
 		System.out.println("1- Sauvegarder la Partie");
 		System.out.println("2- Supprimer la Partie");
 		System.out.println("3- Jouer");
-		System.out.println("4- Retour menu joueur");
+		System.out.println("4- Retourner au menu pr√©c√©dent");
 		int choix = saisieInt("Choisir un menu");
 
 		switch(choix) 
@@ -110,7 +112,7 @@ public class MenuJoueur {
 		System.out.println("\nC'est le moment de jouer !");
 		System.out.println("1- Modifier le parc");
 		System.out.println("2- Finir la journ√©e");
-		System.out.println("3- Retour au menu Partie");
+		System.out.println("3- Retourner au menu pr√©c√©dent");
 		int choix = saisieInt("Choisir un menu");
 
 		switch(choix) 
@@ -175,7 +177,7 @@ public class MenuJoueur {
 		case 3 : System.out.println("\nAujourd'hui il a fait beau");
 			nbVisiteur = capaciteMax*attractivite;
 			break;
-		case 4 : System.out.println("\nAujourd'hui il a fait trËs chaud");
+		case 4 : System.out.println("\nAujourd'hui il a fait tr√®s chaud");
 			nbVisiteur = capaciteMax*attractivite*0.5;
 			break;
 		}
@@ -183,9 +185,9 @@ public class MenuJoueur {
 		argentGagne = nbVisiteur*prixEntree;
 		parc.setArgent(parc.getArgent()+argentGagne-salaire-prixFonctionnement);
 		
-		System.out.println("Vous avez reÁu "+Math.round(nbVisiteur)+" visiteurs");
-		System.out.println("Vous avez gagner "+argentGagne+"Ä et dÈpensÈ "+(salaire+prixFonctionnement)+"Ä");
-		System.out.println("Vous avez maintenant "+parc.getArgent()+"Ä");
+		System.out.println("Vous avez re√ßu "+Math.round(nbVisiteur)+" visiteurs");
+		System.out.println("Vous avez gagner "+argentGagne+"‚Ç¨ et d√©pens√© "+(salaire+prixFonctionnement)+"‚Ç¨");
+		System.out.println("Vous avez maintenant "+parc.getArgent()+"‚Ç¨");
 	}
 
 	public static void menuModification() {

@@ -51,9 +51,7 @@ public class GestionJeu {
 
 		Parc p = new Parc (nomParc,tailleP,0,argentJ,diff);
 		
-		daoP.insert(p);
-		int idJ = joueur.getId();		
-		daoP.update(p, idJ);
+		daoP.insert(p,joueur.getId());
 	}
 
 
@@ -101,21 +99,12 @@ public class GestionJeu {
 
 
 	public static void saveGame(Parc parc) {
-
-		{
 			daoP.update(parc);
-		}
-	
-
 	}
 
 
 	public static void deleteGame(int id_parc) {
-	
-		{
 			daoP.delete(id_parc);
-		}
-
 	}
 
 }
