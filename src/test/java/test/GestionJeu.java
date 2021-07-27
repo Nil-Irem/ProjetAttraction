@@ -94,19 +94,18 @@ public class GestionJeu {
 
 
 
-	public static void saveGame(Parc parc, int id_joueur) {
+	public static void saveGame(Parc parc) {
 
-		for (Parc p : id_joueur)
 		{
-			daoP.insert(id_joueur);
+			daoP.update(parc);
 		}
 	
 
 	}
 
 
-	public static void deleteGame(Parc parc, int id_parc) {
-		for (Parc p : id_parc)
+	public static void deleteGame(int id_parc) {
+	
 		{
 			daoP.delete(id_parc);
 		}
