@@ -46,15 +46,16 @@ public class GestionJeu {
 		Difficulte diff = Difficulte.valueOf(choixDifficulte);
 		double argentJ = diff.getArgent();
 		double tailleP=diff.getTailleParc();
-		String nomParc;
 		
-		//boucle while verif nom parc 
 		
-		do
+		String nomParc= saisieString("Veuillez choisir un nom pour votre parc et le saisir");
+		
+		while(!daoP.checkSameParcName(nomParc,joueur.getId()));
 		{
-			nomParc = saisieString("Veuillez choisir un nom pour votre parc et le saisir");
+			System.out.println("Vous avez déjà un parc avec ce nom");
+			nomParc = saisieString("Veuillez choisir un autre nom");
 			
-		}while(!daoP.checkSameParcName(nomParc,joueur.getId()));
+		}
 		
 		
 		
