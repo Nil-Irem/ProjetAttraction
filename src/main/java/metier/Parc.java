@@ -31,11 +31,24 @@ public class Parc {
 		this.argent=argent;
 		this.typeDifficulte=typeDifficulte;
 	}
+    
+    //constructeur pour find by id dans DAOParc
+    public Parc(int id,String nom, double taille, int nbjour, double argent, Difficulte typeDifficulte)
+    {
+    	this.id=id;
+		this.nomParc = nomParc;
+		this.taille = taille;
+		this.nbjour = nbjour;
+		this.argent=argent;
+		this.typeDifficulte=typeDifficulte;
+    }
+    
+			
 	
 
 	//Constructeur pour creation d'un nouveau parc debut de partie
-    public Parc(int id,String nomParc,double taille, int nbjour,double argent,Difficulte typeDifficulte) {	
-		this.id=id;
+    public Parc(String nomParc,double taille, int nbjour,double argent,Difficulte typeDifficulte) {	
+		
 		this.nomParc = nomParc;
 		this.taille = taille;
 		this.nbjour = nbjour;
