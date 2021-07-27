@@ -87,12 +87,12 @@ public class GestionJeu {
 		Parc p = null;
 		
 		
-		System.out.println("Cher " + joueur.getLogin() + " Sur quel parc souhaites t'amuser ?");
+		System.out.println("Cher " + joueur.getLogin() + " Sur quel parc souhaites-tu t'amuser ?");
 		
 		parcs = daoP.findByIdJoueur(joueur.getId());
 		System.out.println(parcs);
 
-		int choix = saisieInt("Saisir l'id du parc Ã  selectionner");
+		int choix = saisieInt("Saisir l'id du parc à selectionner");
 		
 		for(Parc p1 : parcs)
 		{
