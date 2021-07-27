@@ -47,6 +47,7 @@ public class GestionJeu {
 		double argentJ = diff.getArgent();
 		double tailleP=diff.getTailleParc();
 
+		//boucle while verif nom parc 
 		String nomParc = saisieString("Veuillez choisir un nom pour votre parc et le saisir");
 
 		Parc p = new Parc (nomParc,tailleP,0,argentJ,diff);
