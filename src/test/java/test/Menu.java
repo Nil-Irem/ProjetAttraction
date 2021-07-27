@@ -76,7 +76,9 @@ public class Menu {
 			String login = saisieString("\nEntrez votre identifiant :");
 			String password = saisieString("Entrez votre mot de passe :");
 			connected = DAOCompte.seConnecter(login,password);
-
+		
+			
+			
 			if(connected instanceof Joueur) 
 			{
 				MenuJoueur.menuJoueur(connected);
@@ -88,7 +90,17 @@ public class Menu {
 			else 
 			{
 				System.out.println("\nIdentifiants invalides !");
-				seConnecter();
+				
+				int choix = saisieInt("Veux-tu rééssayer ?\n1-OUI \n2-Non, retour menu principal");  
+				
+				switch(choix) 
+				{
+				case 1 : seConnecter();break;
+				case 2 : menuPrincipal();break;
+				case 3 : seConnecter();break;
+				}
+				
+				
 			}
 		}
 }

@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-import dao.DAOCompte;
+import dao.DAOLien;
 import dao.DAOParc;
 import metier.Difficulte;
 import metier.Joueur;
@@ -42,75 +42,75 @@ public class GestionJeu {
 
 
 	public static void creerPartie(Joueur joueur){
-		//Choix de la difficulte 
-		//Choisir un nom de parc
-		//System.out.println("Créons une nouvelle partie ! Veuillez choisir la difficulté: ");
-
-		String choixDifficulte = saisieString("Créons une nouvelle partie !\n Veuillez choisir la difficulté en indiquant le numéro parmi:\n "+ Arrays.toString(Difficulte.values()));
+		String choixDifficulte = saisieString("Créons une nouvelle partie !\n Veuillez choisir la difficulté parmi:\n "+ Arrays.toString(Difficulte.values()));
 		Difficulte diff = Difficulte.valueOf(choixDifficulte);
-		Double argentJ = diff.getArgent();
-
-
-		String nomParc = saisieString("Veuillez choisir un nom pour votre parc et le saisir");
-
-		Double tailleP = saisieDouble("Veuillez choisir une taille pour votre parc et la saisir");
-
+		double argentJ = diff.getArgent();
+		double tailleP=diff.getTailleParc();
+		
+		
+		String nomParc= saisieString("Veuillez choisir un nom pour votre parc et le saisir");
+		
+		while(!daoP.checkSameParcName(nomParc,joueur.getId()));
+		{
+			System.out.println("Vous avez déjà un parc avec ce nom");
+			nomParc = saisieString("Veuillez choisir un autre nom");
+			
+		}
+		
+		
+		
 		Parc p = new Parc (nomParc,tailleP,0,argentJ,diff);
-		//constructeur : Parc(String nomParc,double taille, int nbjour,double argent,Difficulte typeDifficulte)
-
-		// Taille du parc ??? nbjour =0 argent => difficulté 
-
-		//Parc(String nomParc,double taille, int nbjour,double argent,int typeDifficulte)
-		//insert parc + id_joueur ds bdd
+		
+		daoP.insert(p,joueur.getId());
+		MenuJoueur.menuPartie(p);
 	}
 
 
 
 
-	public static Parc chargerPartie(Joueur joueur)
+	public static void chargerPartie(Joueur joueur)
 	{	
-		/*
-			IN: Joueur joueur ==> Le compte Connected
-			OUT: Parc ==> Le parc avec lequel le joueur veut joué 
-						  (car il peut avoir plusieurs parc)
-			WORK: -Afficher la liste des parcs du compte joueur (Appel BDD)
-				  -Selection du parc via son id 
-				  -Revoie de l'objet Parc vers 	(MenuJoueur) menuPartie(Parc parcJoueur)  
-		 */
-
 		List<Parc> parcs = new ArrayList();
-
-		System.out.println("Cher " + joueur.getLogin() + " Sur quel parc souhaites t'amuser ?");
-		
 		parcs = daoP.findByIdJoueur(joueur.getId());
-		System.out.println(parcs);
-
-		int choix = saisieInt("Saisir l'id du parc à selectionner");
 		
+		if(!parcs.isEmpty()) {
+			for (Parc p : parcs) {
+				p.setAttractions(DAOLien.findAllAttractionById(p.getId()));
+				p.setBoutiques(DAOLien.findAllBoutiqueById(p.getId()));
+				p.setCommodites(DAOLien.findAllCommoditeById(p.getId()));
+				p.setEmployes(DAOLien.findAllEmployeById(p.getId()));
+				p.setRestaurants(DAOLien.findAllRestaurantById(p.getId()));
+			}
+			
+			System.out.println("Cher " + joueur.getLogin() + " Sur quel parc souhaites-tu t'amuser ?");
+			System.out.println(parcs);
 
-		return p;
-
+			int choix = saisieInt("Saisir l'id du parc à selectionner");
+			
+			for(Parc p1 : parcs)
+			{
+				if( p1.getId() == choix) {MenuJoueur.menuPartie(p1);}
+			}
+			System.out.println("Ce parc n'existe pas");
+		}
+		
+		else
+		{
+			System.out.println("Désolé " +joueur.getLogin() + " tu n'as pas de partie à charger ! Retournes en creer une !");
+			MenuJoueur.menuJoueur(joueur);
+		}
 	}
 
 
 
-	public static void saveGame(Parc parc, int id_joueur) {
+	public static void saveGame(Parc parc) {
+			daoP.update(parc);
+	}
 
-		for (Parc p : id_joueur)
-		{
-			daoP.insert(id_joueur);
-		}
+
 	
-
-	}
-
-
-	public static void deleteGame(Parc parc, int id_parc) {
-		for (Parc p : id_parc)
-		{
+	public static void deleteGame(int id_parc) {
 			daoP.delete(id_parc);
-		}
-
 	}
 
 }

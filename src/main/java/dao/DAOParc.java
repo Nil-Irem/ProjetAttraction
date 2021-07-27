@@ -93,6 +93,7 @@ public class DAOParc implements IDAO<Parc,Integer> {
 
 	public Parc insert(Parc p,int id_joueur) {
 		try {
+			
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(urlBDD,loginBDD,passwordBDD);
 			
@@ -106,40 +107,37 @@ public class DAOParc implements IDAO<Parc,Integer> {
 			ps.setInt(6, id_joueur);
 			ps.executeUpdate();
 			
+			PreparedStatement ps1 = conn.prepareStatement("SELECT LAST_INSERT_ID()");
+			ResultSet rs = ps1.executeQuery();
+			
+			rs.next();
+			p.setId(rs.getInt(1));
+			
+			ps1.close();
+			rs.close();
 			ps.close();
 			conn.close();
 		}
 		catch(Exception e) {e.printStackTrace();}
 		
-		//Y ajouter l'id ?
 		return p;
 	}
 	
+
 	
-
-
-	@Override
 	public Parc update(Parc p) {
-		System.out.println("Attention une fonction inutile a été appelé (insert Parc)");
-		return p;
-	}
-
-
-	
-	public Parc update(Parc p,int id_joueur) {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(urlBDD,loginBDD,passwordBDD);
 
-			PreparedStatement ps = conn.prepareStatement("UPDATE Parc set nom=?,argent=?,nbjour=?,taille=?,typeDifficulte=?,id_joueur=? where id_parc=?");
+			PreparedStatement ps = conn.prepareStatement("UPDATE Parc set nom=?,argent=?,nbjour=?,taille=?,typeDifficulte=? where id_parc=?");
 
 			ps.setString(1, p.getNomParc());
 			ps.setDouble(2, p.getArgent());
 			ps.setInt(3, p.getNbjour());
 			ps.setDouble(4, p.getTaille());
 			ps.setString(5, p.getTypeDifficulte().toString());
-			ps.setInt(6, id_joueur);
-			ps.setInt(7, p.getId());
+			ps.setInt(6, p.getId());
 			ps.executeUpdate();
 			
 			DAOLien.deleteAttraction(p.getId());
@@ -203,6 +201,7 @@ public class DAOParc implements IDAO<Parc,Integer> {
 			while(rs.next()) 
 			{
 				//String nomParc,double taille, int nbjour,double argent,Difficulte typeDifficulte
+				
 				Parc p = new Parc(rs.getInt("id_parc"),rs.getString("nom"),rs.getDouble("taille"),
 							rs.getInt("nbjour"),rs.getDouble("argent"),Difficulte.valueOf(rs.getString("typeDifficulte")));
 				
@@ -215,4 +214,44 @@ public class DAOParc implements IDAO<Parc,Integer> {
 		catch (Exception e) {e.printStackTrace();}
 		return parcs;
 	}
+
+
+
+	public boolean checkSameParcName(String nomParc, int id_joueur) 
+	{	/*
+			BUT: Verifier qu'un parc du même nom n'est pas déja présent
+			IN ==> Le nom du parc a verifier
+			OUT==> boolean: TRUE: Nom de parc existant
+							FALSE: Nom de parc dispo
+		*/
+		
+		boolean b=false;
+		try {
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(urlBDD,loginBDD,passwordBDD);
+	
+			PreparedStatement ps = conn.prepareStatement("SELECT * from parc where id_joueur = ? AND nom like ?");
+			ps.setInt(1, id_joueur);
+			ps.setString(2, nomParc);
+	
+			ResultSet rs = ps.executeQuery();
+			
+			
+			if (rs.next())
+			{	
+				b= false;
+			}
+			else
+			{
+				b=true;
+			}
+			
+			rs.close();
+			ps.close();
+			conn.close();
+		} 
+		catch (Exception e) {e.printStackTrace();}
+		return b;
+	}
+
 }

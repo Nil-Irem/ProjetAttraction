@@ -1,16 +1,17 @@
 package metier;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Parc {
 
     private int id;
     private String nomParc;
-    private List<Boutique> boutiques;
-    private List<Attraction> attractions;
-    private List<Restaurant> restaurants;
-    private List<Employe> employes;
-    private List<Commodite> commodites;
+    private List<Boutique> boutiques=new ArrayList();
+    private List<Attraction> attractions=new ArrayList();
+    private List<Restaurant> restaurants=new ArrayList();
+    private List<Employe> employes=new ArrayList();
+    private List<Commodite> commodites=new ArrayList();
     private double taille;
     private int nbjour;
 	private double argent;
@@ -31,11 +32,24 @@ public class Parc {
 		this.argent=argent;
 		this.typeDifficulte=typeDifficulte;
 	}
+    
+    //constructeur pour find by id dans DAOParc
+    public Parc(int id,String nom, double taille, int nbjour, double argent, Difficulte typeDifficulte)
+    {
+    	this.id=id;
+		this.nomParc = nom;
+		this.taille = taille;
+		this.nbjour = nbjour;
+		this.argent=argent;
+		this.typeDifficulte=typeDifficulte;
+    }
+    
+			
 	
 
 	//Constructeur pour creation d'un nouveau parc debut de partie
-    public Parc(int id,String nomParc,double taille, int nbjour,double argent,Difficulte typeDifficulte) {	
-		this.id=id;
+    public Parc(String nomParc,double taille, int nbjour,double argent,Difficulte typeDifficulte) {	
+		
 		this.nomParc = nomParc;
 		this.taille = taille;
 		this.nbjour = nbjour;
@@ -195,39 +209,6 @@ public class Parc {
 		return "Le parc "+ nomParc +" (numero "+ id + "), de taille "+taille+"m², possede " + boutiques.size() + " magasins, " + attractions.size()
 				+ " attractions, " + restaurants.size() + "restaurants, " + employes.size() + "employes et "+commodites+"commodites. Ce parc existe depuis " +nbjour+ " jours" + ". Le parc possède une somme de "+argent+". Son type de difficulté est "+typeDifficulte;
 	}
-
-
-    public double calculRecette()
-    {
-        return 0;
-
-    }
-
-public void calculIncident()
-    {
-
-    }
-
-public void calculAffluence()
-    {
-
-    }
-
-public void calculNote()
-    {
-
-    }
-
-public void calculEspaceDispo()
-    {
-
-    }
-
-
-
-
-
-
 
 
 }

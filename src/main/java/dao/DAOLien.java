@@ -18,22 +18,18 @@ import metier.Attraction;
 import metier.Boutique;
 import metier.Commodite;
 import metier.Employe;
+import metier.Parc;
 import metier.Restaurant;
 
 
-public class DAOLien {
+public abstract class DAOLien implements IDAO<Parc,Integer> {
 	
 	static DAOAttraction DaoA = new DAOAttraction();
 	static DAOBoutique DaoB = new DAOBoutique();
 	static DAOCommodite DaoC = new DAOCommodite();
 	static DAOCompte DaoCpt = new DAOCompte();
 	static DAOEmploye DaoE = new DAOEmploye();
-	static DAORestaurant DaoR = new DAORestaurant();
-	
-	private static String urlBDD="jdbc:mysql://localhost:8889/projetattraction";
-	private static String loginBDD="root";
-	private static String passwordBDD="root";
-	
+	static DAORestaurant DaoR = new DAORestaurant();	
 	
 	
 	public static List<Attraction> findAllAttractionById(Integer id_parc) {
@@ -43,7 +39,7 @@ public class DAOLien {
 			Connection conn = DriverManager.getConnection(urlBDD,loginBDD,passwordBDD);
 
 			PreparedStatement ps = conn.prepareStatement("SELECT * from lien_parc_attraction where id_parc=?");
-			ps.setInt(5, id_parc);
+			ps.setInt(1, id_parc);
 			ResultSet rs = ps.executeQuery();
 
 			while(rs.next()) 
@@ -67,7 +63,7 @@ public class DAOLien {
 			Connection conn = DriverManager.getConnection(urlBDD,loginBDD,passwordBDD);
 
 			PreparedStatement ps = conn.prepareStatement("SELECT * from lien_parc_boutique where id_parc=?");
-			ps.setInt(5, id_parc);
+			ps.setInt(1, id_parc);
 			ResultSet rs = ps.executeQuery();
 
 			while(rs.next()) 
@@ -91,7 +87,7 @@ public class DAOLien {
 			Connection conn = DriverManager.getConnection(urlBDD,loginBDD,passwordBDD);
 
 			PreparedStatement ps = conn.prepareStatement("SELECT * from lien_parc_commodite where id_parc=?");
-			ps.setInt(5, id_parc);
+			ps.setInt(1, id_parc);
 			ResultSet rs = ps.executeQuery();
 
 			while(rs.next()) 
@@ -115,7 +111,7 @@ public class DAOLien {
 			Connection conn = DriverManager.getConnection(urlBDD,loginBDD,passwordBDD);
 
 			PreparedStatement ps = conn.prepareStatement("SELECT * from lien_parc_employe where id_parc=?");
-			ps.setInt(5, id_parc);
+			ps.setInt(1, id_parc);
 			ResultSet rs = ps.executeQuery();
 
 			while(rs.next()) 
@@ -139,7 +135,7 @@ public class DAOLien {
 			Connection conn = DriverManager.getConnection(urlBDD,loginBDD,passwordBDD);
 
 			PreparedStatement ps = conn.prepareStatement("SELECT * from lien_parc_restaurant where id_parc=?");
-			ps.setInt(5, id_parc);
+			ps.setInt(1, id_parc);
 			ResultSet rs = ps.executeQuery();
 
 			while(rs.next()) 

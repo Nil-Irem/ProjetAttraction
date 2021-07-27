@@ -7,8 +7,8 @@ import java.sql.ResultSet;
 import java.util.List;
 
 import metier.Admin;
-import metier.Joueur;
 import metier.Compte;
+import metier.Joueur;
 
 public class DAOCompte implements IDAO<Compte,Integer> {
 
@@ -23,6 +23,7 @@ public class DAOCompte implements IDAO<Compte,Integer> {
 	public List<Compte> findAll() {
 		return null;
 	}
+	
 
 
 	public Compte insert (Compte c) {
@@ -36,13 +37,24 @@ public class DAOCompte implements IDAO<Compte,Integer> {
 			ps.setString(2, c.getPassword());
 			ps.setString(3, "joueur");
 			ps.executeUpdate();
+			
+			if (c instanceof Joueur) {
+				Joueur j = (Joueur) c;
+				PreparedStatement ps2 = conn.prepareStatement("SELECT Last_insert_id()");
+				ResultSet rs = ps2.executeQuery();
 
+				while(rs.next()) 
+				{
+					j.setId(rs.getInt(1));
+				}
+				ps2.close();
+				rs.close();
+				return j;
+			}
 			ps.close();
 			conn.close();
 		}
 		catch(Exception e) {e.printStackTrace();}
-		
-		//Y ajouter l'id ?
 		return c;
 	}
 
@@ -82,7 +94,7 @@ public class DAOCompte implements IDAO<Compte,Integer> {
 				}
 				else if (rs.getString("type_compte").equalsIgnoreCase("joueur")) 
 				{
-					 c = new Joueur(rs.getString("login"),rs.getString("password"));
+					 c = new Joueur(rs.getInt("id_compte"),rs.getString("login"),rs.getString("password"));
 				}
 			}
 			

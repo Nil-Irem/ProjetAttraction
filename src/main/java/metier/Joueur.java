@@ -14,6 +14,12 @@ public class Joueur extends Compte {
 		this.nom = login;
 	}
 	
+	public Joueur (int id,String login, String password) {
+		super(login,password);
+		this.id = id;
+		this.nom = login;
+	}
+	
 	
 	public Joueur (int id) {
 		super();
@@ -22,6 +28,11 @@ public class Joueur extends Compte {
 
 	public int getId() {
 		return id;
+	}
+	
+	
+	public void setId(int id) {
+		this.id = id;
 	}
 
 
