@@ -1,16 +1,17 @@
 package metier;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Parc {
 
     private int id;
     private String nomParc;
-    private List<Boutique> boutiques;
-    private List<Attraction> attractions;
-    private List<Restaurant> restaurants;
-    private List<Employe> employes;
-    private List<Commodite> commodites;
+    private List<Boutique> boutiques=new ArrayList();
+    private List<Attraction> attractions=new ArrayList();
+    private List<Restaurant> restaurants=new ArrayList();
+    private List<Employe> employes=new ArrayList();
+    private List<Commodite> commodites=new ArrayList();
     private double taille;
     private int nbjour;
 	private double argent;
@@ -208,39 +209,6 @@ public class Parc {
 		return "Le parc "+ nomParc +" (numero "+ id + "), de taille "+taille+"m², possede " + boutiques.size() + " magasins, " + attractions.size()
 				+ " attractions, " + restaurants.size() + "restaurants, " + employes.size() + "employes et "+commodites+"commodites. Ce parc existe depuis " +nbjour+ " jours" + ". Le parc possède une somme de "+argent+". Son type de difficulté est "+typeDifficulte;
 	}
-
-
-    public double calculRecette()
-    {
-        return 0;
-
-    }
-
-public void calculIncident()
-    {
-
-    }
-
-public void calculAffluence()
-    {
-
-    }
-
-public void calculNote()
-    {
-
-    }
-
-public void calculEspaceDispo()
-    {
-
-    }
-
-
-
-
-
-
 
 
 }
