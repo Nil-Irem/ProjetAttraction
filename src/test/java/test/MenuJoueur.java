@@ -142,13 +142,16 @@ public class MenuJoueur {
 		for (Employe e : parc.getEmployes()) {
 			salaire += e.getSalaire();
 		}
+		int nb_i = 0;//nb d'incidents
 
 		for (Attraction a : parc.getAttractions()) {
 			int alea = generateRandomInt(11);
 			double incident = 1;
+			
 			if (alea <a.getTauxIncident()/10)
 			{
 				// il y a eu un incident
+				nb_i = nb_i +1;
 				//on récupère les employés au salaire > 50 et selon leur salaire, l'incident sera + ou - impactant
 				double impact_e = 0;
 				for (Employe e : parc.getEmployes()) {
@@ -166,6 +169,7 @@ public class MenuJoueur {
 			capaciteMax += a.getAffluence()*incident;
 			prixFonctionnement += a.getPrixFonctionnement();
 		}
+		System.out.println("il y a eu " + nb_i + " incidents aujourd'hui");
 
 		for (Boutique b : parc.getBoutiques()) {
 			capaciteMax += b.getAffluence();
