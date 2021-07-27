@@ -82,7 +82,7 @@ public class DAOCompte implements IDAO<Compte,Integer> {
 				}
 				else if (rs.getString("type_compte").equalsIgnoreCase("joueur")) 
 				{
-					 c = new Joueur(rs.getString("login"),rs.getString("password"));
+					 c = new Joueur(rs.getInt("id_compte"),rs.getString("login"),rs.getString("password"));
 				}
 			}
 			
