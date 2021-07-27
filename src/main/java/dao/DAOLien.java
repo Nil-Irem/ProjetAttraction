@@ -39,7 +39,7 @@ public abstract class DAOLien implements IDAO<Parc,Integer> {
 			Connection conn = DriverManager.getConnection(urlBDD,loginBDD,passwordBDD);
 
 			PreparedStatement ps = conn.prepareStatement("SELECT * from lien_parc_attraction where id_parc=?");
-			ps.setInt(5, id_parc);
+			ps.setInt(1, id_parc);
 			ResultSet rs = ps.executeQuery();
 
 			while(rs.next()) 
@@ -63,7 +63,7 @@ public abstract class DAOLien implements IDAO<Parc,Integer> {
 			Connection conn = DriverManager.getConnection(urlBDD,loginBDD,passwordBDD);
 
 			PreparedStatement ps = conn.prepareStatement("SELECT * from lien_parc_boutique where id_parc=?");
-			ps.setInt(5, id_parc);
+			ps.setInt(1, id_parc);
 			ResultSet rs = ps.executeQuery();
 
 			while(rs.next()) 
@@ -87,7 +87,7 @@ public abstract class DAOLien implements IDAO<Parc,Integer> {
 			Connection conn = DriverManager.getConnection(urlBDD,loginBDD,passwordBDD);
 
 			PreparedStatement ps = conn.prepareStatement("SELECT * from lien_parc_commodite where id_parc=?");
-			ps.setInt(5, id_parc);
+			ps.setInt(1, id_parc);
 			ResultSet rs = ps.executeQuery();
 
 			while(rs.next()) 
@@ -111,7 +111,7 @@ public abstract class DAOLien implements IDAO<Parc,Integer> {
 			Connection conn = DriverManager.getConnection(urlBDD,loginBDD,passwordBDD);
 
 			PreparedStatement ps = conn.prepareStatement("SELECT * from lien_parc_employe where id_parc=?");
-			ps.setInt(5, id_parc);
+			ps.setInt(1, id_parc);
 			ResultSet rs = ps.executeQuery();
 
 			while(rs.next()) 
@@ -135,7 +135,7 @@ public abstract class DAOLien implements IDAO<Parc,Integer> {
 			Connection conn = DriverManager.getConnection(urlBDD,loginBDD,passwordBDD);
 
 			PreparedStatement ps = conn.prepareStatement("SELECT * from lien_parc_restaurant where id_parc=?");
-			ps.setInt(5, id_parc);
+			ps.setInt(1, id_parc);
 			ResultSet rs = ps.executeQuery();
 
 			while(rs.next()) 
