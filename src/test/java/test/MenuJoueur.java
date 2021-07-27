@@ -192,7 +192,7 @@ public class MenuJoueur {
 
 		System.out.println("\n Quelles modifications voulez vous apporter au Parc ?");
 		System.out.println("1- Ameliorer les structures deja en place");
-		System.out.println("2- Achater de nouvelles strucutures");
+		System.out.println("2- Acheter de nouvelles strucutures");
 		System.out.println("3- Voir nos possesions");
 		System.out.println("4- Fin des modifications");
 		int choix = saisieInt("Choisir un menu");
@@ -253,9 +253,6 @@ public class MenuJoueur {
 	}
 
 
-
-
-
 	private static void achatCommodite() {
 		System.out.println("Voici toutes les commodites disponibles :");
 		for (Commodite c : DaoC.findAll()){System.out.println(c);}
@@ -279,7 +276,10 @@ public class MenuJoueur {
 
 	private static void achatBoutique() {
 		System.out.println("Voici tous les magasins disponibles :");
-		for (Boutique b : DaoB.findAll()){System.out.println(b);}
+		for (Boutique b : DaoB.findAll())
+		{
+			System.out.println(b);
+		}
 
 		int choix = saisieInt("Choississez votre nouveau magasin (donner son numero) :");
 		Boutique newBou = DaoB.findById(choix);
@@ -301,7 +301,10 @@ public class MenuJoueur {
 
 	private static void achatEmploye() {
 		System.out.println("Voici tous les employes disponibles :");
-		for (Employe e : DaoE.findAll()){System.out.println(e);}
+		for (Employe e : DaoE.findAll())
+		{
+			System.out.println(e);
+		}
 
 		int choix = saisieInt("Choississez votre nouvel employe (donner son numero) :");
 		Employe newEmp = DaoE.findById(choix);
@@ -317,21 +320,14 @@ public class MenuJoueur {
 	}
 
 
-
-<<<<<<< Updated upstream
 	private static void achatAttraction() {
-		System.out.println("Voici toutes les attractions disponibles :");
-		for (Attraction a : DaoA.findAll()){System.out.println(a);}
-=======
-	private static void achatAttraction() { //attention remettre en private
+	
 		System.out.println("Voici toutes les attractions disponibles :");
 		
 		for (Attraction a : DaoA.findAll())
 		{
 			System.out.println(a);
 		}
->>>>>>> Stashed changes
-
 		int choix = saisieInt("Choississez votre nouvelle attraction (donner son numero) :");
 		Attraction newattrac = DaoA.findById(choix);
 
