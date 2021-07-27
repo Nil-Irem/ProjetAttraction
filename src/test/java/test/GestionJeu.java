@@ -79,7 +79,9 @@ public class GestionJeu {
 		 */
 
 		List<Parc> parcs = new ArrayList();
-
+		Parc p = null;
+		
+		
 		System.out.println("Cher " + joueur.getLogin() + " Sur quel parc souhaites t'amuser ?");
 		
 		parcs = daoP.findByIdJoueur(joueur.getId());
@@ -87,7 +89,13 @@ public class GestionJeu {
 
 		int choix = saisieInt("Saisir l'id du parc à selectionner");
 		
-
+		for(Parc p1 : parcs)
+		{
+			if( p1.getId() == choix)
+			{
+				p=p1;
+			}
+		}
 		return p;
 
 	}
