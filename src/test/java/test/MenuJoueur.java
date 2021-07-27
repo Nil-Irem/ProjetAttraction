@@ -143,6 +143,12 @@ public class MenuJoueur {
 			salaire += e.getSalaire();
 		}
 		int nb_i = 0;//nb d'incidents
+		double impact_e = 0;
+		for (Employe e : parc.getEmployes()) {
+			if (e.getSalaire()>50) {
+				impact_e = impact_e + e.getSalaire();
+			}
+		}
 
 		for (Attraction a : parc.getAttractions()) {
 			int alea = generateRandomInt(11);
@@ -153,12 +159,7 @@ public class MenuJoueur {
 				// il y a eu un incident
 				nb_i = nb_i +1;
 				//on récupère les employés au salaire > 50 et selon leur salaire, l'incident sera + ou - impactant
-				double impact_e = 0;
-				for (Employe e : parc.getEmployes()) {
-					if (e.getSalaire()>50) {
-						impact_e = impact_e + e.getSalaire();
-					}
-				}
+				
 				incident = 1-1/impact_e;//+ l'impact est grd, - 1/impact est grand, + incident est proche de 1
 			}
 			else
