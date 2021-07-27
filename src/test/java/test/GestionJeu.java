@@ -52,6 +52,7 @@ public class GestionJeu {
 		Parc p = new Parc (nomParc,tailleP,0,argentJ,diff);
 		
 		daoP.insert(p,joueur.getId());
+		MenuJoueur.menuPartie(p);
 	}
 
 
