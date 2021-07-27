@@ -146,11 +146,11 @@ public class DAOParc implements IDAO<Parc,Integer> {
 			DAOLien.deleteEmploye(p.getId());
 			DAOLien.deleteRestaurant(p.getId());
 			
-			for (Attraction a : p.getAttractions()){DAOLien.insertAttraction(p.getId(),a.getId());}
-			for (Boutique b : p.getBoutiques()){DAOLien.insertBoutique(p.getId(),b.getId());}
+			for (Attraction a : p.getAttractions()){DAOLien.insertAttraction(p.getId(),a.getId(),a.getNiveauAmelioration());}
+			for (Boutique b : p.getBoutiques()){DAOLien.insertBoutique(p.getId(),b.getId(),b.getNiveauAmelioration());}
 			for (Commodite c : p.getCommodites()){DAOLien.insertCommodite(p.getId(),c.getId());}
 			for (Employe e : p.getEmployes()){DAOLien.insertEmploye(p.getId(),e.getId());}
-			for (Restaurant r : p.getRestaurants()){DAOLien.insertRestaurant(p.getId(),r.getId());}
+			for (Restaurant r : p.getRestaurants()){DAOLien.insertRestaurant(p.getId(),r.getId(),r.getNiveauAmelioration());}
 
 			ps.close();
 			conn.close();
