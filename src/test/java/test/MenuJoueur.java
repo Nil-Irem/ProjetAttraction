@@ -144,7 +144,26 @@ public class MenuJoueur {
 		}
 
 		for (Attraction a : parc.getAttractions()) {
-			capaciteMax += a.getAffluence();
+			int alea = generateRandomInt(11);
+			double incident = 1;
+			if (alea <a.getTauxIncident()/10)
+			{
+				// il y a eu un incident
+				//on récupère les employés au salaire > 50 et selon leur salaire, l'incident sera + ou - impactant
+				double impact_e = 0;
+				for (Employe e : parc.getEmployes()) {
+					if (e.getSalaire()>50) {
+						impact_e = impact_e + e.getSalaire();
+					}
+				}
+				incident = 1-1/impact_e;//+ l'impact est grd, - 1/impact est grand, + incident est proche de 1
+			}
+			else
+			{
+				incident = 1; //pas d'incident
+			}
+			
+			capaciteMax += a.getAffluence()*incident;
 			prixFonctionnement += a.getPrixFonctionnement();
 		}
 
