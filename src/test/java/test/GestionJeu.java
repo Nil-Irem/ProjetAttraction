@@ -59,7 +59,7 @@ public class GestionJeu {
 
 
 
-	public static Parc chargerPartie(Joueur joueur)
+	public static void chargerPartie(Joueur joueur)
 	{	
 		/*
 			IN: Joueur joueur ==> Le compte Connected
@@ -71,25 +71,31 @@ public class GestionJeu {
 		 */
 
 		List<Parc> parcs = new ArrayList();
-		Parc p = null;
-		
-		
-		System.out.println("Cher " + joueur.getLogin() + " Sur quel parc souhaites-tu t'amuser ?");
 		
 		parcs = daoP.findByIdJoueur(joueur.getId());
-		System.out.println(parcs);
-
-		int choix = saisieInt("Saisir l'id du parc � selectionner");
 		
-		for(Parc p1 : parcs)
-		{
-			if( p1.getId() == choix)
-			{
-				p=p1;
-			}
-		}
-		return p;
+		if(!parcs.isEmpty()) {
+			
+			System.out.println("Cher " + joueur.getLogin() + " Sur quel parc souhaites-tu t'amuser ?");
+				
+			System.out.println(parcs);
 
+			int choix = saisieInt("Saisir l'id du parc à selectionner");
+			
+			for(Parc p1 : parcs)
+			{
+				if( p1.getId() == choix)
+				{
+					MenuJoueur.menuPartie(p1);
+				}
+			}
+			
+		}else
+		{
+			System.out.println(joueur.getLogin() + " tu n'as pas de partie à charger ! Retournes en creer une !");
+			MenuJoueur.menuJoueur(joueur);
+		}
+		
 	}
 
 
