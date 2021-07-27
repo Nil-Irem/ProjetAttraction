@@ -124,7 +124,7 @@ public class MenuJoueur {
 	}
 
 
-	
+
 
 
 	public static void finJournee() {
@@ -135,54 +135,54 @@ public class MenuJoueur {
 		double salaire=0;
 		int capaciteMax=0;
 		int tempsJournee= generateRandomInt(5);
-		
+
 		for (Employe e : parc.getEmployes()) {
 			salaire += e.getSalaire();
 		}
-		
+
 		for (Attraction a : parc.getAttractions()) {
 			capaciteMax += a.getAffluence();
 			prixFonctionnement += a.getPrixFonctionnement();
 		}
-		
+
 		for (Boutique b : parc.getBoutiques()) {
 			capaciteMax += b.getAffluence();
 			prixFonctionnement += b.getPrixFonctionnement();
 		}
-		
+
 		for (Restaurant r : parc.getRestaurants()) {
 			capaciteMax += r.getAffluence();
 			prixFonctionnement += r.getPrixFonctionnement();
 		}
-		
-		
+
+
 		attractivite = (parc.getCommodites().size()+parc.getEmployes().size())/100;
 		if (attractivite > 1) {attractivite = 1;}
-		
-		
+
+
 
 		switch (tempsJournee)
 		{
 		case 0 : System.out.println("\nAujourd'hui il a beaucoup plu");
-			nbVisiteur = capaciteMax*attractivite*0.1;
-			break;
+		nbVisiteur = capaciteMax*attractivite*0.1;
+		break;
 		case 1 : System.out.println("\nAujourd'hui il a un peu plu");
-			nbVisiteur = capaciteMax*attractivite*0.5;
-			break;
+		nbVisiteur = capaciteMax*attractivite*0.5;
+		break;
 		case 2 : System.out.println("\nAujourd'hui il a fait nuageux");
-			nbVisiteur = capaciteMax*attractivite*0.8;
-			break;
+		nbVisiteur = capaciteMax*attractivite*0.8;
+		break;
 		case 3 : System.out.println("\nAujourd'hui il a fait beau");
-			nbVisiteur = capaciteMax*attractivite;
-			break;
+		nbVisiteur = capaciteMax*attractivite;
+		break;
 		case 4 : System.out.println("\nAujourd'hui il a fait tr�s chaud");
-			nbVisiteur = capaciteMax*attractivite*0.5;
-			break;
+		nbVisiteur = capaciteMax*attractivite*0.5;
+		break;
 		}
 
 		argentGagne = nbVisiteur*prixEntree;
 		parc.setArgent(parc.getArgent()+argentGagne-salaire-prixFonctionnement);
-		
+
 		System.out.println("Vous avez re�u "+Math.round(nbVisiteur)+" visiteurs");
 		System.out.println("Vous avez gagner "+argentGagne+"� et d�pens� "+(salaire+prixFonctionnement)+"�");
 		System.out.println("Vous avez maintenant "+parc.getArgent()+"�");
@@ -321,9 +321,9 @@ public class MenuJoueur {
 
 
 	private static void achatAttraction() {
-	
+
 		System.out.println("Voici toutes les attractions disponibles :");
-		
+
 		for (Attraction a : DaoA.findAll())
 		{
 			System.out.println(a);
@@ -458,7 +458,7 @@ public class MenuJoueur {
 		}
 
 	}
-	
+
 	private static void ameliorerBoutique() {
 
 		ShowBoutique();
@@ -530,57 +530,107 @@ public class MenuJoueur {
 		menuPossesion();
 
 	}
-	
-	
+
+
 	private static void ShowEmploye() {
-		System.out.println("Voici touts les employés présents dans votre parc :");
+
+
+		if (parc.getEmployes().isEmpty())
+
+		{
+			System.out.println("Vous ne possèdez pas d'employé");
+
+		}
+		else 
+			System.out.println("Voici touts les employés présents dans votre parc :");
 
 		for (Employe emp : parc.getEmployes())
 		{
 			System.out.println(emp);
 		}
-		
 	}
-	
-	
+
+
+
+
 	private static void ShowAttraction() {
-		System.out.println("Voici toutes les attractions présentes dans votre parc :");
+
+
+		if (parc.getAttractions().isEmpty())
+
+		{
+			System.out.println("Vous ne possèdez pas d'attraction");
+
+		}
+		else 
+
+			System.out.println("Voici toutes les attractions présentes dans votre parc :");
 
 		for (Attraction a : parc.getAttractions())
 		{
 			System.out.println(a);
 		}
-		
+
+
+
 	}
 
-private static void ShowRestaurant() {
-		System.out.println("Voici touts les restaurants présents dans votre parc :");
+	private static void ShowRestaurant() {
+
+		if (parc.getRestaurants().isEmpty())
+
+		{
+			System.out.println("Vous ne possèdez pas de restaurant");
+
+		}
+		else 
+
+			System.out.println("Voici touts les restaurants présents dans votre parc :");
 
 		for (Restaurant r : parc.getRestaurants())
 		{
 			System.out.println(r);
 		}
-		
+
 	}
 
 	private static void ShowCommodites() {
-		System.out.println("Voici toutes les commodites présentes dans votre parc :");
 
-		for (Commodite c : parc.getCommodites())
+		if (parc.getCommodites().isEmpty())
+
 		{
-			System.out.println(c);
+			System.out.println("Vous ne possèdez pas de commodites");
+
 		}
-		
+		else 
+		{
+			System.out.println("Voici toutes les commodites présentes dans votre parc :");
+			for (Commodite c : parc.getCommodites())
+			{
+				System.out.println(c);
+			}
+		}
+
 	}
 
 	private static void ShowBoutique() {
-		System.out.println("Voici toutes les boutiques présentes dans votre parc :");
+
+		if (parc.getBoutiques().isEmpty())
+
+		{
+			System.out.println("Vous ne possèdez pas de boutique");
+
+		}
+		else 
+
+
+			System.out.println("Voici toutes les boutiques présentes dans votre parc :");
 
 		for (Boutique b : parc.getBoutiques())
 		{
 			System.out.println(b);
 		}
-		
+
 	}
 
 
