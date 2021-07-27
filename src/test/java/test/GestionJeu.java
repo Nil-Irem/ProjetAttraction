@@ -42,31 +42,18 @@ public class GestionJeu {
 
 
 	public static void creerPartie(Joueur joueur){
-		//Choix de la difficulte 
-		//Choisir un nom de parc
-		//System.out.println("Créons une nouvelle partie ! Veuillez choisir la difficulté: ");
-
-		String choixDifficulte = saisieString("Créons une nouvelle partie !\n Veuillez choisir la difficulté en indiquant le numéro parmi:\n "+ Arrays.toString(Difficulte.values()));
+		String choixDifficulte = saisieString("Créons une nouvelle partie !\n Veuillez choisir la difficulté parmi:\n "+ Arrays.toString(Difficulte.values()));
 		Difficulte diff = Difficulte.valueOf(choixDifficulte);
-		Double argentJ = diff.getArgent();
-
+		double argentJ = diff.getArgent();
+		double tailleP=diff.getTailleParc();
 
 		String nomParc = saisieString("Veuillez choisir un nom pour votre parc et le saisir");
-
-		Double tailleP = saisieDouble("Veuillez choisir une taille pour votre parc et la saisir");
 
 		Parc p = new Parc (nomParc,tailleP,0,argentJ,diff);
 		
 		daoP.insert(p);
-		int idJ = joueur.getId();
-		
-		
+		int idJ = joueur.getId();		
 		daoP.update(p, idJ);
-
-		// Taille du parc ??? nbjour =0 argent => difficulté 
-
-		//Parc(String nomParc,double taille, int nbjour,double argent,int typeDifficulte)
-		//insert parc + id_joueur ds bdd
 	}
 
 
@@ -92,7 +79,7 @@ public class GestionJeu {
 		parcs = daoP.findByIdJoueur(joueur.getId());
 		System.out.println(parcs);
 
-		int choix = saisieInt("Saisir l'id du parc � selectionner");
+		int choix = saisieInt("Saisir l'id du parc � selectionner");
 		
 		for(Parc p1 : parcs)
 		{
