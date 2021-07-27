@@ -120,7 +120,6 @@ public class DAOParc implements IDAO<Parc,Integer> {
 		}
 		catch(Exception e) {e.printStackTrace();}
 		
-		//Y ajouter l'id ?
 		return p;
 	}
 	
@@ -138,7 +137,7 @@ public class DAOParc implements IDAO<Parc,Integer> {
 			ps.setInt(3, p.getNbjour());
 			ps.setDouble(4, p.getTaille());
 			ps.setString(5, p.getTypeDifficulte().toString());
-			ps.setInt(7, p.getId());
+			ps.setInt(6, p.getId());
 			ps.executeUpdate();
 			
 			DAOLien.deleteAttraction(p.getId());
