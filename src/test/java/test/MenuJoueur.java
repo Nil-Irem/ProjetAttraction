@@ -369,19 +369,30 @@ public class MenuJoueur {
 
 
 	private static void menuAmelioration() {
-		System.out.println("\nAmeliorez vos bâtiments !");
-		System.out.println("1- Améliorez une boutique");
-		System.out.println("2- Améliorez un restaurant");
-		System.out.println("3- Améliorez une attraction");
-		System.out.println("4- Retour menu Modifications");
-		int choix = saisieInt("Choisir un menu");
-
-		switch(choix) 
+		
+		if (parc.getAttractions().isEmpty() && parc.getBoutiques().isEmpty() && parc.getRestaurants().isEmpty())
 		{
-		case 1 : ameliorerBoutique();break;
-		case 2 : ameliorerRestaurant();break;
-		case 3 : ameliorerAttraction();break;
-		case 4 : menuModification();break;
+			System.out.println("Tu n'as pas de batiments ! \n Vas en construire ! ");
+			
+			menuModification();
+		}
+		else {
+			
+		
+			System.out.println("\nAmeliorez vos bâtiments !");
+			System.out.println("1- Améliorez une boutique");
+			System.out.println("2- Améliorez un restaurant");
+			System.out.println("3- Améliorez une attraction");
+			System.out.println("4- Retour menu Modifications");
+			int choix = saisieInt("Choisir un menu");
+	
+			switch(choix) 
+			{
+			case 1 : ameliorerBoutique();break;
+			case 2 : ameliorerRestaurant();break;
+			case 3 : ameliorerAttraction();break;
+			case 4 : menuModification();break;
+			}
 		}
 		menuAmelioration();
 	}
