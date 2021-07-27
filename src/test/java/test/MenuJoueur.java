@@ -100,7 +100,7 @@ public class MenuJoueur {
 		switch(choix) 
 		{
 		case 1 : GestionJeu.saveGame(parc);break;
-		case 2 : GestionJeu.deleteGame(joueur.getId());break;
+		case 2 : GestionJeu.deleteGame(parcjoueur.getId());menuJoueur(joueur);break;
 		case 3 : menuJouer();break;
 		case 4 : menuJoueur(joueur);break;
 		}
