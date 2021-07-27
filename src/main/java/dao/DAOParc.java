@@ -115,30 +115,20 @@ public class DAOParc implements IDAO<Parc,Integer> {
 		return p;
 	}
 	
+
 	
-
-
-	@Override
 	public Parc update(Parc p) {
-		System.out.println("Attention une fonction inutile a été appelé (insert Parc)");
-		return p;
-	}
-
-
-	
-	public Parc update(Parc p,int id_joueur) {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(urlBDD,loginBDD,passwordBDD);
 
-			PreparedStatement ps = conn.prepareStatement("UPDATE Parc set nom=?,argent=?,nbjour=?,taille=?,typeDifficulte=?,id_joueur=? where id_parc=?");
+			PreparedStatement ps = conn.prepareStatement("UPDATE Parc set nom=?,argent=?,nbjour=?,taille=?,typeDifficulte=? where id_parc=?");
 
 			ps.setString(1, p.getNomParc());
 			ps.setDouble(2, p.getArgent());
 			ps.setInt(3, p.getNbjour());
 			ps.setDouble(4, p.getTaille());
 			ps.setString(5, p.getTypeDifficulte().toString());
-			ps.setInt(6, id_joueur);
 			ps.setInt(7, p.getId());
 			ps.executeUpdate();
 			
