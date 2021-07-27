@@ -37,7 +37,7 @@ public class Parc {
     public Parc(int id,String nom, double taille, int nbjour, double argent, Difficulte typeDifficulte)
     {
     	this.id=id;
-		this.nomParc = nomParc;
+		this.nomParc = nom;
 		this.taille = taille;
 		this.nbjour = nbjour;
 		this.argent=argent;

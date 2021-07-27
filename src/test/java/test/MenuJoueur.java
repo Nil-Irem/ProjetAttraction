@@ -368,144 +368,111 @@ public class MenuJoueur {
 
 	private static void ameliorerAttraction() 
 	{
-		ShowAttraction();
-		int choix = saisieInt("Choississez l'attraction à modifier (donner son numero) :");
-		int i = 0;
-
-		for (Attraction a : parc.getAttractions())
+		if (parc.getAttractions().isEmpty())
 		{
-			int idA = a.getId();
-			if (idA == choix)
-			{
-				break;
-			}
-
-
-			else
-			{
-				i++;
-			}
+			System.out.println("Vous n'avez pas d'attractions à améliorer");
+			menuAmelioration();
 		}
-
-		if (prixAmeliorationAttraction > parc.getArgent()) 
-
-
-		{
-			System.out.println("Vous n'avez pas assez d'argent pour améliorer cette attraction !");
-
-
-		}
-		else if (parc.getAttractions().get(i).getNiveauAmelioration()>=parc.getAttractions().get(i).getNbAmelioration() )
-		{
-
-			System.out.println("Vous avez atteint le maximum d'améliorations de cette attraction !");
-
-		}
-
 		else
 		{
-			parc.setArgent(parc.getArgent()-prixAmeliorationAttraction);
-			parc.getAttractions().get(i).setNiveauAmelioration(parc.getAttractions().get(i).getNiveauAmelioration()+1);
+			ShowAttraction();
+			int choix = saisieInt("Choississez l'attraction à modifier (donner son numero) :");
+			int i = 0;
 
+			for (Attraction a : parc.getAttractions())
+			{
+				if (a.getId() == choix) {break;}
+				else {i++;}
+			}
 
+			if (prixAmeliorationAttraction > parc.getArgent()) 
+			{
+				System.out.println("Vous n'avez pas assez d'argent pour améliorer cette attraction !");
+			}
+			else if (parc.getAttractions().get(i).getNiveauAmelioration()>=parc.getAttractions().get(i).getNbAmelioration() )
+			{
+				System.out.println("Vous avez atteint le maximum d'améliorations de cette attraction !");
+			}
+			else
+			{
+				parc.setArgent(parc.getArgent()-prixAmeliorationAttraction);
+				parc.getAttractions().get(i).setNiveauAmelioration(parc.getAttractions().get(i).getNiveauAmelioration()+1);
+			}
 		}
-
-
 	}
 
 
 	private static void ameliorerRestaurant() {
-		ShowRestaurant();
-		int choix = saisieInt("Choississez le restaurant à modifier (donner son numero) :");
-		int i = 0;
-
-		for (Restaurant r : parc.getRestaurants())
+		if (parc.getRestaurants().isEmpty())
 		{
-			int idR = r.getId();
-			if (idR == choix)
+			System.out.println("Vous n'avez pas de restaurants à améliorer");
+			menuAmelioration();
+		}
+		else
+		{
+			ShowRestaurant();
+			int choix = saisieInt("Choississez le restaurant à modifier (donner son numero) :");
+			int i = 0;
+
+			for (Restaurant r : parc.getRestaurants())
 			{
-				break;
+				if (r.getId() == choix) {break;}
+				else {i++;}
 			}
 
+			if (prixAmeliorationRestaurant > parc.getArgent()) 
+			{
+				System.out.println("Vous n'avez pas assez d'argent pour améliorer ce restaurant !");
+			}
+			else if (parc.getRestaurants().get(i).getNiveauAmelioration()>=parc.getRestaurants().get(i).getNbAmelioration() )
+			{
+				System.out.println("Vous avez atteint le maximum d'améliorations de ce restaurant !");
+			}
 
 			else
 			{
-				i++;
+				parc.setArgent(parc.getArgent()-prixAmeliorationRestaurant);
+				parc.getRestaurants().get(i).setNiveauAmelioration(parc.getRestaurants().get(i).getNiveauAmelioration()+1);
 			}
-		}
-
-		if (prixAmeliorationRestaurant > parc.getArgent()) 
-
-
-		{
-			System.out.println("Vous n'avez pas assez d'argent pour améliorer ce restaurant !");
-
-
-		}
-		else if (parc.getRestaurants().get(i).getNiveauAmelioration()>=parc.getRestaurants().get(i).getNbAmelioration() )
-		{
-
-			System.out.println("Vous avez atteint le maximum d'améliorations de ce restaurant !");
-
-		}
-
-		else
-		{
-			parc.setArgent(parc.getArgent()-prixAmeliorationRestaurant);
-			parc.getRestaurants().get(i).setNiveauAmelioration(parc.getRestaurants().get(i).getNiveauAmelioration()+1);
-
-
 		}
 
 	}
 
 	private static void ameliorerBoutique() {
-
-		ShowBoutique();
-		int choix = saisieInt("Choississez la boutique à modifier (donner son numero) :");
-		int i = 0;
-
-		for (Boutique bou : parc.getBoutiques())
+		if (parc.getBoutiques().isEmpty())
 		{
-			int idBou = bou.getId();
-			if (idBou == choix)
-			{
-				break;
-			}
-
-
-			else
-			{
-				i++;
-			}
+			System.out.println("Vous n'avez pas de magasin à améliorer");
+			menuAmelioration();
 		}
-
-		if (prixAmeliorationBoutique > parc.getArgent()) 
-
-
-		{
-			System.out.println("Vous n'avez pas assez d'argent pour améliorer cette boutique !");
-
-
-		}
-		else if (parc.getBoutiques().get(i).getNiveauAmelioration()>=parc.getBoutiques().get(i).getNbAmelioration() )
-		{
-
-			System.out.println("Vous avez atteint le maximum d'améliorations de cette boutique !");
-
-		}
-
 		else
 		{
-			parc.setArgent(parc.getArgent()-prixAmeliorationBoutique);
-			parc.getBoutiques().get(i).setNiveauAmelioration(parc.getBoutiques().get(i).getNiveauAmelioration()+1);
+			ShowBoutique();
+			int choix = saisieInt("Choississez la boutique à modifier (donner son numero) :");
+			int i = 0;
 
+			for (Boutique bou : parc.getBoutiques())
+			{
+				if (bou.getId() == choix) {break;}
+				else {i++;}
+			}
 
+			if (prixAmeliorationBoutique > parc.getArgent()) 
+			{
+				System.out.println("Vous n'avez pas assez d'argent pour améliorer cette boutique !");
+			}
+			else if (parc.getBoutiques().get(i).getNiveauAmelioration()>=parc.getBoutiques().get(i).getNbAmelioration() )
+			{
+				System.out.println("Vous avez atteint le maximum d'améliorations de cette boutique !");
+			}
+			else
+			{
+				parc.setArgent(parc.getArgent()-prixAmeliorationBoutique);
+				parc.getBoutiques().get(i).setNiveauAmelioration(parc.getBoutiques().get(i).getNiveauAmelioration()+1);
+			}
 		}
-
-
-
 	}
+
+
 	private static void menuPossesion() {
 
 		System.out.println("\nMenu des attractions !");
@@ -534,19 +501,18 @@ public class MenuJoueur {
 
 	private static void ShowEmploye() {
 
-
 		if (parc.getEmployes().isEmpty())
-
 		{
 			System.out.println("Vous ne possèdez pas d'employé");
-
 		}
 		else 
+		{
 			System.out.println("Voici touts les employés présents dans votre parc :");
 
-		for (Employe emp : parc.getEmployes())
-		{
-			System.out.println(emp);
+			for (Employe emp : parc.getEmployes())
+			{
+				System.out.println(emp);
+			}
 		}
 	}
 
@@ -557,50 +523,44 @@ public class MenuJoueur {
 
 
 		if (parc.getAttractions().isEmpty())
-
 		{
 			System.out.println("Vous ne possèdez pas d'attraction");
-
 		}
-		else 
-
+		else
+		{
 			System.out.println("Voici toutes les attractions présentes dans votre parc :");
 
-		for (Attraction a : parc.getAttractions())
-		{
-			System.out.println(a);
+			for (Attraction a : parc.getAttractions())
+			{
+				System.out.println(a);
+			}
 		}
-
-
-
 	}
 
+	
 	private static void ShowRestaurant() {
 
 		if (parc.getRestaurants().isEmpty())
-
 		{
 			System.out.println("Vous ne possèdez pas de restaurant");
-
 		}
 		else 
-
+		{
 			System.out.println("Voici touts les restaurants présents dans votre parc :");
 
-		for (Restaurant r : parc.getRestaurants())
-		{
-			System.out.println(r);
+			for (Restaurant r : parc.getRestaurants())
+			{
+				System.out.println(r);
+			}
 		}
-
 	}
 
+	
 	private static void ShowCommodites() {
-
+		
 		if (parc.getCommodites().isEmpty())
-
 		{
 			System.out.println("Vous ne possèdez pas de commodites");
-
 		}
 		else 
 		{
@@ -610,27 +570,23 @@ public class MenuJoueur {
 				System.out.println(c);
 			}
 		}
-
 	}
 
+	
 	private static void ShowBoutique() {
 
 		if (parc.getBoutiques().isEmpty())
-
 		{
 			System.out.println("Vous ne possèdez pas de boutique");
-
 		}
-		else 
-
-
+		else {
 			System.out.println("Voici toutes les boutiques présentes dans votre parc :");
 
-		for (Boutique b : parc.getBoutiques())
-		{
-			System.out.println(b);
+			for (Boutique b : parc.getBoutiques())
+			{
+				System.out.println(b);
+			}
 		}
-
 	}
 
 
