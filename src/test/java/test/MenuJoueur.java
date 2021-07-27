@@ -318,9 +318,19 @@ public class MenuJoueur {
 
 
 
+<<<<<<< Updated upstream
 	private static void achatAttraction() {
 		System.out.println("Voici toutes les attractions disponibles :");
 		for (Attraction a : DaoA.findAll()){System.out.println(a);}
+=======
+	private static void achatAttraction() { //attention remettre en private
+		System.out.println("Voici toutes les attractions disponibles :");
+		
+		for (Attraction a : DaoA.findAll())
+		{
+			System.out.println(a);
+		}
+>>>>>>> Stashed changes
 
 		int choix = saisieInt("Choississez votre nouvelle attraction (donner son numero) :");
 		Attraction newattrac = DaoA.findById(choix);

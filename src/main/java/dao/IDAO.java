@@ -5,9 +5,9 @@ import java.util.List;
 
 public interface IDAO<T,K> {
 	
-	String urlBDD="jdbc:mysql://localhost:8889/projetattraction";
+	String urlBDD="jdbc:mysql://localhost:3306/projetattraction";
 	String loginBDD="root";
-	String passwordBDD="root";
+	String passwordBDD="";
 	
 			
 	public T findById(K id);
