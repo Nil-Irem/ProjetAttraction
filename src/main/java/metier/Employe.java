@@ -53,7 +53,7 @@ public class Employe {
 	
 	@Override
 	public String toString() {
-		return "L'employé " + metier + " (id--> " + id+")\n"+"\t|Salaire journalier " + salaire+ "€\n";
+		return "L'employé " + metier + " (id--> " + id+")\n"+"\t|Salaire journalier: " + salaire+ "€\n";
 		
 	}	
 }
