@@ -1,5 +1,7 @@
 package test;
 
+
+import java.text.NumberFormat;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -39,6 +41,7 @@ public class MenuJoueur {
 	static double prixAmeliorationRestaurant = 5.00;
 	static double prixEntree = 45.00;
 	private static double prixTerrain=100;
+	static NumberFormat Myformat = NumberFormat.getInstance();
 
 
 	public static int generateRandomInt(int max){
@@ -139,18 +142,12 @@ public class MenuJoueur {
 		int capaciteMax=0;
 		int tempsJournee= generateRandomInt(5);
 		int nb_i = 0;//nb d'incidents
-		double impact_e = 2;
-		double impactEA = 2;
+		double impact_e = 0;
 
-		//on récupère les employés au salaire > 50 et selon leur salaire, l'incident sera + ou - impactant
 		for (Employe e : parc.getEmployes()) {
 			salaire += e.getSalaire();
-			
 			if (e.getSalaire()>50) {
 				impact_e = impact_e + e.getSalaire();
-			}
-			else {
-				impactEA +=  e.getSalaire();
 			}
 		}
 		
@@ -159,19 +156,17 @@ public class MenuJoueur {
 			int alea = generateRandomInt(11);
 			double incident = 1;
 			
-			if (alea <a.getTauxIncident()/10) // il y a eu un incident
+			if (alea <a.getTauxIncident()/10)
 			{
+				// il y a eu un incident
 				nb_i = nb_i +1;
-				incident = 1-1/impact_e; //+ l'impact est grd, - 1/impact est grand, + incident est proche de 1
+				//on récupère les employés au salaire > 50 et selon leur salaire, l'incident sera + ou - impactant
+				
+				incident = 1-1/impact_e;//+ l'impact est grd, - 1/impact est grand, + incident est proche de 1
 			}
-			else  //pas d'incident
+			else
 			{
-				incident = 1;
-			}
-			
-			if (a.getNiveauAmelioration() != 0)
-			{
-				attractivite += a.getNiveauAmelioration()/a.getNbAmelioration();
+				incident = 1; //pas d'incident
 			}
 			
 			capaciteMax += a.getAffluence()*incident;
@@ -179,57 +174,62 @@ public class MenuJoueur {
 		}
 		
 
+		
+		
+
+		
+
 		for (Boutique b : parc.getBoutiques()) {
+			
 			int alea = generateRandomInt(11);
 			double incidentb = 1;
 			
-			if (alea <b.getTauxIncident()/10) // il y a eu un incident
+			if (alea <b.getTauxIncident()/10)
 			{
+				// il y a eu un incident
 				nb_i = nb_i +1;
-				incidentb = 1-1/impact_e; //+ l'impact est grd, - 1/impact est grand, + incident est proche de 1
+				//on récupère les employés au salaire > 50 et selon leur salaire, l'incident sera + ou - impactant
+				
+				incidentb = 1-1/impact_e;//+ l'impact est grd, - 1/impact est grand, + incident est proche de 1
 			}
-			else //pas d'incident
+			else
 			{
-				incidentb = 1;
-			}
-			
-			if (b.getNiveauAmelioration() != 0)
-			{
-				attractivite += b.getNiveauAmelioration()/b.getNbAmelioration();
+				incidentb = 1; //pas d'incident
 			}
 			
 			capaciteMax += b.getAffluence()*incidentb;
 			prixFonctionnement += b.getPrixFonctionnement();
 		}
 		
-
+		//
 
 		for (Restaurant r : parc.getRestaurants()) {
+			
 			int alea = generateRandomInt(11);
 			double incidentr = 1;
 			
-			if (alea <r.getTauxIncident()/10) // il y a eu un incident
+			if (alea <r.getTauxIncident()/10)
 			{
+				// il y a eu un incident
 				nb_i = nb_i +1;
+				//on récupère les employés au salaire > 50 et selon leur salaire, l'incident sera + ou - impactant
+				
 				incidentr = 1-1/impact_e;//+ l'impact est grd, - 1/impact est grand, + incident est proche de 1
 			}
-			else //pas d'incident
+			else
 			{
-				incidentr = 1;
+				incidentr = 1; //pas d'incident
 			}
 			
-			if (r.getNiveauAmelioration() != 0)
-			{
-				attractivite += r.getNiveauAmelioration()/r.getNbAmelioration();
-			}
 			
 			capaciteMax += r.getAffluence()*incidentr;
 			prixFonctionnement += r.getPrixFonctionnement();
 		}
 		
 		System.out.println("il y a eu " + nb_i + " incidents dans votre parc aujourd'hui");
-		attractivite += 1/impactEA;
 
+
+		attractivite = (parc.getCommodites().size()+parc.getEmployes().size()+parc.getAttractions().size()+parc.getBoutiques().size()+parc.getRestaurants().size())/100;
 		if (attractivite > 1) {attractivite = 1;}
 		else if (attractivite == 0) {attractivite = 0.1;}
 
@@ -257,8 +257,8 @@ public class MenuJoueur {
 		parc.setArgent(parc.getArgent()+argentGagne-salaire-prixFonctionnement);
 
 		System.out.println("Vous avez reçu "+Math.round(nbVisiteur)+" visiteurs");
-		System.out.println("Vous avez gagner "+argentGagne+"€ et dépensé "+(salaire+prixFonctionnement)+"€");
-		System.out.println("Vous avez maintenant "+parc.getArgent()+"€");
+		System.out.println("Vous avez gagner "+ Myformat.format(argentGagne)+"€ et dépensé "+(salaire+prixFonctionnement)+"€");
+		System.out.println("Vous avez maintenant "+Myformat.format(parc.getArgent())+"€");
 	}
 
 	
