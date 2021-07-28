@@ -50,7 +50,7 @@ public class GestionJeu {
 		
 		String nomParc= saisieString("Veuillez choisir un nom pour votre parc et le saisir");
 		
-		while(!daoP.checkSameParcName(nomParc,joueur.getId()));
+		while(daoP.checkSameParcName(nomParc,joueur.getId()));
 		{
 			System.out.println("Vous avez déjà un parc avec ce nom");
 			nomParc = saisieString("Veuillez choisir un autre nom");
