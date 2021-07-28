@@ -78,10 +78,12 @@ public class MenuJoueur {
 	public static void menuJoueur(Compte connected) {
 		joueur = (Joueur) connected;		
 		System.out.println("\nC'est parti pour jouer !");
+		System.out.println("Choisir un menu");
 		System.out.println("1- Nouvelle Partie");
 		System.out.println("2- Charger Partie");
 		System.out.println("3- Se déconnecter");
-		int choix = saisieInt("Choisir un menu");
+		
+		int choix = saisieInt("");
 
 		switch(choix) 
 		{
@@ -101,7 +103,7 @@ public class MenuJoueur {
 		System.out.println("2- Supprimer la Partie");
 		System.out.println("3- Jouer");
 		System.out.println("4- Retour au menu précédent");
-		int choix = saisieInt("Choisir un menu");
+		int choix = saisieInt("");
 
 		switch(choix) 
 		{
@@ -117,10 +119,11 @@ public class MenuJoueur {
 
 	public static void menuJouer() {
 		System.out.println("\nC'est le moment de jouer !");
+		System.out.println("Choisir un menu");
 		System.out.println("1- Modifier le parc");
 		System.out.println("2- Finir la journée");
 		System.out.println("3- Retour au menu précédent");
-		int choix = saisieInt("Choisir un menu");
+		int choix = saisieInt("");
 
 		switch(choix) 
 		{
@@ -281,7 +284,7 @@ public class MenuJoueur {
 		System.out.println("3- Acheter du terrain");
 		System.out.println("4- Voir nos possesions");
 		System.out.println("5- Fin des modifications");
-		int choix = saisieInt("Choisir un menu");
+		int choix = saisieInt("");
 
 		switch(choix) 
 		{
@@ -323,7 +326,7 @@ public class MenuJoueur {
 		System.out.println("4- Acheter une Commodité");
 		System.out.println("5- Embaucher un Employe");
 		System.out.println("6- Fin des achats");
-		int choix = saisieInt("Choisir un menu");
+		int choix = saisieInt("");
 
 		switch(choix) 
 		{
@@ -553,11 +556,12 @@ public class MenuJoueur {
 
 
 			System.out.println("\nAmeliorez vos bâtiments !");
+			System.out.println("Choisir un menu");
 			System.out.println("1- Améliorez une boutique");
 			System.out.println("2- Améliorez un restaurant");
 			System.out.println("3- Améliorez une attraction");
 			System.out.println("4- Retour menu Modifications");
-			int choix = saisieInt("Choisir un menu");
+			int choix = saisieInt("");
 
 			switch(choix) 
 			{
@@ -605,6 +609,22 @@ public class MenuJoueur {
 
 				}
 			}
+			
+
+			if (prixAmeliorationAttraction > parc.getArgent()) 
+			{
+				System.out.println("Vous n'avez pas assez d'argent pour améliorer cette attraction !");
+			}
+			else if (parc.getAttractions().get(i).getNiveauAmelioration()>=parc.getAttractions().get(i).getNbAmelioration() )
+			{
+				System.out.println("Vous avez atteint le maximum d'améliorations de cette attraction !");
+			}
+			else
+			{
+				parc.setArgent(parc.getArgent()-prixAmeliorationAttraction);
+				parc.getAttractions().get(i).setNiveauAmelioration(parc.getAttractions().get(i).getNiveauAmelioration()+1);
+			}
+			
 		}
 
 
@@ -642,6 +662,20 @@ public class MenuJoueur {
 					System.out.println("\nAttention il faut rentrer un nombre entier");
 				}
 			}
+			
+			if (prixAmeliorationRestaurant > parc.getArgent()) 
+			{
+				System.out.println("Vous n'avez pas assez d'argent pour améliorer ce restaurant !");
+			}
+			else if (parc.getRestaurants().get(i).getNiveauAmelioration()>=parc.getRestaurants().get(i).getNbAmelioration() )
+			{
+				System.out.println("Vous avez atteint le maximum d'améliorations de ce restaurant !");
+			}
+			else
+			{
+				parc.setArgent(parc.getArgent()-prixAmeliorationRestaurant);
+				parc.getRestaurants().get(i).setNiveauAmelioration(parc.getRestaurants().get(i).getNiveauAmelioration()+1);
+			}
 		}
 
 
@@ -678,6 +712,21 @@ public class MenuJoueur {
 					System.out.println("\nAttention il faut rentrer un nombre entier");
 				}
 			}
+			
+
+			if (prixAmeliorationBoutique > parc.getArgent()) 
+			{
+				System.out.println("Vous n'avez pas assez d'argent pour améliorer cette boutique !");
+			}
+			else if (parc.getBoutiques().get(i).getNiveauAmelioration()>=parc.getBoutiques().get(i).getNbAmelioration() )
+			{
+				System.out.println("Vous avez atteint le maximum d'améliorations de cette boutique !");
+			}
+			else
+			{
+				parc.setArgent(parc.getArgent()-prixAmeliorationBoutique);
+				parc.getBoutiques().get(i).setNiveauAmelioration(parc.getBoutiques().get(i).getNiveauAmelioration()+1);
+			}
 		}
 	}
 
@@ -700,13 +749,14 @@ public class MenuJoueur {
 			{
 				try {
 					System.out.println("\nMenu des possessions !");
+					System.out.println("Choisir un menu");
 					System.out.println("1- Liste de mes Attracttions");
 					System.out.println("2- Liste de mes Restaurants");
 					System.out.println("3- Liste de mes Comodités");
 					System.out.println("4- Liste de mes Boutiques");
 					System.out.println("5- Liste des employés");
 					System.out.println("6- Retour menu précédent");
-					choix = saisieInt("Choisir un menu");
+					choix = saisieInt("");
 					testSaisie = false;
 				}
 				catch (Exception e){
