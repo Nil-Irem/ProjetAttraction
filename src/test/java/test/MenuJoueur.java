@@ -300,7 +300,7 @@ public class MenuJoueur {
 		parc.setArgent(parc.getArgent()+argentGagne-salaire-prixFonctionnement);
 
 		System.out.println("Vous avez reçu "+Math.round(nbVisiteur)+" visiteurs");
-		System.out.println("Vous avez gagner "+ Myformat.format(argentGagne)+"€ et dépensé "+(salaire+prixFonctionnement)+"€");
+		System.out.println("Vous avez gagné "+ Myformat.format(argentGagne)+"€ et dépensé "+(salaire+prixFonctionnement)+"€");
 		System.out.println("Vous avez maintenant "+Myformat.format(parc.getArgent())+"€");
 	}
 
@@ -331,7 +331,7 @@ public class MenuJoueur {
 		case 1 : menuAmelioration();break;
 		case 2 : menuAchat();break;
 		case 3 : menuAchatTerrain();break;
-		case 4 : menuPossesion();break;
+		case 4 : menuPossession();break;
 		case 5 : menuJouer();break;
 		default : System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 5");break;
 		}
@@ -771,11 +771,11 @@ public class MenuJoueur {
 	}
 
 
-	private static void menuPossesion() {
+	private static void menuPossession() {
 		
 		if (parc.getAttractions().isEmpty() && parc.getBoutiques().isEmpty() && parc.getRestaurants().isEmpty())
 		{
-			System.out.println("Tu n'as pas de batiments ! \n Vas en construire ! ");
+			System.out.println("Tu n'as pas de batiments ! \n Va en construire ! ");
 			
 			menuModification();
 		}
@@ -787,11 +787,11 @@ public class MenuJoueur {
 			while (testSaisie)
 			{
 				try {
-					System.out.println("\nMenu des attractions !");
+					System.out.println("\nMenu des possessions !");
 					System.out.println("1- Liste de mes Attracttions");
-					System.out.println("2-  Liste de mes Restaurants");
-					System.out.println("3-  Liste de mes Comodités");
-					System.out.println("4-  Liste de mes Boutiques");
+					System.out.println("2- Liste de mes Restaurants");
+					System.out.println("3- Liste de mes Comodités");
+					System.out.println("4- Liste de mes Boutiques");
 					System.out.println("5- Liste des employés");
 					System.out.println("6- Retour menu précédent");
 					choix = saisieInt("Choisir un menu");
@@ -812,7 +812,7 @@ public class MenuJoueur {
 			case 6 : menuModification();break;
 			default : System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 6");break;
 			}
-			menuPossesion();
+			menuPossession();
 		}
 	}
 
