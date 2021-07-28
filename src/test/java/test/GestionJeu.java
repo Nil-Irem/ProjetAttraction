@@ -52,6 +52,7 @@ public class GestionJeu {
 		
 		do
 		{
+<<<<<<< Updated upstream
 			b = daoP.checkSameParcName(nomParc,joueur.getId());
 			if(!b)
 			{
@@ -60,6 +61,13 @@ public class GestionJeu {
 			}
 				
 		}while(!b);
+=======
+			System.out.println("Vous avez déjà un parc avec ce nom");
+			nomParc = saisieString("Veuillez choisir un autre nom");
+			
+		}
+		System.out.println("on est sortis de la boucle");
+>>>>>>> Stashed changes
 		
 		
 		Parc p = new Parc (nomParc,tailleP,0,argentJ,diff);
