@@ -57,7 +57,7 @@ public class Commodite {
 	
 	@Override
 	public String toString() {
-		return "La commodite " + nom + "(numero "+ id + "), de taille "+ taille + " a un prix d'acquistion de "+ prixAcquisition+"€";
+		return "La commodité" + nom + " (id--> " + id+")\n"+"\t|Taille: " + taille + " m²"+"\t|Prix d'acquisition:" + prixAcquisition + "€\n";
 	}
 	
 	
