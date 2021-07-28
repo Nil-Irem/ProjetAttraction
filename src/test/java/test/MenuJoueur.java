@@ -144,13 +144,20 @@ public class MenuJoueur {
 		double salaire=0;
 		int capaciteMax=0;
 		int tempsJournee= generateRandomInt(5);
-		int nb_i = 0;//nb d'incidents
+		int nb_i = 0; //nb d'incidents
 		double impact_e = 2;
+		double impactEA = 2;
 
 		for (Employe e : parc.getEmployes()) {
 			salaire += e.getSalaire();
-			if (e.getSalaire()>50) {
+			
+			if (e.getSalaire()>50) 
+			{
 				impact_e = impact_e + e.getSalaire();
+			}
+			else
+			{
+				impactEA += e.getSalaire();
 			}
 		}
 		
@@ -159,17 +166,19 @@ public class MenuJoueur {
 			int alea = generateRandomInt(11);
 			double incident = 1;
 			
-			if (alea <a.getTauxIncident()/10)
+			if (alea <a.getTauxIncident()/10) // il y a eu un incident
 			{
-				// il y a eu un incident
-				nb_i = nb_i +1;
-				//on récupère les employés au salaire > 50 et selon leur salaire, l'incident sera + ou - impactant
-				
-				incident = 1-(1/impact_e);//+ l'impact est grd, - 1/impact est grand, + incident est proche de 1
+				nb_i = nb_i +1;				
+				incident = 1-(1/impact_e); //+ l'impact est grd, - 1/impact est grand, + incident est proche de 1
 			}
-			else
+			else //pas d'incident
 			{
-				incident = 1; //pas d'incident
+				incident = 1; 
+			}
+			
+			if (a.getNiveauAmelioration() != 0)
+			{
+				attractivite += a.getNiveauAmelioration()/a.getNbAmelioration();
 			}
 			
 			capaciteMax += a.getAffluence()*incident;
@@ -177,54 +186,52 @@ public class MenuJoueur {
 		}
 		
 
-		
-		
-
-		
 
 		for (Boutique b : parc.getBoutiques()) {
 			
 			int alea = generateRandomInt(11);
 			double incidentb = 1;
 			
-			if (alea <b.getTauxIncident()/10)
+			if (alea <b.getTauxIncident()/10) // il y a eu un incident
 			{
-				// il y a eu un incident
-				nb_i = nb_i +1;
-				//on récupère les employés au salaire > 50 et selon leur salaire, l'incident sera + ou - impactant
-				
-				incidentb = 1-(1/impact_e);//+ l'impact est grd, - 1/impact est grand, + incident est proche de 1
+				nb_i = nb_i +1;				
+				incidentb = 1-(1/impact_e); //+ l'impact est grd, - 1/impact est grand, + incident est proche de 1
 			}
-			else
+			else //pas d'incident
 			{
-				incidentb = 1; //pas d'incident
+				incidentb = 1;
+			}
+			
+			if (b.getNiveauAmelioration() != 0)
+			{
+				attractivite += b.getNiveauAmelioration()/b.getNbAmelioration();
 			}
 			
 			capaciteMax += b.getAffluence()*incidentb;
 			prixFonctionnement += b.getPrixFonctionnement();
 		}
 		
-		//
 
 		for (Restaurant r : parc.getRestaurants()) {
 			
 			int alea = generateRandomInt(11);
 			double incidentr = 1;
 			
-			if (alea <r.getTauxIncident()/10)
+			if (alea <r.getTauxIncident()/10) // il y a eu un incident
 			{
-				// il y a eu un incident
-				nb_i = nb_i +1;
-				//on récupère les employés au salaire > 50 et selon leur salaire, l'incident sera + ou - impactant
-				
-				incidentr = 1-(1/impact_e);//+ l'impact est grd, - 1/impact est grand, + incident est proche de 1
+				nb_i = nb_i +1;				
+				incidentr = 1-(1/impact_e); //+ l'impact est grd, - 1/impact est grand, + incident est proche de 1
 			}
 			else
 			{
 				incidentr = 1; //pas d'incident
 			}
 			
-			
+			if (r.getNiveauAmelioration() != 0)
+			{
+				attractivite += r.getNiveauAmelioration()/r.getNbAmelioration();
+			}
+
 			capaciteMax += r.getAffluence()*incidentr;
 			prixFonctionnement += r.getPrixFonctionnement();
 		}
@@ -232,9 +239,9 @@ public class MenuJoueur {
 		System.out.println("il y a eu " + nb_i + " incidents dans votre parc aujourd'hui");
 
 
-		attractivite = (parc.getCommodites().size()+parc.getEmployes().size()+parc.getAttractions().size()+parc.getBoutiques().size()+parc.getRestaurants().size())/100;
+		attractivite -= 1/impactEA; 
 		if (attractivite > 1) {attractivite = 1;}
-		else if (attractivite == 0) {attractivite = 0.1;}
+		else if (attractivite < 0) {attractivite = 0.1;}
 
 
 		switch (tempsJournee)
