@@ -277,7 +277,7 @@ public class MenuJoueur {
 	public static void menuModification() {
 		System.out.println("\n Quelles modifications voulez vous apporter au Parc ?");
 		System.out.println("1- Ameliorer les structures deja en place");
-		System.out.println("2- Acheter de nouvelles structures");
+		System.out.println("2- Acheter de nouvelles structures ou embaucher des employes");
 		System.out.println("3- Acheter du terrain");
 		System.out.println("4- Voir nos possesions");
 		System.out.println("5- Fin des modifications");
