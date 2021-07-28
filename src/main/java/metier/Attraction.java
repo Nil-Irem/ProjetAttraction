@@ -24,9 +24,9 @@ public class Attraction extends Construction {
 
 	@Override
 	public String toString() {
-		return "L'attraction " + nom + " (numero " + id+"), de taille " + taille + " m² a un prix d'acquisition de " + prixAcquisition
-				+ "€, un prix quotidient de " + prixFonctionnement + "€, un niveau d'amelioration de " + niveauAmelioration
-				+ " sur " + nbAmelioration + ", un taux d'incident de " + tauxIncident + "% et une affluence journalière de " + affluence;
+		return "L'attraction " + nom + " (id--> " + id+")\n"+"\t|Taille: " + taille + " m²"+" \t|Prix d'acquisition: " + prixAcquisition
+				+ "€"+" \t|Prix quotidient: " + prixFonctionnement + "€ \n\t|Niveau d'amelioration: " + niveauAmelioration
+				+ " sur " + nbAmelioration + " \t|Taux d'incident: " + tauxIncident + "% \t|Affluence journalière: " + affluence+"\n";
 	}
 	
 	

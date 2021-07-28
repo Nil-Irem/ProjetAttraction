@@ -207,7 +207,7 @@ public class Parc {
 	@Override
 	public String toString() {
 		return "Le parc "+ nomParc +" (id "+ id + "--> Difficulté: " +typeDifficulte+")\n" + "Taille: "+taille+"m²,\n\t| Boutiques--> " + boutiques.size() + " | Attractions --> " + attractions.size()
-				+ "| Restaurants-->" + restaurants.size() + "\n\t| Employés --> " + employes.size() + " | Commodités --> "+commodites+" | Jour de jeu --> " +nbjour+ " jours" + " | Argent --> "+argent+"\n" ;
+				+ "| Restaurants-->" + restaurants.size() + "\n\t| Employés --> " + employes.size() + " | Commodités --> "+commodites.size()+" | Jour de jeu --> " +nbjour+ " jours" + " | Argent --> "+argent+"\n" ;
 	}
 
 }
