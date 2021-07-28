@@ -228,7 +228,7 @@ public class MenuJoueur {
 		}
 		
 		System.out.println("il y a eu " + nb_i + " incidents dans votre parc aujourd'hui");
-		attractivite = (attractivite - 1/impactEA)/100;
+		attractivite += 1/impactEA;
 
 		if (attractivite > 1) {attractivite = 1;}
 		else if (attractivite == 0) {attractivite = 0.1;}
