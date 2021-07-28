@@ -36,11 +36,12 @@ public class MenuJoueur {
 	static DAORestaurant DaoR = new DAORestaurant();
 	static DAOParc DaoP = new DAOParc();
 
+	static boolean testSaisie = true;
 	static double prixAmeliorationAttraction = 5.00;
 	static double prixAmeliorationBoutique = 5.00;
 	static double prixAmeliorationRestaurant = 5.00;
 	static double prixEntree = 45.00;
-	private static double prixTerrain=100;
+	static double prixTerrain=100;
 	static NumberFormat Myformat = NumberFormat.getInstance();
 
 
@@ -73,18 +74,33 @@ public class MenuJoueur {
 
 
 	public static void menuJoueur(Compte connected) {
-		joueur = (Joueur) connected;		
-		System.out.println("\nC'est parti pour jouer !");
-		System.out.println("1- Nouvelle Partie");
-		System.out.println("2- Charger Partie");
-		System.out.println("3- Se déconnecter");
-		int choix = saisieInt("Choisir un menu");
-
+		joueur = (Joueur) connected;
+		
+		testSaisie = true;
+		int choix=0;
+		
+		while (testSaisie)
+		{
+			try {
+				System.out.println("\nC'est parti pour jouer !");
+				System.out.println("1- Nouvelle Partie");
+				System.out.println("2- Charger Partie");
+				System.out.println("3- Se déconnecter");
+				choix = saisieInt("Choisir un menu");
+				testSaisie = false;
+			}
+			catch (Exception e){
+				System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 3");
+			}
+		}
+		
+		
 		switch(choix) 
 		{
 		case 1 : GestionJeu.creerPartie(joueur) ;break;
 		case 2 : GestionJeu.chargerPartie(joueur);break;
 		case 3 : Menu.menuPrincipal();break;
+		default : System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 3"); break;
 		}
 		menuJoueur(connected);
 	}
@@ -93,12 +109,25 @@ public class MenuJoueur {
 
 	public static void menuPartie(Parc parcjoueur) {
 		parc = parcjoueur;
-		System.out.println("\nQue souhaitez-vous faire?");
-		System.out.println("1- Sauvegarder la Partie");
-		System.out.println("2- Supprimer la Partie");
-		System.out.println("3- Jouer");
-		System.out.println("4- Retour au menu précédent");
-		int choix = saisieInt("Choisir un menu");
+		
+		testSaisie = true;
+		int choix=0;
+		
+		while (testSaisie)
+		{
+			try {
+				System.out.println("\nQue souhaitez-vous faire?");
+				System.out.println("1- Sauvegarder la Partie");
+				System.out.println("2- Supprimer la Partie");
+				System.out.println("3- Jouer");
+				System.out.println("4- Retour au menu précédent");
+				choix = saisieInt("Choisir un menu");
+				testSaisie = false;
+			}
+			catch (Exception e){
+				System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 4");
+			}
+		}
 
 		switch(choix) 
 		{
@@ -106,6 +135,7 @@ public class MenuJoueur {
 		case 2 : GestionJeu.deleteGame(parcjoueur.getId());menuJoueur(joueur);break;
 		case 3 : menuJouer();break;
 		case 4 : menuJoueur(joueur);break;
+		default : System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 4");break;
 		}
 		menuPartie(parc);
 	}
@@ -113,18 +143,30 @@ public class MenuJoueur {
 
 
 	public static void menuJouer() {
-		System.out.println("\nC'est le moment de jouer !");
-		System.out.println("1- Modifier le parc");
-		System.out.println("2- Finir la journée");
-		System.out.println("3- Retour au menu précédent");
-		int choix = saisieInt("Choisir un menu");
+		testSaisie = true;
+		int choix=0;
+		
+		while (testSaisie)
+		{
+			try {
+				System.out.println("\nC'est le moment de jouer !");
+				System.out.println("1- Modifier le parc");
+				System.out.println("2- Finir la journée");
+				System.out.println("3- Retour au menu précédent");
+				choix = saisieInt("Choisir un menu");
+				testSaisie = false;
+			}
+			catch (Exception e){
+				System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 3");
+			}
+		}
 
 		switch(choix) 
 		{
 		case 1 : menuModification();break;
 		case 2 : finJournee();break;
 		case 3 : menuPartie(parc);break;
-
+		default : System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 3");break;
 		}
 		menuJouer();
 	}
@@ -227,11 +269,12 @@ public class MenuJoueur {
 		}
 		
 		System.out.println("il y a eu " + nb_i + " incidents dans votre parc aujourd'hui");
+//		attractivite -= 1/impactEA;
 
 
 		attractivite = (parc.getCommodites().size()+parc.getEmployes().size()+parc.getAttractions().size()+parc.getBoutiques().size()+parc.getRestaurants().size())/100;
 		if (attractivite > 1) {attractivite = 1;}
-		else if (attractivite == 0) {attractivite = 0.1;}
+		else if (attractivite < 0) {attractivite = 0.1;}
 
 
 		switch (tempsJournee)
@@ -263,13 +306,25 @@ public class MenuJoueur {
 
 	
 	public static void menuModification() {
-		System.out.println("\n Quelles modifications voulez vous apporter au Parc ?");
-		System.out.println("1- Ameliorer les structures deja en place");
-		System.out.println("2- Acheter de nouvelles structures");
-		System.out.println("3- Acheter du terrain");
-		System.out.println("4- Voir nos possesions");
-		System.out.println("5- Fin des modifications");
-		int choix = saisieInt("Choisir un menu");
+		testSaisie = true;
+		int choix=0;
+		
+		while (testSaisie)
+		{
+			try {
+				System.out.println("\n Quelles modifications voulez vous apporter au Parc ?");
+				System.out.println("1- Ameliorer les structures deja en place");
+				System.out.println("2- Acheter de nouvelles structures");
+				System.out.println("3- Acheter du terrain");
+				System.out.println("4- Voir nos possesions");
+				System.out.println("5- Fin des modifications");
+				choix = saisieInt("Choisir un menu");
+				testSaisie = false;
+			}
+			catch (Exception e){
+				System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 5");
+			}
+		}
 
 		switch(choix) 
 		{
@@ -278,6 +333,7 @@ public class MenuJoueur {
 		case 3 : menuAchatTerrain();break;
 		case 4 : menuPossesion();break;
 		case 5 : menuJouer();break;
+		default : System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 5");break;
 		}
 		menuModification();
 	}
@@ -287,7 +343,20 @@ public class MenuJoueur {
 	private static void menuAchatTerrain() {
 		System.out.println("Le prix du m² est de "+prixTerrain+"€");
 		System.out.println("Vous avez actuellement "+parc.getArgent()+"€");
-		int choix = saisieInt("Combien de m² voulez vous acheter ? (Donnez un nombre entier)");
+		
+		testSaisie = true;
+		int choix=0;
+		
+		while (testSaisie)
+		{
+			try {
+				choix = saisieInt("Combien de m² voulez vous acheter ? (Donnez un nombre entier)");
+				testSaisie = false;
+			}
+			catch (Exception e){
+				System.out.println("\nAttention il faut rentrer un nombre entier");
+			}
+		}
 		
 		if (choix*prixTerrain > parc.getArgent()) {
 			System.out.println("Vous n'avez pas assez d'argent pour acheter autant de terrain");
@@ -304,14 +373,26 @@ public class MenuJoueur {
 
 
 	private static void menuAchat() {
-		System.out.println("\nQue voulez vous acheter ?");
-		System.out.println("1- Acheter une Attraction");
-		System.out.println("2- Acheter une Boutique");
-		System.out.println("3- Acheter un Restaurant");
-		System.out.println("4- Acheter une Commodité");
-		System.out.println("5- Embaucher un Employe");
-		System.out.println("6- Fin des achats");
-		int choix = saisieInt("Choisir un menu");
+		testSaisie = true;
+		int choix=0;
+		
+		while (testSaisie)
+		{
+			try {
+				System.out.println("\nQue voulez vous acheter ?");
+				System.out.println("1- Acheter une Attraction");
+				System.out.println("2- Acheter une Boutique");
+				System.out.println("3- Acheter un Restaurant");
+				System.out.println("4- Acheter une Commodité");
+				System.out.println("5- Embaucher un Employe");
+				System.out.println("6- Fin des achats");
+				choix = saisieInt("Choisir un menu");
+				testSaisie = false;
+			}
+			catch (Exception e){
+				System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 6");
+			}
+		}
 
 		switch(choix) 
 		{
@@ -321,6 +402,7 @@ public class MenuJoueur {
 		case 4 : achatCommodite();break;
 		case 5 : achatEmploye();break;
 		case 6 : menuModification();break;
+		default : System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 6");break;
 		}
 		menuAchat();
 	}
@@ -331,7 +413,20 @@ public class MenuJoueur {
 		System.out.println("Voici tous les restaurants disponibles :");
 		for (Restaurant r : DaoR.findAll()){System.out.println(r);}
 
-		int choix = saisieInt("Choississez votre nouveau restaurant (donner son numero) :");
+		testSaisie = true;
+		int choix=0;
+		
+		while (testSaisie)
+		{
+			try {
+				choix = saisieInt("Choississez votre nouveau restaurant (donner son numero) :");
+				testSaisie = false;
+			}
+			catch (Exception e){
+				System.out.println("\nAttention il faut rentrer un nombre entier");
+			}
+		}
+		
 		Restaurant newResto = DaoR.findById(choix);
 
 		if (newResto.getPrixAcquisition() <= parc.getArgent() && newResto.getTaille() <= parc.getTaille())
@@ -351,7 +446,20 @@ public class MenuJoueur {
 		System.out.println("Voici toutes les commodites disponibles :");
 		for (Commodite c : DaoC.findAll()){System.out.println(c);}
 
-		int choix = saisieInt("Choississez votre nouvelle commodite (donner son numero) :");
+		testSaisie = true;
+		int choix=0;
+		
+		while (testSaisie)
+		{
+			try {
+				choix = saisieInt("Choississez votre nouvelle commodite (donner son numero) :");
+				testSaisie = false;
+			}
+			catch (Exception e){
+				System.out.println("\nAttention il faut rentrer un nombre entier");
+			}
+		}
+		
 		Commodite newCom = DaoC.findById(choix);
 
 		if (newCom.getPrixAcquisition() <= parc.getArgent() && newCom.getTaille() <= parc.getTaille())
@@ -370,12 +478,22 @@ public class MenuJoueur {
 
 	private static void achatBoutique() {
 		System.out.println("Voici tous les magasins disponibles :");
-		for (Boutique b : DaoB.findAll())
+		for (Boutique b : DaoB.findAll()) {System.out.println(b);}
+
+		testSaisie = true;
+		int choix=0;
+		
+		while (testSaisie)
 		{
-			System.out.println(b);
+			try {
+				choix = saisieInt("Choississez votre nouveau magasin (donner son numero) :");
+				testSaisie = false;
+			}
+			catch (Exception e){
+				System.out.println("\nAttention il faut rentrer un nombre entier");
+			}
 		}
 
-		int choix = saisieInt("Choississez votre nouveau magasin (donner son numero) :");
 		Boutique newBou = DaoB.findById(choix);
 
 		if (newBou.getPrixAcquisition() <= parc.getArgent() && newBou.getTaille() <= parc.getTaille())
@@ -400,7 +518,20 @@ public class MenuJoueur {
 			System.out.println(e);
 		}
 
-		int choix = saisieInt("Choississez votre nouvel employe (donner son numero) :");
+		testSaisie = true;
+		int choix=0;
+		
+		while (testSaisie)
+		{
+			try {
+				choix = saisieInt("Choississez votre nouvel employe (donner son numero) :");
+				testSaisie = false;
+			}
+			catch (Exception e){
+				System.out.println("\nAttention il faut rentrer un nombre entier");
+			}
+		}
+
 		Employe newEmp = DaoE.findById(choix);
 
 		if (newEmp.getSalaire() <= parc.getArgent())
@@ -418,11 +549,22 @@ public class MenuJoueur {
 
 		System.out.println("Voici toutes les attractions disponibles :");
 
-		for (Attraction a : DaoA.findAll())
+		for (Attraction a : DaoA.findAll()) {System.out.println(a);}
+
+		testSaisie = true;
+		int choix=0;
+		
+		while (testSaisie)
 		{
-			System.out.println(a);
+			try {
+				choix = saisieInt("Choississez votre nouvelle attraction (donner son numero) :");
+				testSaisie = false;
+			}
+			catch (Exception e){
+				System.out.println("\nAttention il faut rentrer un nombre entier");
+			}
 		}
-		int choix = saisieInt("Choississez votre nouvelle attraction (donner son numero) :");
+		
 		Attraction newattrac = DaoA.findById(choix);
 
 		if (newattrac.getPrixAcquisition() <= parc.getArgent() && newattrac.getTaille() <= parc.getTaille())
@@ -448,15 +590,26 @@ public class MenuJoueur {
 			
 			menuModification();
 		}
-		else {
+		else
+		{
+			testSaisie = true;
+			int choix=0;
 			
-		
-			System.out.println("\nAmeliorez vos bâtiments !");
-			System.out.println("1- Améliorez une boutique");
-			System.out.println("2- Améliorez un restaurant");
-			System.out.println("3- Améliorez une attraction");
-			System.out.println("4- Retour menu Modifications");
-			int choix = saisieInt("Choisir un menu");
+			while (testSaisie)
+			{
+				try {
+					System.out.println("\nAmeliorez vos bâtiments !");
+					System.out.println("1- Améliorez une boutique");
+					System.out.println("2- Améliorez un restaurant");
+					System.out.println("3- Améliorez une attraction");
+					System.out.println("4- Retour menu Modifications");
+					choix = saisieInt("Choisir un menu");
+					testSaisie = false;
+				}
+				catch (Exception e){
+					System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 4");
+				}
+			}	
 	
 			switch(choix) 
 			{
@@ -464,6 +617,7 @@ public class MenuJoueur {
 			case 2 : ameliorerRestaurant();break;
 			case 3 : ameliorerAttraction();break;
 			case 4 : menuModification();break;
+			default : System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 4");break;
 			}
 		}
 		menuAmelioration();
@@ -481,7 +635,20 @@ public class MenuJoueur {
 		else
 		{
 			ShowAttraction();
-			int choix = saisieInt("Choississez l'attraction à modifier (donner son numero) :");
+			testSaisie = true;
+			int choix=0;
+			
+			while (testSaisie)
+			{
+				try {
+					choix = saisieInt("Choississez l'attraction à modifier (donner son numero) :");
+					testSaisie = false;
+				}
+				catch (Exception e){
+					System.out.println("\nAttention il faut rentrer un nombre entier");
+				}
+			}
+
 			int i = 0;
 
 			for (Attraction a : parc.getAttractions())
@@ -516,7 +683,20 @@ public class MenuJoueur {
 		else
 		{
 			ShowRestaurant();
-			int choix = saisieInt("Choississez le restaurant à modifier (donner son numero) :");
+			testSaisie = true;
+			int choix=0;
+			
+			while (testSaisie)
+			{
+				try {
+					choix = saisieInt("Choississez le restaurant à modifier (donner son numero) :");
+					testSaisie = false;
+				}
+				catch (Exception e){
+					System.out.println("\nAttention il faut rentrer un nombre entier");
+				}
+			}
+
 			int i = 0;
 
 			for (Restaurant r : parc.getRestaurants())
@@ -552,7 +732,20 @@ public class MenuJoueur {
 		else
 		{
 			ShowBoutique();
-			int choix = saisieInt("Choississez la boutique à modifier (donner son numero) :");
+			testSaisie = true;
+			int choix=0;
+			
+			while (testSaisie)
+			{
+				try {
+					choix = saisieInt("Choississez la boutique à modifier (donner son numero) :");
+					testSaisie = false;
+				}
+				catch (Exception e){
+					System.out.println("\nAttention il faut rentrer un nombre entier");
+				}
+			}
+
 			int i = 0;
 
 			for (Boutique bou : parc.getBoutiques())
@@ -588,16 +781,26 @@ public class MenuJoueur {
 		}
 		else 
 		{
-
-			System.out.println("\nMenu des attractions !");
-			System.out.println("1- Liste de mes Attracttions");
-			System.out.println("2-  Liste de mes Restaurants");
-			System.out.println("3-  Liste de mes Comodités");
-			System.out.println("4-  Liste de mes Boutiques");
-			System.out.println("5- Liste des employés");
-			System.out.println("6- Retour Menu Modification");
-	
-			int choix = saisieInt("Choisir un menu");
+			testSaisie = true;
+			int choix=0;
+			
+			while (testSaisie)
+			{
+				try {
+					System.out.println("\nMenu des attractions !");
+					System.out.println("1- Liste de mes Attracttions");
+					System.out.println("2-  Liste de mes Restaurants");
+					System.out.println("3-  Liste de mes Comodités");
+					System.out.println("4-  Liste de mes Boutiques");
+					System.out.println("5- Liste des employés");
+					System.out.println("6- Retour menu précédent");
+					choix = saisieInt("Choisir un menu");
+					testSaisie = false;
+				}
+				catch (Exception e){
+					System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 6");
+				}
+			}
 	
 			switch(choix) 
 			{
@@ -607,6 +810,7 @@ public class MenuJoueur {
 			case 4 : ShowBoutique();break;
 			case 5 : ShowEmploye();break;
 			case 6 : menuModification();break;
+			default : System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 6");break;
 			}
 			menuPossesion();
 		}
