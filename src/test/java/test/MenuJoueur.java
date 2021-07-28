@@ -415,19 +415,21 @@ public class MenuJoueur {
 
 		testSaisie = true;
 		int choix=0;
+		Restaurant newResto=null;
 		
 		while (testSaisie)
 		{
 			try {
 				choix = saisieInt("Choississez votre nouveau restaurant (donner son numero) :");
-				testSaisie = false;
+				newResto = DaoR.findById(choix);
+				if (newResto == null) {System.out.println("\nAttention ce restaurant n'existe pas, réessayez");}
+				else {testSaisie = false;}
 			}
 			catch (Exception e){
 				System.out.println("\nAttention il faut rentrer un nombre entier");
 			}
 		}
 		
-		Restaurant newResto = DaoR.findById(choix);
 
 		if (newResto.getPrixAcquisition() <= parc.getArgent() && newResto.getTaille() <= parc.getTaille())
 		{
@@ -448,19 +450,21 @@ public class MenuJoueur {
 
 		testSaisie = true;
 		int choix=0;
+		Commodite newCom = null;
 		
 		while (testSaisie)
 		{
 			try {
 				choix = saisieInt("Choississez votre nouvelle commodite (donner son numero) :");
-				testSaisie = false;
+				newCom = DaoC.findById(choix);
+				if (newCom == null) {System.out.println("\nAttention cette commodite n'existe pas, réessayez");}
+				else {testSaisie = false;}
 			}
 			catch (Exception e){
 				System.out.println("\nAttention il faut rentrer un nombre entier");
 			}
 		}
 		
-		Commodite newCom = DaoC.findById(choix);
 
 		if (newCom.getPrixAcquisition() <= parc.getArgent() && newCom.getTaille() <= parc.getTaille())
 		{
@@ -482,19 +486,21 @@ public class MenuJoueur {
 
 		testSaisie = true;
 		int choix=0;
+		Boutique newBou = null;
 		
 		while (testSaisie)
 		{
 			try {
 				choix = saisieInt("Choississez votre nouveau magasin (donner son numero) :");
-				testSaisie = false;
+				newBou = DaoB.findById(choix);
+				if (newBou == null) {System.out.println("\nAttention ce magasin n'existe pas, réessayez");}
+				else {testSaisie = false;}
 			}
 			catch (Exception e){
 				System.out.println("\nAttention il faut rentrer un nombre entier");
 			}
 		}
 
-		Boutique newBou = DaoB.findById(choix);
 
 		if (newBou.getPrixAcquisition() <= parc.getArgent() && newBou.getTaille() <= parc.getTaille())
 		{
@@ -520,19 +526,21 @@ public class MenuJoueur {
 
 		testSaisie = true;
 		int choix=0;
+		Employe newEmp = null;
 		
 		while (testSaisie)
 		{
 			try {
 				choix = saisieInt("Choississez votre nouvel employe (donner son numero) :");
-				testSaisie = false;
+				newEmp = DaoE.findById(choix);
+				if (newEmp == null) {System.out.println("\nAttention cet employe n'existe pas, réessayez");}
+				else {testSaisie = false;}
 			}
 			catch (Exception e){
 				System.out.println("\nAttention il faut rentrer un nombre entier");
 			}
 		}
-
-		Employe newEmp = DaoE.findById(choix);
+ 
 
 		if (newEmp.getSalaire() <= parc.getArgent())
 		{
@@ -553,19 +561,21 @@ public class MenuJoueur {
 
 		testSaisie = true;
 		int choix=0;
+		Attraction newattrac = null;
 		
 		while (testSaisie)
 		{
 			try {
 				choix = saisieInt("Choississez votre nouvelle attraction (donner son numero) :");
-				testSaisie = false;
+				newattrac = DaoA.findById(choix);
+				if (newattrac == null) {System.out.println("\nAttention cette attraction n'existe pas, réessayez");}
+				else {testSaisie = false;}
 			}
 			catch (Exception e){
 				System.out.println("\nAttention il faut rentrer un nombre entier");
 			}
 		}
 		
-		Attraction newattrac = DaoA.findById(choix);
 
 		if (newattrac.getPrixAcquisition() <= parc.getArgent() && newattrac.getTaille() <= parc.getTaille())
 		{
@@ -637,25 +647,27 @@ public class MenuJoueur {
 			ShowAttraction();
 			testSaisie = true;
 			int choix=0;
+			int i = 0;
 			
 			while (testSaisie)
 			{
 				try {
 					choix = saisieInt("Choississez l'attraction à modifier (donner son numero) :");
-					testSaisie = false;
+					for (Attraction a : parc.getAttractions())
+					{
+						if (a.getId() == choix) {break;}
+						else {i++;}
+					}
+					
+					if(i > parc.getAttractions().size()) {System.out.println("\nAttention vous n'avez pas cette attraction, réessayez");}
+					else {testSaisie = false;}
 				}
 				catch (Exception e){
 					System.out.println("\nAttention il faut rentrer un nombre entier");
 				}
 			}
 
-			int i = 0;
 
-			for (Attraction a : parc.getAttractions())
-			{
-				if (a.getId() == choix) {break;}
-				else {i++;}
-			}
 
 			if (prixAmeliorationAttraction > parc.getArgent()) 
 			{
@@ -685,25 +697,27 @@ public class MenuJoueur {
 			ShowRestaurant();
 			testSaisie = true;
 			int choix=0;
+			int i = 0;
 			
 			while (testSaisie)
 			{
 				try {
 					choix = saisieInt("Choississez le restaurant à modifier (donner son numero) :");
-					testSaisie = false;
+					for (Restaurant r : parc.getRestaurants())
+					{
+						if (r.getId() == choix) {break;}
+						else {i++;}
+					}
+
+					if(i > parc.getRestaurants().size()) {System.out.println("\nAttention vous n'avez pas ce restaurant, réessayez");}
+					else {testSaisie = false;}
 				}
 				catch (Exception e){
 					System.out.println("\nAttention il faut rentrer un nombre entier");
 				}
 			}
 
-			int i = 0;
 
-			for (Restaurant r : parc.getRestaurants())
-			{
-				if (r.getId() == choix) {break;}
-				else {i++;}
-			}
 
 			if (prixAmeliorationRestaurant > parc.getArgent()) 
 			{
@@ -734,25 +748,27 @@ public class MenuJoueur {
 			ShowBoutique();
 			testSaisie = true;
 			int choix=0;
+			int i = 0;
 			
 			while (testSaisie)
 			{
 				try {
 					choix = saisieInt("Choississez la boutique à modifier (donner son numero) :");
-					testSaisie = false;
+					for (Boutique bou : parc.getBoutiques())
+					{
+						if (bou.getId() == choix) {break;}
+						else {i++;}
+					}
+					
+					if(i > parc.getBoutiques().size()) {System.out.println("\nAttention vous n'avez pas ce magasin, réessayez");}
+					else {testSaisie = false;}
 				}
 				catch (Exception e){
 					System.out.println("\nAttention il faut rentrer un nombre entier");
 				}
 			}
 
-			int i = 0;
 
-			for (Boutique bou : parc.getBoutiques())
-			{
-				if (bou.getId() == choix) {break;}
-				else {i++;}
-			}
 
 			if (prixAmeliorationBoutique > parc.getArgent()) 
 			{
