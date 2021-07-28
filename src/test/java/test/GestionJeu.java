@@ -70,7 +70,7 @@ public class GestionJeu {
 		if(!parcs.isEmpty()) {
 			
 			System.out.println("Cher " + joueur.getLogin() + " Sur quel parc souhaites-tu t'amuser ?");
-			System.out.println(parcs);
+			for (Parc p : parcs) {System.out.println(p);}
 
 			int choix = saisieInt("Saisir l'id du parc à selectionner");
 			
