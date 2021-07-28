@@ -359,6 +359,17 @@ public class MenuJoueur {
 			catch (Exception e){
 				System.out.println("\nAttention il faut rentrer un nombre entier");
 			}
+			
+			if (newResto.getPrixAcquisition() <= parc.getArgent() && newResto.getTaille() <= parc.getTaille())
+			{
+				parc.setArgent(parc.getArgent()-newResto.getPrixAcquisition());
+				parc.setTaille(parc.getTaille()-newResto.getTaille());
+				parc.newRestaurant(newResto);
+			}
+			else
+			{
+				System.out.println("Vous n'avez pas assez d'argent ou de place pour acheter ce restaurant !");
+			}	
 		}
 		
 
@@ -385,6 +396,17 @@ public class MenuJoueur {
 			catch (Exception e){
 				System.out.println("\nAttention il faut rentrer un nombre entier");
 			}
+			
+			if (newCom.getPrixAcquisition() <= parc.getArgent() && newCom.getTaille() <= parc.getTaille())
+			{
+				parc.setArgent(parc.getArgent()-newCom.getPrixAcquisition());
+				parc.setTaille(parc.getTaille()-newCom.getTaille());
+				parc.newCommodite(newCom);
+			}
+			else
+			{
+				System.out.println("Vous n'avez pas assez d'argent ou de place pour acheter cette commodite !");
+			}
 		}
 		
 
@@ -393,7 +415,7 @@ public class MenuJoueur {
 
 
 	private static void achatBoutique() {
-		System.out.println("Voici tous les magasins disponibles :");
+		System.out.println("Voici toutes les boutiques disponibles :");
 
 		for (Boutique b : DaoB.findAll()) {System.out.println(b);}
 
@@ -404,17 +426,28 @@ public class MenuJoueur {
 		while (testSaisie)
 		{
 			try {
-				choix = saisieInt("Choississez votre nouveau magasin (donner son numero) :");
+				choix = saisieInt("Choississez votre nouvelle boutique (donner son numero) :");
 				newBou = DaoB.findById(choix);
-				if (newBou == null) {System.out.println("\nAttention ce magasin n'existe pas, réessayez");}
+				if (newBou == null) {System.out.println("\nAttention cette boutique n'existe pas, réessayez");}
 				else {testSaisie = false;}
 			}
 			catch (Exception e){
 				System.out.println("\nAttention il faut rentrer un nombre entier");
 			}
+		
+
+		if (newBou.getPrixAcquisition() <= parc.getArgent() && newBou.getTaille() <= parc.getTaille())
+		{
+			parc.setArgent(parc.getArgent()-newBou.getPrixAcquisition());
+			parc.setTaille(parc.getTaille()-newBou.getTaille());
+			parc.newBoutique(newBou);
+		}
+		else
+		{
+			System.out.println("Vous n'avez pas assez d'argent ou de place pour acheter cette boutique !");
 		}
 
-
+		}
 	}
 
 
@@ -443,10 +476,21 @@ public class MenuJoueur {
 			catch (Exception e){
 				System.out.println("\nAttention il faut rentrer un nombre entier");
 			}
+		
+		
+		if (newEmp.getSalaire() <= parc.getArgent())
+		{
+			
+			parc.newEmploye(newEmp);
 		}
- 
-
+		else
+		{
+			System.out.println("Vous n'avez pas assez d'argent pour embaucher cet employe !");
+		}	
 	}
+		}
+
+	
 
 
 	private static void achatAttraction() {
@@ -465,14 +509,30 @@ public class MenuJoueur {
 			try {
 				choix = saisieInt("Choississez votre nouvelle attraction (donner son numero) :");
 				newattrac = DaoA.findById(choix);
-				if (newattrac == null) {System.out.println("\nAttention cette attraction n'existe pas, réessayez");}
+				
+				if (newattrac == null)
+				{
+					System.out.println("\nAttention cette attraction n'existe pas, réessayez");
+					}
+				
 				else {testSaisie = false;}
 			}
 			catch (Exception e){
 				System.out.println("\nAttention il faut rentrer un nombre entier");
 			}
+			
+			
+			if (newattrac.getPrixAcquisition() <= parc.getArgent() && newattrac.getTaille() <= parc.getTaille())
+			{
+				parc.setArgent(parc.getArgent()-newattrac.getPrixAcquisition());
+				parc.setTaille(parc.getTaille()-newattrac.getTaille());
+				parc.newAttraction(newattrac);
+			}
+			else
+			{
+				System.out.println("Vous n'avez pas assez d'argent ou de place pour acheter cet attraction !");
+			}	
 		}
-		
 
 	}
 
