@@ -44,7 +44,9 @@ public abstract class DAOLien implements IDAO<Parc,Integer> {
 
 			while(rs.next()) 
 			{
-				attractions.add(DaoA.findById(rs.getInt("id_attraction")));
+				Attraction a = DaoA.findById(rs.getInt("id_attraction"));
+				a.setNiveauAmelioration(rs.getInt("amelioration_attraction"));
+				attractions.add(a);
 			}
 			rs.close();
 			ps.close();
@@ -68,7 +70,9 @@ public abstract class DAOLien implements IDAO<Parc,Integer> {
 
 			while(rs.next()) 
 			{
-				boutiques.add(DaoB.findById(rs.getInt("id_boutique")));
+				Boutique b = DaoB.findById(rs.getInt("id_boutique"));
+				b.setNiveauAmelioration(rs.getInt("amelioration_boutique"));
+				boutiques.add(b);
 			}
 			rs.close();
 			ps.close();
@@ -140,7 +144,9 @@ public abstract class DAOLien implements IDAO<Parc,Integer> {
 
 			while(rs.next()) 
 			{
-				restaurants.add(DaoR.findById(rs.getInt("id_restaurant")));
+				Restaurant r = DaoR.findById(rs.getInt("id_restaurant"));
+				r.setNiveauAmelioration(rs.getInt("amelioration_restaurant"));
+				restaurants.add(r);
 			}
 			rs.close();
 			ps.close();
@@ -154,15 +160,16 @@ public abstract class DAOLien implements IDAO<Parc,Integer> {
 	
 	
 	
-	public static void insertAttraction(int id_parc,int id_attraction) {
+	public static void insertAttraction(int id_parc,int id_attraction,int amelioration_attraction) {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(urlBDD,loginBDD,passwordBDD);
 			
-			PreparedStatement ps = conn.prepareStatement("INSERT into lien_parc_attraction (id_parc,id_attraction) VALUES (?,?)");
+			PreparedStatement ps = conn.prepareStatement("INSERT into lien_parc_attraction (id_parc,id_attraction,amelioration_attraction) VALUES (?,?,?)");
 
 			ps.setInt(1, id_parc);
 			ps.setInt(2, id_attraction);
+			ps.setInt(3, amelioration_attraction);
 			ps.executeUpdate();
 			
 			ps.close();
@@ -175,15 +182,16 @@ public abstract class DAOLien implements IDAO<Parc,Integer> {
 	
 	
 	
-	public static void insertBoutique(int id_parc,int id_boutique) {
+	public static void insertBoutique(int id_parc,int id_boutique,int amelioration_boutique) {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(urlBDD,loginBDD,passwordBDD);
 			
-			PreparedStatement ps = conn.prepareStatement("INSERT into lien_parc_boutique (id_parc,id_boutique) VALUES (?,?)");
+			PreparedStatement ps = conn.prepareStatement("INSERT into lien_parc_boutique (id_parc,id_boutique,amelioration_boutique) VALUES (?,?,?)");
 
 			ps.setInt(1, id_parc);
 			ps.setInt(2, id_boutique);
+			ps.setInt(3, amelioration_boutique);
 			ps.executeUpdate();
 			
 			ps.close();
@@ -238,15 +246,16 @@ public abstract class DAOLien implements IDAO<Parc,Integer> {
 	
 	
 	
-	public static void insertRestaurant(int id_parc,int id_restaurant) {
+	public static void insertRestaurant(int id_parc,int id_restaurant,int amelioration_restaurant) {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(urlBDD,loginBDD,passwordBDD);
 			
-			PreparedStatement ps = conn.prepareStatement("INSERT into lien_parc_restaurant (id_parc,id_restaurant) VALUES (?,?)");
+			PreparedStatement ps = conn.prepareStatement("INSERT into lien_parc_restaurant (id_parc,id_restaurant,amelioration_restaurant) VALUES (?,?,?)");
 
 			ps.setInt(1, id_parc);
 			ps.setInt(2, id_restaurant);
+			ps.setInt(3, amelioration_restaurant);
 			ps.executeUpdate();
 			
 			ps.close();

@@ -146,11 +146,11 @@ public class DAOParc implements IDAO<Parc,Integer> {
 			DAOLien.deleteEmploye(p.getId());
 			DAOLien.deleteRestaurant(p.getId());
 			
-			for (Attraction a : p.getAttractions()){DAOLien.insertAttraction(p.getId(),a.getId());}
-			for (Boutique b : p.getBoutiques()){DAOLien.insertBoutique(p.getId(),b.getId());}
+			for (Attraction a : p.getAttractions()){DAOLien.insertAttraction(p.getId(),a.getId(),a.getNiveauAmelioration());}
+			for (Boutique b : p.getBoutiques()){DAOLien.insertBoutique(p.getId(),b.getId(),b.getNiveauAmelioration());}
 			for (Commodite c : p.getCommodites()){DAOLien.insertCommodite(p.getId(),c.getId());}
 			for (Employe e : p.getEmployes()){DAOLien.insertEmploye(p.getId(),e.getId());}
-			for (Restaurant r : p.getRestaurants()){DAOLien.insertRestaurant(p.getId(),r.getId());}
+			for (Restaurant r : p.getRestaurants()){DAOLien.insertRestaurant(p.getId(),r.getId(),r.getNiveauAmelioration());}
 
 			ps.close();
 			conn.close();
@@ -204,7 +204,14 @@ public class DAOParc implements IDAO<Parc,Integer> {
 				
 				Parc p = new Parc(rs.getInt("id_parc"),rs.getString("nom"),rs.getDouble("taille"),
 							rs.getInt("nbjour"),rs.getDouble("argent"),Difficulte.valueOf(rs.getString("typeDifficulte")));
+
 				
+				p.setAttractions(DAOLien.findAllAttractionById(p.getId()));
+				p.setBoutiques(DAOLien.findAllBoutiqueById(p.getId()));
+				p.setCommodites(DAOLien.findAllCommoditeById(p.getId()));
+				p.setEmployes(DAOLien.findAllEmployeById(p.getId()));
+				p.setRestaurants(DAOLien.findAllRestaurantById(p.getId()));
+								
 				parcs.add(p);
 			}
 			rs.close();

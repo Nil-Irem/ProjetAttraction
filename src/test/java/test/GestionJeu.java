@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-import dao.DAOLien;
 import dao.DAOParc;
 import metier.Difficulte;
 import metier.Joueur;
@@ -42,25 +41,35 @@ public class GestionJeu {
 
 
 	public static void creerPartie(Joueur joueur){
-		String choixDifficulte = saisieString("Créons une nouvelle partie !\n Veuillez choisir la difficulté parmi:\n "+ Arrays.toString(Difficulte.values()));
-		Difficulte diff = Difficulte.valueOf(choixDifficulte);
+		
+		Difficulte diff = Difficulte.Facile;
+		boolean testDifficulte = true;
+		System.out.println("Créons une nouvelle partie !");
+		
+		while (testDifficulte)
+		{
+			try {
+				String choixDifficulte = saisieString("Veuillez choisir la difficulté parmi:\n "+ Arrays.toString(Difficulte.values()));
+				diff = Difficulte.valueOf(choixDifficulte);
+				testDifficulte = false;
+			}
+			catch (Exception e) {
+				System.out.println("\nAttention, il faut bien écrire la difficulté");
+			}
+		}
+
 		double argentJ = diff.getArgent();
 		double tailleP=diff.getTailleParc();
 		
-		
 		String nomParc= saisieString("Veuillez choisir un nom pour votre parc et le saisir");
-		
-		while(!daoP.checkSameParcName(nomParc,joueur.getId()));
+
+		while(!daoP.checkSameParcName(nomParc,joueur.getId()))
 		{
 			System.out.println("Vous avez déjà un parc avec ce nom");
 			nomParc = saisieString("Veuillez choisir un autre nom");
-			
 		}
-		
-		
-		
+
 		Parc p = new Parc (nomParc,tailleP,0,argentJ,diff);
-		
 		daoP.insert(p,joueur.getId());
 		MenuJoueur.menuPartie(p);
 	}
@@ -74,18 +83,23 @@ public class GestionJeu {
 		parcs = daoP.findByIdJoueur(joueur.getId());
 		
 		if(!parcs.isEmpty()) {
-			for (Parc p : parcs) {
-				p.setAttractions(DAOLien.findAllAttractionById(p.getId()));
-				p.setBoutiques(DAOLien.findAllBoutiqueById(p.getId()));
-				p.setCommodites(DAOLien.findAllCommoditeById(p.getId()));
-				p.setEmployes(DAOLien.findAllEmployeById(p.getId()));
-				p.setRestaurants(DAOLien.findAllRestaurantById(p.getId()));
-			}
 			
 			System.out.println("Cher " + joueur.getLogin() + " Sur quel parc souhaites-tu t'amuser ?");
-			System.out.println(parcs);
+			for (Parc p : parcs) {System.out.println(p);}
 
-			int choix = saisieInt("Saisir l'id du parc à selectionner");
+			boolean testSaisie = true;
+			int choix=0;
+			
+			while (testSaisie)
+			{
+				try {
+					choix = saisieInt("Saisir l'id du parc à selectionner");
+					testSaisie = false;
+				}
+				catch (Exception e){
+					System.out.println("\nAttention il faut rentrer un nombre entier");
+				}
+			}
 			
 			for(Parc p1 : parcs)
 			{
@@ -110,7 +124,11 @@ public class GestionJeu {
 
 	
 	public static void deleteGame(int id_parc) {
-			daoP.delete(id_parc);
+		
+		daoP.delete(id_parc);
+				
+		System.out.println("Partie supprimée");
 	}
+
 
 }

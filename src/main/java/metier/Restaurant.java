@@ -41,10 +41,11 @@ public class Restaurant extends Construction {
 	
 	@Override
 	public String toString() {
-		return "Le restaurant " + nom + " (numero " + id+"), de taille " + taille + " m² a un prix d'acquisition de " + prixAcquisition
-				+ "€, un prix quotidient de " + prixFonctionnement + "€, un niveau d'amelioration de " + niveauAmelioration
-				+ " sur " + nbAmelioration + ", un taux d'incident de " + tauxIncident + "%, une affluence journalière maximum de "
-				+ affluence + " personnes et un revenu journalier par personne de " + revenuJourPersonne + "€";
+		return "Le restaurant " + nom + " (id--> " + id+")\n"+"\t|Taille: " + taille + " m²"+"\t|Prix d'acquisition:" + prixAcquisition
+				+ "€"+"\t|Prix quotidient: " + prixFonctionnement + "€\n\t|Niveau d'amelioration: " + niveauAmelioration
+				+ " sur " + nbAmelioration + "\t|Taux d'incident:" + tauxIncident + "%\t|Affluence journalière max: "
+				+ affluence +" personnes"+"\n\t|Revenu journalier par personne: " + revenuJourPersonne + "€\n";
+				
 	}
     
 }
