@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-import dao.DAOLien;
 import dao.DAOParc;
 import metier.Difficulte;
 import metier.Joueur;
@@ -74,13 +73,6 @@ public class GestionJeu {
 		parcs = daoP.findByIdJoueur(joueur.getId());
 		
 		if(!parcs.isEmpty()) {
-			for (Parc p : parcs) {
-				p.setAttractions(DAOLien.findAllAttractionById(p.getId()));
-				p.setBoutiques(DAOLien.findAllBoutiqueById(p.getId()));
-				p.setCommodites(DAOLien.findAllCommoditeById(p.getId()));
-				p.setEmployes(DAOLien.findAllEmployeById(p.getId()));
-				p.setRestaurants(DAOLien.findAllRestaurantById(p.getId()));
-			}
 			
 			System.out.println("Cher " + joueur.getLogin() + " Sur quel parc souhaites-tu t'amuser ?");
 			System.out.println(parcs);
