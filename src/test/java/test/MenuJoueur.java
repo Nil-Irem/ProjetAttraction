@@ -642,10 +642,21 @@ public class MenuJoueur {
 					System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 6");
 				}
 			}
-
+			
+			switch (choix)
+			{
+			case 1 : ShowAttraction();break;
+			case 2 : ShowRestaurant();break;
+			case 3 : ShowCommodites();break;
+			case 4 : ShowBoutique();break;
+			case 5 : ShowEmploye();break;
+			case 6 : menuModification();break;
+			default : System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 6");break;
+			}
 		}
 	}
 
+	
 
 	private static void ShowEmploye() {
 
