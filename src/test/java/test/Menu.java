@@ -39,10 +39,11 @@ public class Menu {
 		
 	public static void menuPrincipal() {
 			System.out.println("\nBienvenue sur YoloCoaster Tycoon !");
+			System.out.println("Choisir un menu");
 			System.out.println("1- Se connecter");
 			System.out.println("2- S'incrire");
 			System.out.println("3- Fermer le jeu");
-			int choix = saisieInt("Choisir un menu");
+			int choix = saisieInt("");
 			
 			switch(choix) 
 			{
