@@ -41,7 +41,7 @@ public class MenuJoueur {
 	static double prixAmeliorationAttraction = 5.00;
 	static double prixAmeliorationBoutique = 5.00;
 	static double prixAmeliorationRestaurant = 5.00;
-	static double prixEntree = 45.00;
+	static double prixEntree = 100.00;
 	private static double prixTerrain=100;
 	static boolean testSaisie=true;
 	static NumberFormat Myformat = NumberFormat.getInstance();
@@ -269,7 +269,7 @@ public class MenuJoueur {
 		parc.setArgent(parc.getArgent()+argentGagne-salaire-prixFonctionnement);
 
 		System.out.println("Vous avez reçu "+Math.round(nbVisiteur)+" visiteurs");
-		System.out.println("Vous avez gagné "+ Myformat.format(argentGagne)+"€ et dépensé "+(salaire+prixFonctionnement)+"€");
+		System.out.println("Vous avez gagné "+ Myformat.format(argentGagne)+"€ et dépensé "+Myformat.format(salaire+prixFonctionnement)+"€");
 		System.out.println("Vous avez maintenant "+Myformat.format(parc.getArgent())+"€");
 	}
 
@@ -545,7 +545,7 @@ public class MenuJoueur {
 
 		if (parc.getAttractions().isEmpty() && parc.getBoutiques().isEmpty() && parc.getRestaurants().isEmpty())
 		{
-			System.out.println("Tu n'as pas de batiments ! \n Vas en construire ! ");
+			System.out.println("Tu n'as pas de batiments ! \n Va en construire ! ");
 
 			menuModification();
 		}
