@@ -41,11 +41,26 @@ public class GestionJeu {
 
 
 	public static void creerPartie(Joueur joueur){
-		String choixDifficulte = saisieString("Créons une nouvelle partie !\n Veuillez choisir la difficulté parmi:\n "+ Arrays.toString(Difficulte.values()));
-		Difficulte diff = Difficulte.valueOf(choixDifficulte);
+		
+		Difficulte diff = Difficulte.Facile;
+		boolean testDifficulte = true;
+		System.out.println("Créons une nouvelle partie !");
+		
+		while (testDifficulte)
+		{
+			try {
+				String choixDifficulte = saisieString("Veuillez choisir la difficulté parmi:\n "+ Arrays.toString(Difficulte.values()));
+				diff = Difficulte.valueOf(choixDifficulte);
+				testDifficulte = false;
+			}
+			catch (Exception e) {
+				System.out.println("\nAttention, il faut bien écrire la difficulté");
+			}
+		}
+
 		double argentJ = diff.getArgent();
 		double tailleP=diff.getTailleParc();
-			
+		
 		String nomParc= saisieString("Veuillez choisir un nom pour votre parc et le saisir");
 
 		while(!daoP.checkSameParcName(nomParc,joueur.getId()))
@@ -72,7 +87,19 @@ public class GestionJeu {
 			System.out.println("Cher " + joueur.getLogin() + " Sur quel parc souhaites-tu t'amuser ?");
 			for (Parc p : parcs) {System.out.println(p);}
 
-			int choix = saisieInt("Saisir l'id du parc à selectionner");
+			boolean testSaisie = true;
+			int choix=0;
+			
+			while (testSaisie)
+			{
+				try {
+					choix = saisieInt("Saisir l'id du parc à selectionner");
+					testSaisie = false;
+				}
+				catch (Exception e){
+					System.out.println("\nAttention il faut rentrer un nombre entier");
+				}
+			}
 			
 			for(Parc p1 : parcs)
 			{
