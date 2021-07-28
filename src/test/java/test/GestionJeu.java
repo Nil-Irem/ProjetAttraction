@@ -5,7 +5,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-import dao.DAOLien;
 import dao.DAOParc;
 import metier.Difficulte;
 import metier.Joueur;
@@ -46,32 +45,16 @@ public class GestionJeu {
 		Difficulte diff = Difficulte.valueOf(choixDifficulte);
 		double argentJ = diff.getArgent();
 		double tailleP=diff.getTailleParc();
-		boolean b;
 			
 		String nomParc= saisieString("Veuillez choisir un nom pour votre parc et le saisir");
-		
-		do
+
+		while(!daoP.checkSameParcName(nomParc,joueur.getId()))
 		{
-<<<<<<< Updated upstream
-			b = daoP.checkSameParcName(nomParc,joueur.getId());
-			if(!b)
-			{
-				System.out.println("Vous avez déjà un parc avec ce nom");
-				nomParc = saisieString("Veuillez choisir un autre nom");
-			}
-				
-		}while(!b);
-=======
 			System.out.println("Vous avez déjà un parc avec ce nom");
 			nomParc = saisieString("Veuillez choisir un autre nom");
-			
 		}
-		System.out.println("on est sortis de la boucle");
->>>>>>> Stashed changes
-		
-		
+
 		Parc p = new Parc (nomParc,tailleP,0,argentJ,diff);
-		
 		daoP.insert(p,joueur.getId());
 		MenuJoueur.menuPartie(p);
 	}
@@ -85,13 +68,6 @@ public class GestionJeu {
 		parcs = daoP.findByIdJoueur(joueur.getId());
 		
 		if(!parcs.isEmpty()) {
-			for (Parc p : parcs) {
-				p.setAttractions(DAOLien.findAllAttractionById(p.getId()));
-				p.setBoutiques(DAOLien.findAllBoutiqueById(p.getId()));
-				p.setCommodites(DAOLien.findAllCommoditeById(p.getId()));
-				p.setEmployes(DAOLien.findAllEmployeById(p.getId()));
-				p.setRestaurants(DAOLien.findAllRestaurantById(p.getId()));
-			}
 			
 			System.out.println("Cher " + joueur.getLogin() + " Sur quel parc souhaites-tu t'amuser ?");
 			System.out.println(parcs);

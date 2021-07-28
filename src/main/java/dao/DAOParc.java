@@ -204,7 +204,14 @@ public class DAOParc implements IDAO<Parc,Integer> {
 				
 				Parc p = new Parc(rs.getInt("id_parc"),rs.getString("nom"),rs.getDouble("taille"),
 							rs.getInt("nbjour"),rs.getDouble("argent"),Difficulte.valueOf(rs.getString("typeDifficulte")));
+
 				
+				p.setAttractions(DAOLien.findAllAttractionById(p.getId()));
+				p.setBoutiques(DAOLien.findAllBoutiqueById(p.getId()));
+				p.setCommodites(DAOLien.findAllCommoditeById(p.getId()));
+				p.setEmployes(DAOLien.findAllEmployeById(p.getId()));
+				p.setRestaurants(DAOLien.findAllRestaurantById(p.getId()));
+								
 				parcs.add(p);
 			}
 			rs.close();
