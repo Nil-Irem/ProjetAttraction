@@ -38,18 +38,32 @@ public class Menu {
 
 		
 	public static void menuPrincipal() {
-			System.out.println("\nBienvenue sur YoloCoaster Tycoon !");
-			System.out.println("Choisir un menu");
-			System.out.println("1- Se connecter");
-			System.out.println("2- S'incrire");
-			System.out.println("3- Fermer le jeu");
-			int choix = saisieInt("");
+		
+		boolean testSaisie = true;
+		int choix=0;
+		
+		while (testSaisie)
+		{
+			try {
+				System.out.println("\nBienvenue sur YoloCoaster Tycoon !");
+				System.out.println("Choisir un menu");
+				System.out.println("1- Se connecter");
+				System.out.println("2- S'incrire");
+				System.out.println("3- Fermer le jeu");
+				choix = saisieInt("");
+				testSaisie = false;
+			}
+			catch (Exception e) {
+				System.out.println("\nAttention, il faut entrer un chiffre entre 1 et 3");
+			}
+		}
 			
 			switch(choix) 
 			{
 			case 1 : seConnecter();break;
 			case 2 : inscription();break;
 			case 3 : System.exit(0);break;
+			default : System.out.println("\nAttention, il faut entrer un chiffre entre 1 et 3");break;
 			}
 			menuPrincipal();
 		}

@@ -76,20 +76,33 @@ public class MenuJoueur {
 
 
 	public static void menuJoueur(Compte connected) {
-		joueur = (Joueur) connected;		
-		System.out.println("\nC'est parti pour jouer !");
-		System.out.println("Choisir un menu");
-		System.out.println("1- Nouvelle Partie");
-		System.out.println("2- Charger Partie");
-		System.out.println("3- Se déconnecter");
+		joueur = (Joueur) connected;
+		testSaisie = true;
+		int choix=0;
+
+		while (testSaisie)
+		{
+			try {
+				System.out.println("\nC'est parti pour jouer !");
+				System.out.println("Choisir un menu");
+				System.out.println("1- Nouvelle Partie");
+				System.out.println("2- Charger Partie");
+				System.out.println("3- Se déconnecter");
+				choix = saisieInt("");
+				testSaisie = false;
+			}
+			catch (Exception e){
+				System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 3");
+			}
+		}
 		
-		int choix = saisieInt("");
 
 		switch(choix) 
 		{
 		case 1 : GestionJeu.creerPartie(joueur) ;break;
 		case 2 : GestionJeu.chargerPartie(joueur);break;
 		case 3 : Menu.menuPrincipal();break;
+		default : System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 3");break;
 		}
 		menuJoueur(connected);
 	}
@@ -98,12 +111,24 @@ public class MenuJoueur {
 
 	public static void menuPartie(Parc parcjoueur) {
 		parc = parcjoueur;
-		System.out.println("\nQue souhaitez-vous faire?");
-		System.out.println("1- Sauvegarder la Partie");
-		System.out.println("2- Supprimer la Partie");
-		System.out.println("3- Jouer");
-		System.out.println("4- Retour au menu précédent");
-		int choix = saisieInt("");
+		testSaisie = true;
+		int choix=0;
+
+		while (testSaisie)
+		{
+			try {
+				System.out.println("\nQue souhaitez-vous faire?");
+				System.out.println("1- Sauvegarder la Partie");
+				System.out.println("2- Supprimer la Partie");
+				System.out.println("3- Jouer");
+				System.out.println("4- Retour au menu précédent");
+				choix = saisieInt("");
+				testSaisie = false;
+			}
+			catch (Exception e){
+				System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 4");
+			}
+		}
 
 		switch(choix) 
 		{
@@ -111,6 +136,7 @@ public class MenuJoueur {
 		case 2 : GestionJeu.deleteGame(parcjoueur.getId());menuJoueur(joueur);break;
 		case 3 : menuJouer();break;
 		case 4 : menuJoueur(joueur);break;
+		default : System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 4");break;
 		}
 		menuPartie(parc);
 	}
@@ -118,19 +144,31 @@ public class MenuJoueur {
 
 
 	public static void menuJouer() {
-		System.out.println("\nC'est le moment de jouer !");
-		System.out.println("Choisir un menu");
-		System.out.println("1- Modifier le parc");
-		System.out.println("2- Finir la journée");
-		System.out.println("3- Retour au menu précédent");
-		int choix = saisieInt("");
+		testSaisie = true;
+		int choix=0;
+
+		while (testSaisie)
+		{
+			try {
+				System.out.println("\nC'est le moment de jouer !");
+				System.out.println("Choisir un menu");
+				System.out.println("1- Modifier le parc");
+				System.out.println("2- Finir la journée");
+				System.out.println("3- Retour au menu précédent");
+				choix = saisieInt("");
+				testSaisie = false;
+			}
+			catch (Exception e){
+				System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 3");
+			}
+		}
 
 		switch(choix) 
 		{
 		case 1 : menuModification();break;
 		case 2 : finJournee();break;
 		case 3 : menuPartie(parc);break;
-
+		default : System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 3");break;
 		}
 		menuJouer();
 	}
@@ -278,13 +316,25 @@ public class MenuJoueur {
 
 
 	public static void menuModification() {
-		System.out.println("\n Quelles modifications voulez vous apporter au Parc ?");
-		System.out.println("1- Ameliorer les structures deja en place");
-		System.out.println("2- Acheter de nouvelles structures ou embaucher des employes");
-		System.out.println("3- Acheter du terrain");
-		System.out.println("4- Voir nos possesions");
-		System.out.println("5- Fin des modifications");
-		int choix = saisieInt("");
+		testSaisie = true;
+		int choix=0;
+
+		while (testSaisie)
+		{
+			try {
+				System.out.println("\n Quelles modifications voulez vous apporter au Parc ?");
+				System.out.println("1- Ameliorer les structures deja en place");
+				System.out.println("2- Acheter de nouvelles structures ou embaucher des employes");
+				System.out.println("3- Acheter du terrain");
+				System.out.println("4- Voir nos possesions");
+				System.out.println("5- Fin des modifications");
+				choix = saisieInt("");
+				testSaisie = false;
+			}
+			catch (Exception e){
+				System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 5");
+			}
+		}
 
 		switch(choix) 
 		{
@@ -293,6 +343,7 @@ public class MenuJoueur {
 		case 3 : menuAchatTerrain();break;
 		case 4 : menuPossession();break;
 		case 5 : menuJouer();break;
+		default : System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 5");break;
 		}
 		menuModification();
 	}
@@ -319,14 +370,26 @@ public class MenuJoueur {
 
 
 	private static void menuAchat() {
-		System.out.println("\nQue voulez vous acheter ?");
-		System.out.println("1- Acheter une Attraction");
-		System.out.println("2- Acheter une Boutique");
-		System.out.println("3- Acheter un Restaurant");
-		System.out.println("4- Acheter une Commodité");
-		System.out.println("5- Embaucher un Employe");
-		System.out.println("6- Fin des achats");
-		int choix = saisieInt("");
+		testSaisie = true;
+		int choix=0;
+
+		while (testSaisie)
+		{
+			try {
+				System.out.println("\nQue voulez vous acheter ?");
+				System.out.println("1- Acheter une Attraction");
+				System.out.println("2- Acheter une Boutique");
+				System.out.println("3- Acheter un Restaurant");
+				System.out.println("4- Acheter une Commodité");
+				System.out.println("5- Embaucher un Employe");
+				System.out.println("6- Fin des achats");
+				choix = saisieInt("");
+				testSaisie = false;
+			}
+			catch (Exception e){
+				System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 6");
+			}
+		}
 
 		switch(choix) 
 		{
@@ -336,6 +399,7 @@ public class MenuJoueur {
 		case 4 : achatCommodite();break;
 		case 5 : achatEmploye();break;
 		case 6 : menuModification();break;
+		default : System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 6");break;
 		}
 		menuAchat();
 	}
