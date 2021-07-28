@@ -138,18 +138,17 @@ public class MenuJoueur {
 		double salaire=0;
 		int capaciteMax=0;
 		int tempsJournee= generateRandomInt(5);
+		int nb_i = 0;//nb d'incidents
+		double impact_e = 0;
 
 		for (Employe e : parc.getEmployes()) {
 			salaire += e.getSalaire();
-		}
-		int nb_i = 0;//nb d'incidents
-		double impact_e = 0;
-		for (Employe e : parc.getEmployes()) {
 			if (e.getSalaire()>50) {
 				impact_e = impact_e + e.getSalaire();
 			}
 		}
-
+		
+		
 		for (Attraction a : parc.getAttractions()) {
 			int alea = generateRandomInt(11);
 			double incident = 1;
@@ -170,17 +169,61 @@ public class MenuJoueur {
 			capaciteMax += a.getAffluence()*incident;
 			prixFonctionnement += a.getPrixFonctionnement();
 		}
-		System.out.println("il y a eu " + nb_i + " incidents aujourd'hui");
+		
+
+		
+		
+
+		
 
 		for (Boutique b : parc.getBoutiques()) {
-			capaciteMax += b.getAffluence();
+			
+			int alea = generateRandomInt(11);
+			double incidentb = 1;
+			
+			if (alea <b.getTauxIncident()/10)
+			{
+				// il y a eu un incident
+				nb_i = nb_i +1;
+				//on récupère les employés au salaire > 50 et selon leur salaire, l'incident sera + ou - impactant
+				
+				incidentb = 1-1/impact_e;//+ l'impact est grd, - 1/impact est grand, + incident est proche de 1
+			}
+			else
+			{
+				incidentb = 1; //pas d'incident
+			}
+			
+			capaciteMax += b.getAffluence()*incidentb;
 			prixFonctionnement += b.getPrixFonctionnement();
 		}
+		
+		//
 
 		for (Restaurant r : parc.getRestaurants()) {
-			capaciteMax += r.getAffluence();
+			
+			int alea = generateRandomInt(11);
+			double incidentr = 1;
+			
+			if (alea <r.getTauxIncident()/10)
+			{
+				// il y a eu un incident
+				nb_i = nb_i +1;
+				//on récupère les employés au salaire > 50 et selon leur salaire, l'incident sera + ou - impactant
+				
+				incidentr = 1-1/impact_e;//+ l'impact est grd, - 1/impact est grand, + incident est proche de 1
+			}
+			else
+			{
+				incidentr = 1; //pas d'incident
+			}
+			
+			
+			capaciteMax += r.getAffluence()*incidentr;
 			prixFonctionnement += r.getPrixFonctionnement();
 		}
+		
+		System.out.println("il y a eu " + nb_i + " incidents dans votre parc aujourd'hui");
 
 
 		attractivite = (parc.getCommodites().size()+parc.getEmployes().size()+parc.getAttractions().size()+parc.getBoutiques().size()+parc.getRestaurants().size())/100;
