@@ -2,6 +2,8 @@ package test;
 
 
 import java.text.NumberFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -653,12 +655,29 @@ public class MenuJoueur {
 		}
 		else 
 		{
-			System.out.println("Voici touts les employés présents dans votre parc :");
-
+			List<String> metier=new ArrayList();
+			List<Integer> nbEmploye=new ArrayList();
+			
 			for (Employe emp : parc.getEmployes())
 			{
-				System.out.println(emp);
+				if (metier.contains(emp.getMetier()))
+				{
+					int i = metier.indexOf(emp.getMetier());	
+					nbEmploye.set(i, nbEmploye.get(i)+1);
+				}
+				else
+				{
+					metier.add(emp.getMetier());
+					nbEmploye.add(1);					
+				}
 			}
+			
+			System.out.println("Voici les employes de votre parc :");
+			for (int i=0; i<metier.size(); i++)
+			{
+				System.out.println(nbEmploye.get(i)+" "+metier.get(i));
+			}
+
 		}
 	}
 
