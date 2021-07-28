@@ -45,7 +45,7 @@ public abstract class DAOLien implements IDAO<Parc,Integer> {
 			while(rs.next()) 
 			{
 				Attraction a = DaoA.findById(rs.getInt("id_attraction"));
-				a.setNbAmelioration(rs.getInt("amelioration_attraction"));
+				a.setNiveauAmelioration(rs.getInt("amelioration_attraction"));
 				attractions.add(a);
 			}
 			rs.close();
@@ -71,7 +71,7 @@ public abstract class DAOLien implements IDAO<Parc,Integer> {
 			while(rs.next()) 
 			{
 				Boutique b = DaoB.findById(rs.getInt("id_boutique"));
-				b.setNbAmelioration(rs.getInt("amelioration_boutique"));
+				b.setNiveauAmelioration(rs.getInt("amelioration_boutique"));
 				boutiques.add(b);
 			}
 			rs.close();
@@ -145,7 +145,7 @@ public abstract class DAOLien implements IDAO<Parc,Integer> {
 			while(rs.next()) 
 			{
 				Restaurant r = DaoR.findById(rs.getInt("id_restaurant"));
-				r.setNbAmelioration(rs.getInt("amelioration_restaurant"));
+				r.setNiveauAmelioration(rs.getInt("amelioration_restaurant"));
 				restaurants.add(r);
 			}
 			rs.close();
