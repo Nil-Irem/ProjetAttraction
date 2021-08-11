@@ -1,0 +1,61 @@
+
+*{margin:0;padding: 0;}
+
+.body
+{
+    background-color: white;
+    background-image: url(https://media.discordapp.net/attachments/864079940341202954/875010813931442186/parcBackground.webp?width=1674&height=942);
+    background-repeat: no-repeat;
+}
+
+#txtInscription
+{
+  font-size: 50px;
+  color: #787878;
+  font-weight: bold;
+  align-content: center;
+  border: solid #787878 2px;
+  margin-top: 10px;
+  text-align: center;
+  background-color: #d3d3d357;
+font-family: 'Manrope', sans-serif;
+
+}
+
+
+.contenu
+{
+  font-size: 20px;
+  text-align: center;
+  padding-top : 50px;
+  color: white;
+  background-color: #d3d3d357;
+  font-weight: bold;
+font-family: 'Manrope', sans-serif;
+}
+
+
+.footer
+{
+  background-color: #d3d3d3b3;
+  height: 15%;
+  font-family: 'Manrope', sans-serif;
+
+}
+
+
+#fLeft
+{
+
+position: relative;
+text-align: left;
+top: 20;
+
+}
+
+#fRight
+{
+  position: relative;
+  text-align: center;
+  top: 0;
+}
