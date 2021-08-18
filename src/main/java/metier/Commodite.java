@@ -1,10 +1,19 @@
 package metier;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
 public class Commodite {
 
-
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	private String nom;
+	@Column(name="prix_acquisition")
 	private double prixAcquisition;
 	private double taille;
 	
@@ -24,6 +33,7 @@ public class Commodite {
 		this.taille = taille;
 	}
 	
+	public Commodite(){}
 	
 	
 	public int getId() {

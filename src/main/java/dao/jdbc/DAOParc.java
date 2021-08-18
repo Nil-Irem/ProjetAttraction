@@ -1,4 +1,4 @@
-package dao;
+package dao.jdbc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,16 +6,13 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import dao.IDAO.IDAO;
 
-import metier.Attraction;
-import metier.Boutique;
-import metier.Commodite;
-import metier.Difficulte;
-import metier.Employe;
-import metier.Parc;
-import metier.Restaurant;
+import metier.*;
 
 public class DAOParc implements IDAO<Parc,Integer> {
+	
+	/*
 
 	@Override
 	public Parc findById(Integer id) {
@@ -45,9 +42,6 @@ public class DAOParc implements IDAO<Parc,Integer> {
 		catch (Exception e) {e.printStackTrace();}
 		return p;
 	}
-	
-	
-	
 	
 
 	@Override
@@ -80,6 +74,8 @@ public class DAOParc implements IDAO<Parc,Integer> {
 		catch (Exception e) {e.printStackTrace();}
 		return parcs;
 	}
+	
+	
 	
 	
 	@Override
@@ -231,7 +227,7 @@ public class DAOParc implements IDAO<Parc,Integer> {
 			OUT==> boolean: TRUE: Nom de parc existant
 							FALSE: Nom de parc dispo
 		*/
-		
+		/*
 		boolean b=false;
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
@@ -260,5 +256,23 @@ public class DAOParc implements IDAO<Parc,Integer> {
 		catch (Exception e) {e.printStackTrace();}
 		return b;
 	}
+	*/
+	public Parc findById(Integer id){return null;}
+	
+	public List<Parc> findAll(){return null;}
+	
+	public Parc insert(Parc o){return null;}
+	
+	public Parc update(Parc o){return null;}
+	
+	public void delete(Integer id){}
+	
+	public List<Parc> filterParc (String mot){return null;}
+
+	public List<Parc> findByIdJoueur(Integer id_joueur){return null;}
+
+	public boolean checkSameParcName(String nomParc, Integer id_joueur){return false;}
+
+	public Achat findWithBoutiques (int id){return null;}
 
 }

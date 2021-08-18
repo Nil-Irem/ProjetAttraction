@@ -1,30 +1,29 @@
 package metier;
 
+import javax.persistence.*;
+
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
 public class Construction {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.TABLE)
 	protected int id;
 	protected String nom;
-	protected double prixAcquisition;
-	protected double prixFonctionnement;
-	protected int niveauAmelioration;
-	protected int nbAmelioration;
-	protected double tauxIncident;
 	protected double taille;
+	@Column(name="prix_acquisition")
+	protected double prixAcquisition;
+	@Column(name="prix_fonctionnement")
+	protected double prixFonctionnement;
+	@Column(name="nb_amelioration") 
+	protected int nbAmelioration;
+	@Column(name="taux_incident")
+	protected double tauxIncident;
+	@Column(name="affluence_max")
 	protected int affluence;
+	@OneToOne(mappedBy = "construction")
+	protected Amelioration amelioration;
 	
-	
-	public Construction(int id, String nom, double prixAcquisition, double prixFonctionnement, int niveauAmelioration,
-			int nbAmelioration, double tauxIncident, double taille, int affluence) {
-		this.id = id;
-		this.nom = nom;
-		this.prixAcquisition = prixAcquisition;
-		this.prixFonctionnement = prixFonctionnement;
-		this.niveauAmelioration = niveauAmelioration;
-		this.nbAmelioration = nbAmelioration;
-		this.tauxIncident = tauxIncident;
-		this.taille = taille;
-		this.affluence = affluence;
-	}
 	
 	public Construction(int id, String nom, double prixAcquisition, double prixFonctionnement,
 			int nbAmelioration, double tauxIncident, double taille, int affluence) {
@@ -38,18 +37,19 @@ public class Construction {
 		this.affluence = affluence;
 	}
 	
-	public Construction(String nom, double prixAcquisition, double prixFonctionnement, int niveauAmelioration,
+	
+	public Construction(String nom, double prixAcquisition, double prixFonctionnement,
 			int nbAmelioration, double tauxIncident, double taille, int affluence) {
 		this.nom = nom;
 		this.prixAcquisition = prixAcquisition;
 		this.prixFonctionnement = prixFonctionnement;
-		this.niveauAmelioration = niveauAmelioration;
 		this.nbAmelioration = nbAmelioration;
 		this.tauxIncident = tauxIncident;
 		this.taille = taille;
 		this.affluence = affluence;
 	}
-
+	
+	public Construction() {}
 
 	public int getId() {
 		return id;
@@ -90,15 +90,6 @@ public class Construction {
 		this.prixFonctionnement = prixFonctionnement;
 	}
 
-
-	public int getNiveauAmelioration() {
-		return niveauAmelioration;
-	}
-
-
-	public void setNiveauAmelioration(int niveauAmelioration) {
-		this.niveauAmelioration = niveauAmelioration;
-	}
 
 
 	public int getNbAmelioration() {
@@ -141,10 +132,19 @@ public class Construction {
 	}
 
 
+	public Amelioration getAmelioration() {
+		return amelioration;
+	}
+
+
+	public void setAmelioration(Amelioration amelioration) {
+		this.amelioration = amelioration;
+	}
+
 	@Override
 	public String toString() {
 		return "Construction [id=" + id + ", nom=" + nom + ", prixAcquisition=" + prixAcquisition
-				+ ", prixFonctionnement=" + prixFonctionnement + ", niveauAmelioration=" + niveauAmelioration
+				+ ", prixFonctionnement=" + prixFonctionnement
 				+ ", nbAmelioration=" + nbAmelioration + ", tauxIncident=" + tauxIncident + ", taille=" + taille
 				+ ", affluence=" + affluence + "]";
 	}

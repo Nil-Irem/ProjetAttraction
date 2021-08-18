@@ -1,32 +1,45 @@
 package metier;
 
-import java.util.ArrayList;
-import java.util.List;
+import javax.persistence.*;
 
+@Entity
 public class Parc {
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
+    @Column(name="nom")
     private String nomParc;
-    private List<Boutique> boutiques=new ArrayList();
-    private List<Attraction> attractions=new ArrayList();
-    private List<Restaurant> restaurants=new ArrayList();
-    private List<Employe> employes=new ArrayList();
-    private List<Commodite> commodites=new ArrayList();
     private double taille;
     private int nbjour;
 	private double argent;
+	@Enumerated(EnumType.STRING)
 	private Difficulte typeDifficulte;
-	
+	@ManyToOne
+	@JoinColumn(name="id_joueur")
+	private Joueur joueur;
+	@ManyToOne
+	private Achat achats;
     
-    public Parc(int id, String nomParc, List<Boutique> boutiques, List<Attraction> attractions,
-			List<Restaurant> restaurants, List<Employe> employes, List<Commodite> commodites,double taille, int nbjour,double argent,Difficulte typeDifficulte) {
+   
+    
+	
+    //Constructeur avec id_joueur
+    public Parc(Joueur joueur,String nomParc, Achat achats,double taille, int nbjour,double argent,Difficulte typeDifficulte, int id_joueur) {
+		this.joueur = joueur;
+		this.nomParc = nomParc;
+		this.achats=achats;
+		this.taille = taille;
+		this.nbjour = nbjour;
+		this.argent=argent;
+		this.typeDifficulte=typeDifficulte;
+	}
+    
+    
+    public Parc(int id, String nomParc, Achat achats,double taille, int nbjour,double argent,Difficulte typeDifficulte) {
 		this.id = id;
 		this.nomParc = nomParc;
-		this.boutiques = boutiques;
-		this.attractions = attractions;
-		this.restaurants = restaurants;
-		this.employes = employes;
-		this.commodites = commodites;
+		this.achats=achats;
 		this.taille = taille;
 		this.nbjour = nbjour;
 		this.argent=argent;
@@ -58,8 +71,10 @@ public class Parc {
 	}
 	
 	
+	public Parc() {}
 	
 	
+
 
 	public double getArgent() {
 		return argent;
@@ -105,85 +120,6 @@ public class Parc {
 	}
 
 
-	public List<Boutique> getBoutiques() {
-		return boutiques;
-	}
-
-
-	public void setBoutiques(List<Boutique> boutiques) {
-		this.boutiques = boutiques;
-	}
-
-
-	public void newBoutique(Boutique boutique) {
-		this.boutiques.add(boutique);
-	}
-
-
-	public List<Attraction> getAttractions() {
-		return attractions;
-	}
-
-
-	public void setAttractions(List<Attraction> attractions) {
-		this.attractions = attractions;
-	}
-
-
-	public void newAttraction(Attraction attraction) {
-		this.attractions.add(attraction);
-	}
-
-
-
-	public List<Restaurant> getRestaurants() {
-		return restaurants;
-	}
-
-
-	public void setRestaurants(List<Restaurant> restaurants) {
-		this.restaurants = restaurants;
-	}
-
-
-	public void newRestaurant(Restaurant restaurant) {
-		this.restaurants.add(restaurant);
-	}
-
-
-
-	public List<Employe> getEmployes() {
-		return employes;
-	}
-
-
-	public void setEmployes(List<Employe> employes) {
-		this.employes = employes;
-	}
-
-
-	public void newEmploye(Employe employe) {
-		this.employes.add(employe);
-	}
-
-
-	public List<Commodite> getCommodites() {
-		return commodites;
-	}
-
-
-
-
-	public void setCommodites(List<Commodite> commodites) {
-		this.commodites = commodites;
-	}
-
-
-
-	public void newCommodite(Commodite commodite) {
-		this.commodites.add(commodite);
-	}
-
 	public double getTaille() {
 		return taille;
 	}
@@ -191,6 +127,17 @@ public class Parc {
 
 	public void setTaille(double taille) {
 		this.taille = taille;
+	}
+	
+	
+
+	public Achat getAchat() {
+		return achats;
+	}
+
+
+	public void setAchat(Achat achats) {
+		this.achats = achats;
 	}
 
 
@@ -204,10 +151,16 @@ public class Parc {
 	}
 
 
-	@Override
+	/*@Override
 	public String toString() {
 		return "Le parc "+ nomParc +" (id "+ id + "--> Difficulté: " +typeDifficulte+")\n" + "Taille: "+taille+"m²,\n\t| Boutiques--> " + boutiques.size() + " | Attractions --> " + attractions.size()
 				+ "| Restaurants-->" + restaurants.size() + "\n\t| Employés --> " + employes.size() + " | Commodités --> "+commodites.size()+" | Jour de jeu --> " +nbjour+ " jours" + " | Argent --> "+argent+"\n" ;
+	}
+	*/
+	
+	@Override
+	public String toString() {
+		return "Le parc "+ nomParc +" (id "+ id + "--> Difficulté: " +typeDifficulte+")\n" + "Taille: "+taille+"m² \n\t | Jour de jeu --> " +nbjour+ " jours" + " | Argent --> "+argent+"\n" ;
 	}
 
 }

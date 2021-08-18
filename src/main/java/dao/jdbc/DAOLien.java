@@ -1,4 +1,4 @@
-package dao;
+package dao.jdbc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -7,12 +7,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
 
-import dao.DAOAttraction;
-import dao.DAOBoutique;
-import dao.DAOCommodite;
-import dao.DAOCompte;
-import dao.DAOEmploye;
-import dao.DAORestaurant;
+import dao.IDAO.IDAO;
 
 import metier.Attraction;
 import metier.Boutique;
@@ -45,7 +40,7 @@ public abstract class DAOLien implements IDAO<Parc,Integer> {
 			while(rs.next()) 
 			{
 				Attraction a = DaoA.findById(rs.getInt("id_attraction"));
-				a.setNiveauAmelioration(rs.getInt("amelioration_attraction"));
+				//a.setNiveauAmelioration(rs.getInt("amelioration_attraction")); // Marche plus avec Achat
 				attractions.add(a);
 			}
 			rs.close();
@@ -71,7 +66,7 @@ public abstract class DAOLien implements IDAO<Parc,Integer> {
 			while(rs.next()) 
 			{
 				Boutique b = DaoB.findById(rs.getInt("id_boutique"));
-				b.setNiveauAmelioration(rs.getInt("amelioration_boutique"));
+				//b.setNiveauAmelioration(rs.getInt("amelioration_boutique"));
 				boutiques.add(b);
 			}
 			rs.close();
@@ -145,7 +140,7 @@ public abstract class DAOLien implements IDAO<Parc,Integer> {
 			while(rs.next()) 
 			{
 				Restaurant r = DaoR.findById(rs.getInt("id_restaurant"));
-				r.setNiveauAmelioration(rs.getInt("amelioration_restaurant"));
+				//r.setNiveauAmelioration(rs.getInt("amelioration_restaurant"));// Marche plus avec Achat
 				restaurants.add(r);
 			}
 			rs.close();

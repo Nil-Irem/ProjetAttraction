@@ -7,13 +7,13 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-import dao.DAOAttraction;
-import dao.DAOBoutique;
-import dao.DAOCommodite;
-import dao.DAOCompte;
-import dao.DAOEmploye;
-import dao.DAOParc;
-import dao.DAORestaurant;
+import dao.jpa.DAOAttractionJPA;
+import dao.jpa.DAOBoutiqueJPA;
+import dao.jpa.DAOCommoditeJPA;
+import dao.jpa.DAOCompteJPA;
+import dao.jpa.DAOEmployeJPA;
+import dao.jpa.DAOParcJPA;
+import dao.jpa.DAORestaurantJPA;
 import metier.Attraction;
 import metier.Boutique;
 import metier.Commodite;
@@ -30,13 +30,13 @@ public class MenuJoueur {
 
 	static Joueur joueur = null;
 	static Parc parc = null;
-	static DAOAttraction DaoA = new DAOAttraction();
-	static DAOBoutique DaoB = new DAOBoutique();
-	static DAOCommodite DaoC = new DAOCommodite();
-	static DAOCompte DaoCpt = new DAOCompte();
-	static DAOEmploye DaoE = new DAOEmploye();
-	static DAORestaurant DaoR = new DAORestaurant();
-	static DAOParc DaoP = new DAOParc();
+	static DAOAttractionJPA DaoA = new DAOAttractionJPA();
+	static DAOBoutiqueJPA DaoB = new DAOBoutiqueJPA();
+	static DAOCommoditeJPA DaoC = new DAOCommoditeJPA();
+	static DAOCompteJPA DaoCpt = new DAOCompteJPA();
+	static DAOEmployeJPA DaoE = new DAOEmployeJPA();
+	static DAORestaurantJPA DaoR = new DAORestaurantJPA();
+	static DAOParcJPA DaoP = new DAOParcJPA();
 
 	static double prixAmeliorationAttraction = 5.00;
 	static double prixAmeliorationBoutique = 5.00;
@@ -47,6 +47,9 @@ public class MenuJoueur {
 	static NumberFormat Myformat = NumberFormat.getInstance();
 
 
+
+	
+	
 	public static int generateRandomInt(int max){
 		Random random = new Random();
 		return random.nextInt(max);
@@ -189,7 +192,7 @@ public class MenuJoueur {
 		double impact_e = 2;
 		double impactEA = 2;
 
-		for (Employe e : parc.getEmployes()) {
+		for (Employe e : parc.getAchat().getEmployes()) {
 			salaire += e.getSalaire();
 
 			if (e.getSalaire()>50) 
@@ -203,7 +206,7 @@ public class MenuJoueur {
 		}
 
 
-		for (Attraction a : parc.getAttractions()) {
+		for (Attraction a : parc.getAchat().getAttractions()) {
 			int alea = generateRandomInt(11);
 			double incident = 1;
 
@@ -217,9 +220,9 @@ public class MenuJoueur {
 				incident = 1; 
 			}
 
-			if (a.getNiveauAmelioration() != 0)
+			if (a.getAmelioration().getNiveauAmelioration() != 0)
 			{
-				attractivite += a.getNiveauAmelioration()/a.getNbAmelioration();
+				attractivite += a.getAmelioration().getNiveauAmelioration()/a.getNbAmelioration();
 			}
 
 			capaciteMax += a.getAffluence()*incident;
@@ -228,7 +231,7 @@ public class MenuJoueur {
 
 
 
-		for (Boutique b : parc.getBoutiques()) {
+		for (Boutique b : parc.getAchat().getBoutiques()) {
 
 			int alea = generateRandomInt(11);
 			double incidentb = 1;
@@ -243,9 +246,9 @@ public class MenuJoueur {
 				incidentb = 1;
 			}
 
-			if (b.getNiveauAmelioration() != 0)
+			if (b.getAmelioration().getNiveauAmelioration() != 0)
 			{
-				attractivite += b.getNiveauAmelioration()/b.getNbAmelioration();
+				attractivite += b.getAmelioration().getNiveauAmelioration()/b.getNbAmelioration();
 			}
 
 			capaciteMax += b.getAffluence()*incidentb;
@@ -253,7 +256,7 @@ public class MenuJoueur {
 		}
 
 
-		for (Restaurant r : parc.getRestaurants()) {
+		for (Restaurant r : parc.getAchat().getRestaurants()) {
 
 			int alea = generateRandomInt(11);
 			double incidentr = 1;
@@ -268,9 +271,9 @@ public class MenuJoueur {
 				incidentr = 1; //pas d'incident
 			}
 
-			if (r.getNiveauAmelioration() != 0)
+			if (r.getAmelioration().getNiveauAmelioration() != 0)
 			{
-				attractivite += r.getNiveauAmelioration()/r.getNbAmelioration();
+				attractivite += r.getAmelioration().getNiveauAmelioration()/r.getNbAmelioration();
 			}
 
 			capaciteMax += r.getAffluence()*incidentr;
@@ -280,7 +283,7 @@ public class MenuJoueur {
 		System.out.println("il y a eu " + nb_i + " incidents dans votre parc aujourd'hui");
 
 
-		attractivite += (parc.getCommodites().size()+parc.getEmployes().size()+parc.getAttractions().size()+parc.getBoutiques().size()+parc.getRestaurants().size())/100;
+		attractivite += (parc.getAchat().getCommodites().size()+parc.getAchat().getEmployes().size()+parc.getAchat().getAttractions().size()+parc.getAchat().getBoutiques().size()+parc.getAchat().getRestaurants().size())/100;
 		attractivite -= 1/impactEA;
 
 		if (attractivite > 1) {attractivite = 1;}
@@ -432,7 +435,7 @@ public class MenuJoueur {
 		{
 			parc.setArgent(parc.getArgent()-newResto.getPrixAcquisition());
 			parc.setTaille(parc.getTaille()-newResto.getTaille());
-			parc.newRestaurant(newResto);
+			parc.getAchat().newRestaurant(newResto);
 		}
 		else
 		{
@@ -470,7 +473,7 @@ public class MenuJoueur {
 		{
 			parc.setArgent(parc.getArgent()-newCom.getPrixAcquisition());
 			parc.setTaille(parc.getTaille()-newCom.getTaille());
-			parc.newCommodite(newCom);
+			parc.getAchat().newCommodite(newCom);
 		}
 		else
 		{
@@ -509,7 +512,7 @@ public class MenuJoueur {
 		{
 			parc.setArgent(parc.getArgent()-newBou.getPrixAcquisition());
 			parc.setTaille(parc.getTaille()-newBou.getTaille());
-			parc.newBoutique(newBou);
+			parc.getAchat().newBoutique(newBou);
 		}
 		else
 		{
@@ -550,7 +553,7 @@ public class MenuJoueur {
 		if (newEmp.getSalaire() <= parc.getArgent())
 		{
 
-			parc.newEmploye(newEmp);
+			parc.getAchat().newEmploye(newEmp);
 		}
 		else
 		{
@@ -595,7 +598,7 @@ public class MenuJoueur {
 		{
 			parc.setArgent(parc.getArgent()-newattrac.getPrixAcquisition());
 			parc.setTaille(parc.getTaille()-newattrac.getTaille());
-			parc.newAttraction(newattrac);
+			parc.getAchat().newAttraction(newattrac);
 		}
 		else
 		{
@@ -610,7 +613,7 @@ public class MenuJoueur {
 
 	private static void menuAmelioration() {
 
-		if (parc.getAttractions().isEmpty() && parc.getBoutiques().isEmpty() && parc.getRestaurants().isEmpty())
+		if (parc.getAchat().getAttractions().isEmpty() && parc.getAchat().getBoutiques().isEmpty() && parc.getAchat().getRestaurants().isEmpty())
 		{
 			System.out.println("Tu n'as pas de batiments ! \n Va en construire ! ");
 
@@ -642,7 +645,7 @@ public class MenuJoueur {
 
 	private static void ameliorerAttraction() 
 	{
-		if (parc.getAttractions().isEmpty())
+		if (parc.getAchat().getAttractions().isEmpty())
 		{
 			System.out.println("Vous n'avez pas d'attractions à améliorer");
 			menuAmelioration();
@@ -659,13 +662,13 @@ public class MenuJoueur {
 			{
 				try {
 					choix = saisieInt("Choississez l'attraction à modifier (donner son numero) :");
-					for (Attraction a : parc.getAttractions())
+					for (Attraction a : parc.getAchat().getAttractions())
 					{
 						if (a.getId() == choix) {break;}
 						else {i++;}
 					}
 
-					if(i > parc.getAttractions().size()) {System.out.println("\nAttention vous n'avez pas cette attraction, réessayez");}
+					if(i > parc.getAchat().getAttractions().size()) {System.out.println("\nAttention vous n'avez pas cette attraction, réessayez");}
 					else {testSaisie = false;}
 				}
 				catch (Exception e){
@@ -679,14 +682,14 @@ public class MenuJoueur {
 			{
 				System.out.println("Vous n'avez pas assez d'argent pour améliorer cette attraction !");
 			}
-			else if (parc.getAttractions().get(i).getNiveauAmelioration()>=parc.getAttractions().get(i).getNbAmelioration() )
+			else if (parc.getAchat().getAttractions().get(i).getAmelioration().getNiveauAmelioration()>=parc.getAchat().getAttractions().get(i).getNbAmelioration() )
 			{
 				System.out.println("Vous avez atteint le maximum d'améliorations de cette attraction !");
 			}
 			else
 			{
 				parc.setArgent(parc.getArgent()-prixAmeliorationAttraction);
-				parc.getAttractions().get(i).setNiveauAmelioration(parc.getAttractions().get(i).getNiveauAmelioration()+1);
+				parc.getAchat().getAttractions().get(i).getAmelioration().setNiveauAmelioration(parc.getAchat().getAttractions().get(i).getAmelioration().getNiveauAmelioration()+1);
 			}
 			
 		}
@@ -696,7 +699,7 @@ public class MenuJoueur {
 
 
 	private static void ameliorerRestaurant() {
-		if (parc.getRestaurants().isEmpty())
+		if (parc.getAchat().getRestaurants().isEmpty())
 		{
 			System.out.println("Vous n'avez pas de restaurants à améliorer");
 			menuAmelioration();
@@ -713,13 +716,13 @@ public class MenuJoueur {
 			{
 				try {
 					choix = saisieInt("Choississez le restaurant à modifier (donner son numero) :");
-					for (Restaurant r : parc.getRestaurants())
+					for (Restaurant r : parc.getAchat().getRestaurants())
 					{
 						if (r.getId() == choix) {break;}
 						else {i++;}
 					}
 
-					if(i > parc.getRestaurants().size()) {System.out.println("\nAttention vous n'avez pas ce restaurant, réessayez");}
+					if(i > parc.getAchat().getRestaurants().size()) {System.out.println("\nAttention vous n'avez pas ce restaurant, réessayez");}
 					else {testSaisie = false;}
 				}
 				catch (Exception e){
@@ -731,14 +734,14 @@ public class MenuJoueur {
 			{
 				System.out.println("Vous n'avez pas assez d'argent pour améliorer ce restaurant !");
 			}
-			else if (parc.getRestaurants().get(i).getNiveauAmelioration()>=parc.getRestaurants().get(i).getNbAmelioration() )
+			else if (parc.getAchat().getRestaurants().get(i).getAmelioration().getNiveauAmelioration()>=parc.getAchat().getRestaurants().get(i).getNbAmelioration() )
 			{
 				System.out.println("Vous avez atteint le maximum d'améliorations de ce restaurant !");
 			}
 			else
 			{
 				parc.setArgent(parc.getArgent()-prixAmeliorationRestaurant);
-				parc.getRestaurants().get(i).setNiveauAmelioration(parc.getRestaurants().get(i).getNiveauAmelioration()+1);
+				parc.getAchat().getRestaurants().get(i).getAmelioration().setNiveauAmelioration(parc.getAchat().getRestaurants().get(i).getAmelioration().getNiveauAmelioration()+1);
 			}
 		}
 
@@ -746,7 +749,7 @@ public class MenuJoueur {
 	}
 
 	private static void ameliorerBoutique() {
-		if (parc.getBoutiques().isEmpty())
+		if (parc.getAchat().getBoutiques().isEmpty())
 		{
 			System.out.println("Vous n'avez pas de magasin à améliorer");
 			menuAmelioration();
@@ -763,13 +766,13 @@ public class MenuJoueur {
 			{
 				try {
 					choix = saisieInt("Choississez la boutique à modifier (donner son numero) :");
-					for (Boutique bou : parc.getBoutiques())
+					for (Boutique bou : parc.getAchat().getBoutiques())
 					{
 						if (bou.getId() == choix) {break;}
 						else {i++;}
 					}
 
-					if(i > parc.getBoutiques().size()) {System.out.println("\nAttention vous n'avez pas ce magasin, réessayez");}
+					if(i > parc.getAchat().getBoutiques().size()) {System.out.println("\nAttention vous n'avez pas ce magasin, réessayez");}
 					else {testSaisie = false;}
 				}
 				catch (Exception e){
@@ -782,14 +785,14 @@ public class MenuJoueur {
 			{
 				System.out.println("Vous n'avez pas assez d'argent pour améliorer cette boutique !");
 			}
-			else if (parc.getBoutiques().get(i).getNiveauAmelioration()>=parc.getBoutiques().get(i).getNbAmelioration() )
+			else if (parc.getAchat().getBoutiques().get(i).getAmelioration().getNiveauAmelioration()>=parc.getAchat().getBoutiques().get(i).getNbAmelioration() )
 			{
 				System.out.println("Vous avez atteint le maximum d'améliorations de cette boutique !");
 			}
 			else
 			{
 				parc.setArgent(parc.getArgent()-prixAmeliorationBoutique);
-				parc.getBoutiques().get(i).setNiveauAmelioration(parc.getBoutiques().get(i).getNiveauAmelioration()+1);
+				parc.getAchat().getBoutiques().get(i).getAmelioration().setNiveauAmelioration(parc.getAchat().getBoutiques().get(i).getAmelioration().getNiveauAmelioration()+1);
 			}
 		}
 	}
@@ -797,7 +800,7 @@ public class MenuJoueur {
 
 	private static void menuPossession() {
 
-		if (parc.getAttractions().isEmpty() && parc.getBoutiques().isEmpty() && parc.getRestaurants().isEmpty())
+		if (parc.getAchat().getAttractions().isEmpty() && parc.getAchat().getBoutiques().isEmpty() && parc.getAchat().getRestaurants().isEmpty())
 		{
 			System.out.println("Tu n'as pas de batiments ! \n Va en construire ! ");
 
@@ -845,7 +848,7 @@ public class MenuJoueur {
 
 	private static void ShowEmploye() {
 
-		if (parc.getEmployes().isEmpty())
+		if (parc.getAchat().getEmployes().isEmpty())
 		{
 			System.out.println("Vous ne possèdez pas d'employé");
 		}
@@ -854,7 +857,7 @@ public class MenuJoueur {
 			List<String> metier=new ArrayList();
 			List<Integer> nbEmploye=new ArrayList();
 
-			for (Employe emp : parc.getEmployes())
+			for (Employe emp : parc.getAchat().getEmployes())
 			{
 				if (metier.contains(emp.getMetier()))
 				{
@@ -883,7 +886,7 @@ public class MenuJoueur {
 	private static void ShowAttraction() {
 
 
-		if (parc.getAttractions().isEmpty())
+		if (parc.getAchat().getAttractions().isEmpty())
 		{
 			System.out.println("Vous ne possèdez pas d'attraction");
 		}
@@ -891,7 +894,7 @@ public class MenuJoueur {
 		{
 			System.out.println("Voici toutes les attractions présentes dans votre parc :");
 
-			for (Attraction a : parc.getAttractions())
+			for (Attraction a : parc.getAchat().getAttractions())
 			{
 				System.out.println(a);
 			}
@@ -901,7 +904,7 @@ public class MenuJoueur {
 
 	private static void ShowRestaurant() {
 
-		if (parc.getRestaurants().isEmpty())
+		if (parc.getAchat().getRestaurants().isEmpty())
 		{
 			System.out.println("Vous ne possèdez pas de restaurant");
 		}
@@ -909,7 +912,7 @@ public class MenuJoueur {
 		{
 			System.out.println("Voici touts les restaurants présents dans votre parc :");
 
-			for (Restaurant r : parc.getRestaurants())
+			for (Restaurant r : parc.getAchat().getRestaurants())
 			{
 				System.out.println(r);
 			}
@@ -919,14 +922,14 @@ public class MenuJoueur {
 
 	private static void ShowCommodites() {
 
-		if (parc.getCommodites().isEmpty())
+		if (parc.getAchat().getCommodites().isEmpty())
 		{
 			System.out.println("Vous ne possèdez pas de commodites");
 		}
 		else 
 		{
 			System.out.println("Voici toutes les commodites présentes dans votre parc :");
-			for (Commodite c : parc.getCommodites())
+			for (Commodite c : parc.getAchat().getCommodites())
 			{
 				System.out.println(c);
 			}
@@ -936,14 +939,14 @@ public class MenuJoueur {
 
 	private static void ShowBoutique() {
 
-		if (parc.getBoutiques().isEmpty())
+		if (parc.getAchat().getBoutiques().isEmpty())
 		{
 			System.out.println("Vous ne possèdez pas de boutique");
 		}
 		else {
 			System.out.println("Voici toutes les boutiques présentes dans votre parc :");
 
-			for (Boutique b : parc.getBoutiques())
+			for (Boutique b : parc.getAchat().getBoutiques())
 			{
 				System.out.println(b);
 			}

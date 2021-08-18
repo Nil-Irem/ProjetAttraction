@@ -1,23 +1,17 @@
 package test;
-import java.util.Scanner;
+
+import javax.persistence.EntityManager;
 
 
-
-
-
-
+import util.Context;
+import metier.Compte;
 
 public class Test {
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
-		
-		
+				
 		Menu.menuPrincipal();
-
+		Context.getInstance().closeEmf();
 	}
-	
-	
-
 
 }

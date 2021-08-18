@@ -2,17 +2,18 @@ package test;
 
 import java.util.Scanner;
 
-import dao.DAOCompte;
+import dao.jpa.DAOCompteJPA;
 import metier.Admin;
 import metier.Compte;
 import metier.Joueur;
+import util.Context;
 
 
 
 public class Menu {
 		
 	static Compte connected=null;
-	static DAOCompte daoC = new DAOCompte();
+	static DAOCompteJPA daoC = new DAOCompteJPA();
 
 	public static int saisieInt(String msg) 
 	{
@@ -62,7 +63,7 @@ public class Menu {
 			{
 			case 1 : seConnecter();break;
 			case 2 : inscription();break;
-			case 3 : System.exit(0);break;
+			case 3 : System.exit(0); Context.getInstance().closeEmf();break;
 			default : System.out.println("\nAttention, il faut entrer un chiffre entre 1 et 3");break;
 			}
 			menuPrincipal();
@@ -73,7 +74,7 @@ public class Menu {
 		private static void inscription() {
 			String login = saisieString("\nEntrez votre identifiant :");
 			
-			while (!DAOCompte.findByLogin(login))
+			while (!daoC.findByLogin(login))
 			{
 				login = saisieString("\nL'identifiant "+login+ " est deja utilisé essayez autre chose :");	
 			}
@@ -90,7 +91,7 @@ public class Menu {
 		private static void seConnecter() {
 			String login = saisieString("\nEntrez votre identifiant :");
 			String password = saisieString("Entrez votre mot de passe :");
-			connected = DAOCompte.seConnecter(login,password);
+			connected = daoC.seConnecter(login,password);
 		
 			
 			
@@ -122,29 +123,6 @@ public class Menu {
 
 		
 		
-
-	
-
-
-	
-
-
-
-	
-
-
-	
-
-	
-
-
-		
-
-
-
-
-
-
 
 		
 

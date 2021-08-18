@@ -1,4 +1,4 @@
-package dao;
+package dao.jdbc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -6,10 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import dao.IDAO.IDAO;
 
 import metier.Employe;
 
-public class DAOEmploye implements IDAO<Employe,Integer> {
+public class DAOEmploye implements IDAO<Employe, Integer> {
 
 	@Override
 	public Employe findById(Integer id) {

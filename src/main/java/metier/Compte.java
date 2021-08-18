@@ -1,7 +1,17 @@
 package metier;
 
+import javax.persistence.*;
+
+
+@Entity
+@Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name="type_compte",columnDefinition = "ENUM('admin', 'joueur')")
 public abstract class Compte {
 	
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@Column(name="id_compte")
+	protected int id;
 	protected String login;
 	protected String password;
 	
@@ -47,11 +57,6 @@ public abstract class Compte {
 	public String toString() {
 		return "Compte [login=" + login + ", password=" + password + "]";
 	}
-
-    public void seConnecter()
-    {
-        
-    }
 	
 
 	

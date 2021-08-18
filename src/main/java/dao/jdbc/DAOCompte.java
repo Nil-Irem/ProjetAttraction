@@ -1,16 +1,17 @@
-package dao;
+package dao.jdbc;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.List;
+import dao.IDAO.IDAO;
 
 import metier.Admin;
 import metier.Compte;
 import metier.Joueur;
 
-public class DAOCompte implements IDAO<Compte,Integer> {
+public class DAOCompte implements IDAO<Compte, Integer> {
 
 	@Override
 	public Compte findById(Integer id) {
@@ -73,7 +74,7 @@ public class DAOCompte implements IDAO<Compte,Integer> {
 	
 	
 	
-	public static Compte seConnecter(String login,String password) 
+	public Compte seConnecter(String login,String password) 
 	{
 		Compte c = null;
 		try {
@@ -106,7 +107,7 @@ public class DAOCompte implements IDAO<Compte,Integer> {
 	
 	
 	
-	public static boolean findByLogin(String login) 
+	public boolean findByLogin(String login) 
 	{
 		boolean b=false;
 		try {
@@ -135,5 +136,4 @@ public class DAOCompte implements IDAO<Compte,Integer> {
 		catch (Exception e) {e.printStackTrace();}
 		return b;
 	}
-
 }

@@ -1,7 +1,6 @@
-package dao;
+package dao.IDAO;
 
 import java.util.List;
-
 
 public interface IDAO<T,K> {
 	

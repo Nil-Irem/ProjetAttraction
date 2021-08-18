@@ -5,16 +5,17 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-import dao.DAOParc;
+import dao.jpa.DAOParcJPA;
 import metier.Difficulte;
 import metier.Joueur;
 import metier.Parc;
+import util.Context;
 
 
 public class GestionJeu {
 
 	static List<Parc> SauvegardePartie = new ArrayList();
-	static DAOParc daoP = new DAOParc();
+	static DAOParcJPA daoP = new DAOParcJPA();
 
 	public static int saisieInt(String msg) 
 	{
@@ -37,7 +38,6 @@ public class GestionJeu {
 		System.out.println(msg);
 		return sc.nextLine();
 	}
-
 
 
 	public static void creerPartie(Joueur joueur){
@@ -70,7 +70,7 @@ public class GestionJeu {
 		}
 
 		Parc p = new Parc (nomParc,tailleP,0,argentJ,diff);
-		daoP.insert(p,joueur.getId());
+		daoP.insert(p);
 		MenuJoueur.menuPartie(p);
 	}
 
@@ -80,7 +80,7 @@ public class GestionJeu {
 	public static void chargerPartie(Joueur joueur)
 	{	
 		List<Parc> parcs = new ArrayList();
-		parcs = daoP.findByIdJoueur(joueur.getId());
+		parcs = daoP.findByIdJoueur(joueur);
 		
 		if(!parcs.isEmpty()) {
 			
@@ -118,15 +118,16 @@ public class GestionJeu {
 
 
 	public static void saveGame(Parc parc) {
-			daoP.update(parc);
+		
+		daoP.update(parc);
+		System.out.println("Partie sauvegardée");
 	}
 
 
 	
 	public static void deleteGame(int id_parc) {
 		
-		daoP.delete(id_parc);
-				
+		daoP.delete(id_parc);	
 		System.out.println("Partie supprimée");
 	}
 

@@ -2,7 +2,7 @@ package test;
 
 import java.util.Scanner;
 
-import dao.DAOAttraction;
+import dao.jpa.DAOAttractionJPA;
 
 
 public class MenuAdmin {

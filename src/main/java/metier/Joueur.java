@@ -2,10 +2,16 @@ package metier;
 
 import java.util.List;
 
+import javax.persistence.Entity;
+import javax.persistence.OneToMany;
+import javax.persistence.DiscriminatorValue;
+
+@Entity
+@DiscriminatorValue("joueur")
 public class Joueur extends Compte {
 	
-	private int id;
 	private String nom;
+	@OneToMany(mappedBy = "joueur")
 	private List<Parc> parcs;
 
 
@@ -25,6 +31,11 @@ public class Joueur extends Compte {
 		super();
 		this.id = id;
 	}
+	
+	
+	public Joueur () {
+		super();
+	}
 
 	public int getId() {
 		return id;
@@ -41,11 +52,5 @@ public class Joueur extends Compte {
 		return "Le joueur " + nom + "(numero "+id+") possede " + parcs.size() + "parcs";
 	}
 
-
-
-	public double calculSolde()
-	{
-		return 0;
-	}
 
 }
