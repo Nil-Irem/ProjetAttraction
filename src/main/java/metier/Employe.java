@@ -1,29 +1,24 @@
 package metier;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 
 
 @Entity
-public class Employe {
+public class Employe extends Element{
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
 	private String metier;
 	private double salaire;
 	
 	
 	public Employe(int id, String metier, double salaire) {
-		this.id = id;
+		super(id);
 		this.metier = metier;
 		this.salaire = salaire;
 	}
 
 
 	public Employe(String metier, double salaire) {
+		super();
 		this.metier = metier;
 		this.salaire = salaire;
 	}

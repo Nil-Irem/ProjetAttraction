@@ -2,7 +2,7 @@ package test;
 
 import java.util.Scanner;
 
-import dao.jpa.DAOCompteJPA;
+import dao.IDAO.IDAOCompte;
 import metier.Admin;
 import metier.Compte;
 import metier.Joueur;
@@ -12,30 +12,8 @@ import util.Context;
 
 public class Menu {
 		
-	static Compte connected=null;
-	static DAOCompteJPA daoC = new DAOCompteJPA();
-
-	public static int saisieInt(String msg) 
-	{
-		Scanner sc = new Scanner(System.in);
-		System.out.println(msg);
-		return sc.nextInt();
-	}
-	
-	public static double saisieDouble(String msg) 
-	{
-		Scanner sc = new Scanner(System.in);
-		System.out.println(msg);
-		return sc.nextDouble();
-	}
-	
-	
-	public static String saisieString(String msg) 
-	{
-		Scanner sc = new Scanner(System.in);
-		System.out.println(msg);
-		return sc.nextLine();
-	}
+	static Compte connected=Context.getInstance().getConnected();
+	static IDAOCompte daoC = Context.getInstance().getDaoCpt();
 
 		
 	public static void menuPrincipal() {
@@ -80,9 +58,11 @@ public class Menu {
 			}
 			String password = saisieString("Entrez votre mot de passe :");
 			
-			connected = new Joueur(login,password);
-			connected = daoC.insert(connected);
-			MenuJoueur.menuJoueur(connected);
+			Context.getInstance().setConnected(new Joueur(login,password));
+			Context.getInstance().setConnected(daoC.insert(connected));
+			Context.getInstance().setJoueur((Joueur) Context.getInstance().getConnected());
+			
+			MenuJoueur.menuJoueur();
 		}
 		
 		
@@ -90,14 +70,15 @@ public class Menu {
 		
 		private static void seConnecter() {
 			String login = saisieString("\nEntrez votre identifiant :");
-			String password = saisieString("Entrez votre mot de passe :");
-			connected = daoC.seConnecter(login,password);
-		
+			String password = saisieString("Entrez votre mot de passe :");		
+			Context.getInstance().setConnected(daoC.seConnecter(login,password));
 			
+			connected = Context.getInstance().getConnected();
 			
 			if(connected instanceof Joueur) 
 			{
-				MenuJoueur.menuJoueur(connected);
+				Context.getInstance().setJoueur((Joueur) Context.getInstance().getConnected());
+				MenuJoueur.menuJoueur();
 			}
 			else if (connected instanceof Admin) 
 			{
@@ -106,19 +87,53 @@ public class Menu {
 			else 
 			{
 				System.out.println("\nIdentifiants invalides !");
-				
-				int choix = saisieInt("Veux-tu rééssayer ?\n1-OUI \n2-Non, retour menu principal");  
-				
+				boolean testSaisie = true;
+				int choix=0;
+		
+				while (testSaisie)
+				{
+					try {
+						choix = saisieInt("Veux-tu rééssayer ?\n1-OUI \n2-Non, retour menu principal");
+						testSaisie = false;
+					}
+				catch(Exception e) {
+					System.out.println("\nAttention, il faut entrer un chiffre entre 1 et 3");
+				}
+		}
 				switch(choix) 
 				{
 				case 1 : seConnecter();break;
 				case 2 : menuPrincipal();break;
 				case 3 : seConnecter();break;
+				default : System.out.println("\nAttention, il faut entrer un chiffre entre 1 et 3");break;
 				}
-				
-				
+				seConnecter();
 			}
 		}
+		
+		
+		
+	public static int saisieInt(String msg) 
+	{
+		Scanner sc = new Scanner(System.in);
+		System.out.println(msg);
+		return sc.nextInt();
+	}
+	
+	public static double saisieDouble(String msg) 
+	{
+		Scanner sc = new Scanner(System.in);
+		System.out.println(msg);
+		return sc.nextDouble();
+	}
+	
+	
+	public static String saisieString(String msg) 
+	{
+		Scanner sc = new Scanner(System.in);
+		System.out.println(msg);
+		return sc.nextLine();
+	}
 }
 
 		

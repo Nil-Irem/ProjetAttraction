@@ -5,7 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
 
-import dao.jpa.DAOParcJPA;
+import dao.IDAO.IDAOParc;
+import metier.Achat;
 import metier.Difficulte;
 import metier.Joueur;
 import metier.Parc;
@@ -15,33 +16,12 @@ import util.Context;
 public class GestionJeu {
 
 	static List<Parc> SauvegardePartie = new ArrayList();
-	static DAOParcJPA daoP = new DAOParcJPA();
-
-	public static int saisieInt(String msg) 
-	{
-		Scanner sc = new Scanner(System.in);
-		System.out.println(msg);
-		return sc.nextInt();
-	}
-
-	public static double saisieDouble(String msg) 
-	{
-		Scanner sc = new Scanner(System.in);
-		System.out.println(msg);
-		return sc.nextDouble();
-	}
+	static Joueur joueur =  Context.getInstance().getJoueur();
+	static IDAOParc daoP = Context.getInstance().getDaoP();
 
 
-	public static String saisieString(String msg) 
-	{
-		Scanner sc = new Scanner(System.in);
-		System.out.println(msg);
-		return sc.nextLine();
-	}
 
-
-	public static void creerPartie(Joueur joueur){
-		
+	public static void creerPartie(){
 		Difficulte diff = Difficulte.Facile;
 		boolean testDifficulte = true;
 		System.out.println("Créons une nouvelle partie !");
@@ -63,21 +43,22 @@ public class GestionJeu {
 		
 		String nomParc= saisieString("Veuillez choisir un nom pour votre parc et le saisir");
 
-		while(!daoP.checkSameParcName(nomParc,joueur.getId()))
+		while(!daoP.checkSameParcName(nomParc,joueur))
 		{
 			System.out.println("Vous avez déjà un parc avec ce nom");
 			nomParc = saisieString("Veuillez choisir un autre nom");
 		}
 
-		Parc p = new Parc (nomParc,tailleP,0,argentJ,diff);
-		daoP.insert(p);
-		MenuJoueur.menuPartie(p);
+		List<Achat> achat = new ArrayList();
+		Parc p = new Parc (joueur,nomParc,tailleP,0,argentJ,diff);
+		Context.getInstance().setParc(daoP.insert(p));
+		MenuJoueur.menuPartie();
 	}
 
 
 
 
-	public static void chargerPartie(Joueur joueur)
+	public static void chargerPartie()
 	{	
 		List<Parc> parcs = new ArrayList();
 		parcs = daoP.findByIdJoueur(joueur);
@@ -103,33 +84,58 @@ public class GestionJeu {
 			
 			for(Parc p1 : parcs)
 			{
-				if( p1.getId() == choix) {MenuJoueur.menuPartie(p1);}
+				if( p1.getId() == choix) 
+				{
+					Context.getInstance().setParc(daoP.insert(p1));
+					MenuJoueur.menuPartie();
+				}
 			}
 			System.out.println("Ce parc n'existe pas");
 		}
-		
 		else
 		{
 			System.out.println("Désolé " +joueur.getLogin() + " tu n'as pas de partie à charger ! Retournes en creer une !");
-			MenuJoueur.menuJoueur(joueur);
+			MenuJoueur.menuJoueur();
 		}
 	}
 
 
 
-	public static void saveGame(Parc parc) {
-		
-		daoP.update(parc);
+	public static void saveGame() {
+		Context.getInstance().setParc(daoP.update(Context.getInstance().getParc()));
 		System.out.println("Partie sauvegardée");
 	}
 
 
 	
-	public static void deleteGame(int id_parc) {
-		
-		daoP.delete(id_parc);	
+	public static void deleteGame() {
+		daoP.delete(Context.getInstance().getParc().getId());
 		System.out.println("Partie supprimée");
 	}
 
+
+
+
+	public static int saisieInt(String msg) 
+	{
+		Scanner sc = new Scanner(System.in);
+		System.out.println(msg);
+		return sc.nextInt();
+	}
+
+	public static double saisieDouble(String msg) 
+	{
+		Scanner sc = new Scanner(System.in);
+		System.out.println(msg);
+		return sc.nextDouble();
+	}
+
+
+	public static String saisieString(String msg) 
+	{
+		Scanner sc = new Scanner(System.in);
+		System.out.println(msg);
+		return sc.nextLine();
+	}
 
 }

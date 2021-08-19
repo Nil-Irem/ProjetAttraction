@@ -1,132 +1,89 @@
 package metier;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
 public class Achat {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
-    
-	 @OneToMany
-	 private List<Boutique> boutiques=new ArrayList();
-	
-	 @OneToMany	
-	 private List<Attraction> attractions=new ArrayList();
-	 
-	 @OneToMany	
-	 private List<Restaurant> restaurants=new ArrayList();
-	    
-	 @OneToMany
-	 private List<Employe> employes=new ArrayList();
-	 
-	 @OneToMany
-	 private List<Commodite> commodites=new ArrayList();
+	private int id;
+	@ManyToOne
+	@JoinColumn(name="id_element")
+	private Element element;
+	private int niveauAmelioration;
+	@Column(name="type_element",length = 40)
+	private String typeElement;
+	@ManyToOne
+	@JoinColumn(name="id_parc")
+	private Parc parc;
 
 
- public Achat(int id, List<Boutique> boutiques, List<Attraction> attractions,
-			List<Restaurant> restaurants, List<Employe> employes, List<Commodite> commodites) {
+	public Achat(int id, Element element,int niveauAmelioration,String typeElement,Parc parc) {
 		this.id = id;
-		this.boutiques = boutiques;
-		this.attractions = attractions;
-		this.restaurants = restaurants;
-		this.employes = employes;
-		this.commodites = commodites;
+		this.element = element;
+		this.niveauAmelioration = niveauAmelioration;
+		this.typeElement=typeElement;
+		this.parc=parc;
 	}
+
+	public Achat(Element element,int niveauAmelioration,String typeElement,Parc parc) {
+		this.element = element;
+		this.niveauAmelioration = niveauAmelioration;
+		this.typeElement=typeElement;
+		this.parc=parc;
+	}
+
+	public Achat() {}
+
 	
- public Achat(List<Boutique> boutiques, List<Attraction> attractions,
-			List<Restaurant> restaurants, List<Employe> employes, List<Commodite> commodites) {
-		this.boutiques = boutiques;
-		this.attractions = attractions;
-		this.restaurants = restaurants;
-		this.employes = employes;
-		this.commodites = commodites;
-	}
 	
- public Achat() {}
 
+	public String getTypeElement() {
+		return typeElement;
+	}
 
-	public List<Boutique> getBoutiques() {
-		return boutiques;
+	public void setTypeElement(String typeElement) {
+		this.typeElement = typeElement;
+	}
+
+	public int getNiveauAmelioration() {
+		return niveauAmelioration;
+	}
+
+	public int getId() {
+		return id;
 	}
 
 
-	public void setBoutiques(List<Boutique> boutiques) {
-		this.boutiques = boutiques;
+	public void setId(int id) {
+		this.id = id;
 	}
 
 
-	public void newBoutique(Boutique boutique) {
-		this.boutiques.add(boutique);
+	public Element getElement() {
+		return element;
 	}
 
 
-	public List<Attraction> getAttractions() {
-		return attractions;
+	public void setElement(Element element) {
+		this.element = element;
 	}
 
 
-	public void setAttractions(List<Attraction> attractions) {
-		this.attractions = attractions;
+	public int geNiveauAmelioration() {
+		return niveauAmelioration;
 	}
 
 
-	public void newAttraction(Attraction attraction) {
-		this.attractions.add(attraction);
+	public void setNiveauAmelioration(int niveauAmelioration) {
+		this.niveauAmelioration = niveauAmelioration;
 	}
 
-
-
-	public List<Restaurant> getRestaurants() {
-		return restaurants;
-	}
-
-
-	public void setRestaurants(List<Restaurant> restaurants) {
-		this.restaurants = restaurants;
-	}
-
-
-	public void newRestaurant(Restaurant restaurant) {
-		this.restaurants.add(restaurant);
-	}
-
-
-
-	public List<Employe> getEmployes() {
-		return employes;
-	}
-
-
-	public void setEmployes(List<Employe> employes) {
-		this.employes = employes;
-	}
-
-
-	public void newEmploye(Employe employe) {
-		this.employes.add(employe);
-	}
-
-
-	public List<Commodite> getCommodites() {
-		return commodites;
-	}
-
-
-
-
-	public void setCommodites(List<Commodite> commodites) {
-		this.commodites = commodites;
-	}
-
-
-
-	public void newCommodite(Commodite commodite) {
-		this.commodites.add(commodite);
-	}
-	 
 }

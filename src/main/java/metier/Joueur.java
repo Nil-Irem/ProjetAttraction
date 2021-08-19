@@ -10,20 +10,19 @@ import javax.persistence.DiscriminatorValue;
 @DiscriminatorValue("joueur")
 public class Joueur extends Compte {
 	
-	private String nom;
 	@OneToMany(mappedBy = "joueur")
 	private List<Parc> parcs;
 
 
 	public Joueur (String login, String password) {
 		super(login,password);
-		this.nom = login;
+		
 	}
 	
 	public Joueur (int id,String login, String password) {
 		super(login,password);
 		this.id = id;
-		this.nom = login;
+		
 	}
 	
 	
@@ -49,7 +48,7 @@ public class Joueur extends Compte {
 
 	@Override
 	public String toString() {
-		return "Le joueur " + nom + "(numero "+id+") possede " + parcs.size() + "parcs";
+		return "Le joueur numero "+id+") possede " + parcs.size() + "parcs";
 	}
 
 

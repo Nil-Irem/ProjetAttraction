@@ -21,6 +21,7 @@ public class Context {
 	private IDAOEmploye DaoE = new DAOEmployeJPA();
 	private IDAORestaurant DaoR = new DAORestaurantJPA();
 	private IDAOParc DaoP = new DAOParcJPA();
+	private IDAOAchat DaoAc = new DAOAchatJPA();
 	
 	private EntityManagerFactory emf = Persistence.createEntityManagerFactory("projetattraction");
 
@@ -104,6 +105,10 @@ public class Context {
 		return DaoP;
 	}
 
+
+	public IDAOAchat getDaoAc() {
+		return DaoAc;
+	}
 
 	public EntityManagerFactory getEmf() {
 		return emf;

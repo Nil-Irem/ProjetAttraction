@@ -7,11 +7,8 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Commodite {
+public class Commodite extends Element {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private int id;
 	private String nom;
 	@Column(name="prix_acquisition")
 	private double prixAcquisition;
@@ -19,7 +16,7 @@ public class Commodite {
 	
 	
 	public Commodite(int id, String nom, double prixAcquisition, double taille) {
-		this.id = id;
+		super(id);
 		this.nom = nom;
 		this.prixAcquisition = prixAcquisition;
 		this.taille = taille;
@@ -28,6 +25,7 @@ public class Commodite {
 	
 	
 	public Commodite(String nom, double prixAcquisition, double taille) {
+		super();
 		this.nom = nom;
 		this.prixAcquisition = prixAcquisition;
 		this.taille = taille;
@@ -35,13 +33,6 @@ public class Commodite {
 	
 	public Commodite(){}
 	
-	
-	public int getId() {
-		return id;
-	}
-	public void setId(int id) {
-		this.id = id;
-	}
 	
 	public String getNom() {
 		return nom;

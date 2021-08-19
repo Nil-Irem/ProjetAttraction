@@ -7,36 +7,27 @@ import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
 
-import dao.jpa.DAOAttractionJPA;
-import dao.jpa.DAOBoutiqueJPA;
-import dao.jpa.DAOCommoditeJPA;
-import dao.jpa.DAOCompteJPA;
-import dao.jpa.DAOEmployeJPA;
-import dao.jpa.DAOParcJPA;
-import dao.jpa.DAORestaurantJPA;
-import metier.Attraction;
-import metier.Boutique;
-import metier.Commodite;
-import metier.Compte;
-import metier.Employe;
-import metier.Joueur;
-import metier.Parc;
-import metier.Restaurant;
+import dao.IDAO.*;
+import metier.*;
+import util.Context;
 
 
 
 
 public class MenuJoueur {
 
-	static Joueur joueur = null;
-	static Parc parc = null;
-	static DAOAttractionJPA DaoA = new DAOAttractionJPA();
-	static DAOBoutiqueJPA DaoB = new DAOBoutiqueJPA();
-	static DAOCommoditeJPA DaoC = new DAOCommoditeJPA();
-	static DAOCompteJPA DaoCpt = new DAOCompteJPA();
-	static DAOEmployeJPA DaoE = new DAOEmployeJPA();
-	static DAORestaurantJPA DaoR = new DAORestaurantJPA();
-	static DAOParcJPA DaoP = new DAOParcJPA();
+	static Joueur joueur =  Context.getInstance().getJoueur();
+	static Parc parc = Context.getInstance().getParc();
+	static IDAOAttraction DaoA = Context.getInstance().getDaoA();
+	static IDAOBoutique DaoB = Context.getInstance().getDaoB();
+	static IDAOCommodite DaoC = Context.getInstance().getDaoC();
+	static IDAOCompte DaoCpt = Context.getInstance().getDaoCpt();
+	static IDAOEmploye DaoE = Context.getInstance().getDaoE();
+	static IDAORestaurant DaoR = Context.getInstance().getDaoR();
+	static IDAOParc DaoP = Context.getInstance().getDaoP();
+	static IDAOAchat DaoAc = Context.getInstance().getDaoAc();
+
+
 
 	static double prixAmeliorationAttraction = 5.00;
 	static double prixAmeliorationBoutique = 5.00;
@@ -48,38 +39,7 @@ public class MenuJoueur {
 
 
 
-	
-	
-	public static int generateRandomInt(int max){
-		Random random = new Random();
-		return random.nextInt(max);
-	}
-
-
-	public static int saisieInt(String msg) 
-	{
-		Scanner sc = new Scanner(System.in);
-		System.out.println(msg);
-		return sc.nextInt();
-
-	}
-	public static double saisieDouble(String msg) 
-	{
-		Scanner sc = new Scanner(System.in);
-		System.out.println(msg);
-		return sc.nextDouble();
-	}
-	public static String saisieString(String msg) 
-	{
-		Scanner sc = new Scanner(System.in);
-		System.out.println(msg);
-		return sc.nextLine();
-	}
-
-
-
-	public static void menuJoueur(Compte connected) {
-		joueur = (Joueur) connected;
+	public static void menuJoueur() {
 		testSaisie = true;
 		int choix=0;
 
@@ -99,21 +59,19 @@ public class MenuJoueur {
 			}
 		}
 		
-
 		switch(choix) 
 		{
-		case 1 : GestionJeu.creerPartie(joueur) ;break;
-		case 2 : GestionJeu.chargerPartie(joueur);break;
+		case 1 : GestionJeu.creerPartie() ;break;
+		case 2 : GestionJeu.chargerPartie();break;
 		case 3 : Menu.menuPrincipal();break;
 		default : System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 3");break;
 		}
-		menuJoueur(connected);
+		menuJoueur();
 	}
 
 
 
-	public static void menuPartie(Parc parcjoueur) {
-		parc = parcjoueur;
+	public static void menuPartie() {
 		testSaisie = true;
 		int choix=0;
 
@@ -135,13 +93,13 @@ public class MenuJoueur {
 
 		switch(choix) 
 		{
-		case 1 : GestionJeu.saveGame(parc);break;
-		case 2 : GestionJeu.deleteGame(parcjoueur.getId());menuJoueur(joueur);break;
+		case 1 : GestionJeu.saveGame();break;
+		case 2 : GestionJeu.deleteGame();menuJoueur();break;
 		case 3 : menuJouer();break;
-		case 4 : menuJoueur(joueur);break;
+		case 4 : menuJoueur();break;
 		default : System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 4");break;
 		}
-		menuPartie(parc);
+		menuPartie();
 	}
 
 
@@ -170,7 +128,7 @@ public class MenuJoueur {
 		{
 		case 1 : menuModification();break;
 		case 2 : finJournee();break;
-		case 3 : menuPartie(parc);break;
+		case 3 : menuPartie();break;
 		default : System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 3");break;
 		}
 		menuJouer();
@@ -192,7 +150,8 @@ public class MenuJoueur {
 		double impact_e = 2;
 		double impactEA = 2;
 
-		for (Employe e : parc.getAchat().getEmployes()) {
+		for (Achat a : DaoAc.findByType("employe", parc)) {
+			Employe e = (Employe) a.getElement();
 			salaire += e.getSalaire();
 
 			if (e.getSalaire()>50) 
@@ -206,11 +165,12 @@ public class MenuJoueur {
 		}
 
 
-		for (Attraction a : parc.getAchat().getAttractions()) {
+		for (Achat a : DaoAc.findByType("attraction", parc)) {
+			Attraction at = (Attraction) a.getElement();
 			int alea = generateRandomInt(11);
 			double incident = 1;
 
-			if (alea <a.getTauxIncident()/10) // il y a eu un incident
+			if (alea <at.getTauxIncident()/10) // il y a eu un incident
 			{
 				nb_i = nb_i +1;				
 				incident = 1-(1/impact_e); //+ l'impact est grd, - 1/impact est grand, + incident est proche de 1
@@ -219,20 +179,21 @@ public class MenuJoueur {
 			{
 				incident = 1; 
 			}
-
-			if (a.getAmelioration().getNiveauAmelioration() != 0)
+			
+			if (Context.getInstance().getDaoAc().Nvamelioration(parc,at) != 0)
 			{
-				attractivite += a.getAmelioration().getNiveauAmelioration()/a.getNbAmelioration();
+				attractivite += Context.getInstance().getDaoAc().Nvamelioration(parc,at)/at.getNbAmelioration();
 			}
 
-			capaciteMax += a.getAffluence()*incident;
-			prixFonctionnement += a.getPrixFonctionnement();
+			capaciteMax += at.getAffluence()*incident;
+			prixFonctionnement += at.getPrixFonctionnement();
 		}
 
+		//parc = Context.getInstance().getDaoP().insert(parc);
 
 
-		for (Boutique b : parc.getAchat().getBoutiques()) {
-
+		for (Achat a : DaoAc.findByType("boutique", parc)) {
+			Boutique b = (Boutique) a.getElement();
 			int alea = generateRandomInt(11);
 			double incidentb = 1;
 
@@ -246,9 +207,10 @@ public class MenuJoueur {
 				incidentb = 1;
 			}
 
-			if (b.getAmelioration().getNiveauAmelioration() != 0)
+			Amelioration am = Context.getInstance().getDaoP().findByIds(parc.getId(),b.getId());
+			if (am.getNiveauAmelioration() != 0)
 			{
-				attractivite += b.getAmelioration().getNiveauAmelioration()/b.getNbAmelioration();
+				attractivite += am.getNiveauAmelioration()/b.getNbAmelioration();
 			}
 
 			capaciteMax += b.getAffluence()*incidentb;
@@ -256,8 +218,8 @@ public class MenuJoueur {
 		}
 
 
-		for (Restaurant r : parc.getAchat().getRestaurants()) {
-
+		for (Achat a : DaoAc.findByType ("restaurant", parc)) {
+			Restaurant r = (Restaurant) a.getElement();
 			int alea = generateRandomInt(11);
 			double incidentr = 1;
 
@@ -270,15 +232,19 @@ public class MenuJoueur {
 			{
 				incidentr = 1; //pas d'incident
 			}
-
-			if (r.getAmelioration().getNiveauAmelioration() != 0)
+				
+				
+			
+			Amelioration am = Context.getInstance().getDaoP().findByIds(parc.getId(),r.getId());
+			if (am.getNiveauAmelioration() != 0)
 			{
-				attractivite += r.getAmelioration().getNiveauAmelioration()/r.getNbAmelioration();
+				attractivite += am.getNiveauAmelioration()/r.getNbAmelioration();
 			}
 
 			capaciteMax += r.getAffluence()*incidentr;
 			prixFonctionnement += r.getPrixFonctionnement();
 		}
+
 
 		System.out.println("il y a eu " + nb_i + " incidents dans votre parc aujourd'hui");
 
@@ -404,14 +370,50 @@ public class MenuJoueur {
 		case 6 : menuModification();break;
 		default : System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 6");break;
 		}
+		
+		GestionJeu.saveGame(parc);
 		menuAchat();
+		
+		
 	}
 
 
 
 	private static void achatRestaurant() {
-		System.out.println("Voici tous les restaurants disponibles :");
-		for (Restaurant r : DaoR.findAll()){System.out.println(r);}
+		
+		
+		/*
+		parc.setAchat(Context.getInstance().getDaoAc().findByType("rest", id)
+		getDaoP().findWithRestaurants(parc.getAchat().getId()));*/
+		List<Restaurant> allRestaurants = DaoR.findAll();
+		List<Achat> restaurants = DaoAc.findByType("restaurant",parc);
+		Restaurant r1=null;
+		
+	
+		//allRestaurants.remove(restaurants);
+		for (int i=0; i<restaurants.size();i++) 
+		{
+			r1 = (Restaurant) restaurants.get(i).getElement();
+			
+			for (int j=0; j<allRestaurants.size();j++)
+			{	
+				if (r1.getId()==allRestaurants.get(j).getId())
+				{			
+					allRestaurants.remove(j);
+				}
+			}
+		}
+		
+		if (allRestaurants.isEmpty())
+		{
+			System.out.println("Vous avez acheter tous les restaurants disponibles");
+			menuAchat();			
+		}
+		else
+		{
+			System.out.println("Voici tous les restaurants disponibles :");
+			for (Restaurant r : allRestaurants){System.out.println(r);}
+		}
 
 
 		testSaisie = true;
@@ -433,8 +435,13 @@ public class MenuJoueur {
 
 		if (newResto.getPrixAcquisition() <= parc.getArgent() && newResto.getTaille() <= parc.getTaille())
 		{
+			Amelioration amelioration = new Amelioration(parc,newResto,0);
+			amelioration = Context.getInstance().getDaoP().insert(amelioration);
 			parc.setArgent(parc.getArgent()-newResto.getPrixAcquisition());
 			parc.setTaille(parc.getTaille()-newResto.getTaille());
+			
+			
+			//parc.setAchat(Context.getInstance().getDaoP().findWithRestaurants(parc.getAchat().getId()));
 			parc.getAchat().newRestaurant(newResto);
 		}
 		else
@@ -473,7 +480,9 @@ public class MenuJoueur {
 		{
 			parc.setArgent(parc.getArgent()-newCom.getPrixAcquisition());
 			parc.setTaille(parc.getTaille()-newCom.getTaille());
+			parc.setAchat(Context.getInstance().getDaoP().findWithCommodites(parc.getAchat().getId()));
 			parc.getAchat().newCommodite(newCom);
+
 		}
 		else
 		{
@@ -510,8 +519,11 @@ public class MenuJoueur {
 
 		if (newBou.getPrixAcquisition() <= parc.getArgent() && newBou.getTaille() <= parc.getTaille())
 		{
+			Amelioration amelioration = new Amelioration(parc,newBou,0);
+			amelioration = Context.getInstance().getDaoP().insert(amelioration);
 			parc.setArgent(parc.getArgent()-newBou.getPrixAcquisition());
 			parc.setTaille(parc.getTaille()-newBou.getTaille());
+			parc.setAchat(Context.getInstance().getDaoP().findWithBoutiques(parc.getAchat().getId()));
 			parc.getAchat().newBoutique(newBou);
 		}
 		else
@@ -552,7 +564,7 @@ public class MenuJoueur {
 
 		if (newEmp.getSalaire() <= parc.getArgent())
 		{
-
+			parc.setAchat(Context.getInstance().getDaoP().findWithEmployes(parc.getAchat().getId()));
 			parc.getAchat().newEmploye(newEmp);
 		}
 		else
@@ -567,10 +579,37 @@ public class MenuJoueur {
 
 	private static void achatAttraction() {
 
-		System.out.println("Voici toutes les attractions disponibles :");
+		parc.setAchat(Context.getInstance().getDaoP().findWithAttractions(parc.getAchat().getId()));
+		List<Attraction> allAttractions = DaoA.findAll();
+		List<Attraction> attractions = new ArrayList;
+		
+		for (Achat a : DaoAc.findByType("attraction", parc)){
+			attractions.add( (Attraction) a.getElement());
+		}
+
+		for (int i=0; i<attractions.size();i++) 
+		{
+			for (int j=0; j<allAttractions.size();j++)
+			{
+				if (attractions.get(i).getId()==allAttractions.get(j).getId())
+				{			
+					allAttractions.remove(j);
+				}
+			}
+		}
+		
+		if (allAttractions.isEmpty())
+		{
+			System.out.println("Vous avez acheter tous les attractions disponibles");
+			menuAchat();			
+		}
+		else
+		{
+			System.out.println("Voici toutes les attractions disponibles :");
+			for (Attraction a : allAttractions){System.out.println(a);}
+		}
 
 
-		for (Attraction a : DaoA.findAll()) {System.out.println(a);}
 
 		testSaisie = true;
 		int choix=0;
@@ -596,9 +635,13 @@ public class MenuJoueur {
 
 		if (newattrac.getPrixAcquisition() <= parc.getArgent() && newattrac.getTaille() <= parc.getTaille())
 		{
+			Amelioration amelioration = new Amelioration(parc,newattrac,0);
+			amelioration = Context.getInstance().getDaoP().insert(amelioration);
 			parc.setArgent(parc.getArgent()-newattrac.getPrixAcquisition());
 			parc.setTaille(parc.getTaille()-newattrac.getTaille());
+			parc.setAchat(Context.getInstance().getDaoP().findWithAttractions(parc.getAchat().getId()));
 			parc.getAchat().newAttraction(newattrac);
+			System.out.println("Attraction achetée !");
 		}
 		else
 		{
@@ -612,7 +655,7 @@ public class MenuJoueur {
 
 
 	private static void menuAmelioration() {
-
+		
 		if (parc.getAchat().getAttractions().isEmpty() && parc.getAchat().getBoutiques().isEmpty() && parc.getAchat().getRestaurants().isEmpty())
 		{
 			System.out.println("Tu n'as pas de batiments ! \n Va en construire ! ");
@@ -620,8 +663,6 @@ public class MenuJoueur {
 			menuModification();
 		}
 		else {
-
-
 			System.out.println("\nAmeliorez vos bâtiments !");
 			System.out.println("Choisir un menu");
 			System.out.println("1- Améliorez une boutique");
@@ -677,19 +718,22 @@ public class MenuJoueur {
 				}
 			}
 			
+			Amelioration am = Context.getInstance().getDaoP().findByIds(parc.getId(),parc.getAchat().getAttractions().get(i).getId());
+			
 
 			if (prixAmeliorationAttraction > parc.getArgent()) 
 			{
 				System.out.println("Vous n'avez pas assez d'argent pour améliorer cette attraction !");
 			}
-			else if (parc.getAchat().getAttractions().get(i).getAmelioration().getNiveauAmelioration()>=parc.getAchat().getAttractions().get(i).getNbAmelioration() )
+			else if (am.getNiveauAmelioration()>=parc.getAchat().getAttractions().get(i).getNbAmelioration())
 			{
 				System.out.println("Vous avez atteint le maximum d'améliorations de cette attraction !");
 			}
 			else
 			{
 				parc.setArgent(parc.getArgent()-prixAmeliorationAttraction);
-				parc.getAchat().getAttractions().get(i).getAmelioration().setNiveauAmelioration(parc.getAchat().getAttractions().get(i).getAmelioration().getNiveauAmelioration()+1);
+				am.setNiveauAmelioration(am.getNiveauAmelioration()+1);
+				Context.getInstance().getDaoP().update(am);
 			}
 			
 		}
@@ -730,18 +774,24 @@ public class MenuJoueur {
 				}
 			}
 			
+			Amelioration am = Context.getInstance().getDaoP().findByIds(parc.getId(),parc.getAchat().getRestaurants().get(i).getId());
+			
+
 			if (prixAmeliorationRestaurant > parc.getArgent()) 
 			{
 				System.out.println("Vous n'avez pas assez d'argent pour améliorer ce restaurant !");
 			}
-			else if (parc.getAchat().getRestaurants().get(i).getAmelioration().getNiveauAmelioration()>=parc.getAchat().getRestaurants().get(i).getNbAmelioration() )
+			else if (am.getNiveauAmelioration()>=parc.getAchat().getRestaurants().get(i).getNbAmelioration())
+			//else if (parc.getAchat().getAttractions().get(i).getAmelioration().getNiveauAmelioration()>=parc.getAchat().getAttractions().get(i).getNbAmelioration() )
 			{
-				System.out.println("Vous avez atteint le maximum d'améliorations de ce restaurant !");
+				System.out.println("Vous avez atteint le maximum d'améliorations pour ce restaurant !");
 			}
 			else
 			{
 				parc.setArgent(parc.getArgent()-prixAmeliorationRestaurant);
-				parc.getAchat().getRestaurants().get(i).getAmelioration().setNiveauAmelioration(parc.getAchat().getRestaurants().get(i).getAmelioration().getNiveauAmelioration()+1);
+				//parc.getAchat().getAttractions().get(i).getAmelioration().setNiveauAmelioration(parc.getAchat().getAttractions().get(i).getAmelioration().getNiveauAmelioration()+1);
+				am.setNiveauAmelioration(am.getNiveauAmelioration()+1);
+				Context.getInstance().getDaoP().update(am);
 			}
 		}
 
@@ -780,20 +830,26 @@ public class MenuJoueur {
 				}
 			}
 			
+			Amelioration am = Context.getInstance().getDaoP().findByIds(parc.getId(),parc.getAchat().getBoutiques().get(i).getId());
+			
 
 			if (prixAmeliorationBoutique > parc.getArgent()) 
 			{
 				System.out.println("Vous n'avez pas assez d'argent pour améliorer cette boutique !");
 			}
-			else if (parc.getAchat().getBoutiques().get(i).getAmelioration().getNiveauAmelioration()>=parc.getAchat().getBoutiques().get(i).getNbAmelioration() )
+			else if (am.getNiveauAmelioration()>=parc.getAchat().getBoutiques().get(i).getNbAmelioration())
+			//else if (parc.getAchat().getAttractions().get(i).getAmelioration().getNiveauAmelioration()>=parc.getAchat().getAttractions().get(i).getNbAmelioration() )
 			{
 				System.out.println("Vous avez atteint le maximum d'améliorations de cette boutique !");
 			}
 			else
 			{
 				parc.setArgent(parc.getArgent()-prixAmeliorationBoutique);
-				parc.getAchat().getBoutiques().get(i).getAmelioration().setNiveauAmelioration(parc.getAchat().getBoutiques().get(i).getAmelioration().getNiveauAmelioration()+1);
+				//parc.getAchat().getAttractions().get(i).getAmelioration().setNiveauAmelioration(parc.getAchat().getAttractions().get(i).getAmelioration().getNiveauAmelioration()+1);
+				am.setNiveauAmelioration(am.getNiveauAmelioration()+1);
+				Context.getInstance().getDaoP().update(am);
 			}
+			
 		}
 	}
 
@@ -952,6 +1008,35 @@ public class MenuJoueur {
 			}
 		}
 	}
+	
+	
+	
 
 
+	public static int saisieInt(String msg) 
+	{
+		Scanner sc = new Scanner(System.in);
+		System.out.println(msg);
+		return sc.nextInt();
+
+	}
+	public static double saisieDouble(String msg) 
+	{
+		Scanner sc = new Scanner(System.in);
+		System.out.println(msg);
+		return sc.nextDouble();
+	}
+	public static String saisieString(String msg) 
+	{
+		Scanner sc = new Scanner(System.in);
+		System.out.println(msg);
+		return sc.nextLine();
+	}
+
+
+
+	public static int generateRandomInt(int max){
+		Random random = new Random();
+		return random.nextInt(max);
+	}
 }

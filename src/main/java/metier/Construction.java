@@ -3,12 +3,8 @@ package metier;
 import javax.persistence.*;
 
 @Entity
-@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Construction {
+public abstract class Construction extends Element{
 	
-	@Id
-	@GeneratedValue(strategy = GenerationType.TABLE)
-	protected int id;
 	protected String nom;
 	protected double taille;
 	@Column(name="prix_acquisition")
@@ -21,13 +17,11 @@ public class Construction {
 	protected double tauxIncident;
 	@Column(name="affluence_max")
 	protected int affluence;
-	@OneToOne(mappedBy = "construction")
-	protected Amelioration amelioration;
 	
 	
 	public Construction(int id, String nom, double prixAcquisition, double prixFonctionnement,
 			int nbAmelioration, double tauxIncident, double taille, int affluence) {
-		this.id = id;
+		super(id);
 		this.nom = nom;
 		this.prixAcquisition = prixAcquisition;
 		this.prixFonctionnement = prixFonctionnement;
@@ -40,6 +34,7 @@ public class Construction {
 	
 	public Construction(String nom, double prixAcquisition, double prixFonctionnement,
 			int nbAmelioration, double tauxIncident, double taille, int affluence) {
+		super();
 		this.nom = nom;
 		this.prixAcquisition = prixAcquisition;
 		this.prixFonctionnement = prixFonctionnement;
@@ -50,15 +45,6 @@ public class Construction {
 	}
 	
 	public Construction() {}
-
-	public int getId() {
-		return id;
-	}
-
-
-	public void setId(int id) {
-		this.id = id;
-	}
 
 
 	public String getNom() {
@@ -129,16 +115,6 @@ public class Construction {
 
 	public void setAffluence(int affluence) {
 		this.affluence = affluence;
-	}
-
-
-	public Amelioration getAmelioration() {
-		return amelioration;
-	}
-
-
-	public void setAmelioration(Amelioration amelioration) {
-		this.amelioration = amelioration;
 	}
 
 	@Override
