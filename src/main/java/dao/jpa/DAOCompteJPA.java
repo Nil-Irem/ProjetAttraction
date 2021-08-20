@@ -80,24 +80,24 @@ public class DAOCompteJPA implements IDAOCompte {
 
 	@Override
 	public boolean findByLogin(String login) {
-		boolean b=false;
+		boolean b=true;
 			
 		try {
 			EntityManager em = Context.getInstance().getEmf().createEntityManager();
-			Query query= em.createQuery("from Compte where login like :lib",Compte.class);
-			query.setParameter("lib", "%"+login+"%");
+			Query query= em.createQuery("from Compte where login = :lib",Compte.class);
+			query.setParameter("lib", login);
 			List<Compte> comptes = query.getResultList();
 			em.close();
 			if (comptes.isEmpty())
 			{
-				b = true;
+				b = false;
 			}
 			else
 			{
-				b = false;
+				b = true;
 			}
 		}
-		catch(Exception e) {}
+		catch(Exception e) {System.out.println("Il y a une erreur");e.printStackTrace();}
 		return b;
 	}
 

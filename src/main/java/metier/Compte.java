@@ -16,6 +16,11 @@ public abstract class Compte {
 	protected String password;
 	
 	
+	public Compte(int id,String login, String password) {
+		this.login = login;
+		this.password = password;
+		this.id = id;
+	}
 	
 	
 	public Compte(String login, String password) {

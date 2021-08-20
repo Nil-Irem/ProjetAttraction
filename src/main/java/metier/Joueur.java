@@ -1,18 +1,11 @@
 package metier;
 
-import java.util.List;
-
 import javax.persistence.Entity;
-import javax.persistence.OneToMany;
 import javax.persistence.DiscriminatorValue;
 
 @Entity
 @DiscriminatorValue("joueur")
 public class Joueur extends Compte {
-	
-	@OneToMany(mappedBy = "joueur")
-	private List<Parc> parcs;
-
 
 	public Joueur (String login, String password) {
 		super(login,password);
@@ -20,9 +13,7 @@ public class Joueur extends Compte {
 	}
 	
 	public Joueur (int id,String login, String password) {
-		super(login,password);
-		this.id = id;
-		
+		super(id,login,password);		
 	}
 	
 	
@@ -48,7 +39,7 @@ public class Joueur extends Compte {
 
 	@Override
 	public String toString() {
-		return "Le joueur numero "+id+") possede " + parcs.size() + "parcs";
+		return "Le joueur numero "+id+") possede ";
 	}
 
 

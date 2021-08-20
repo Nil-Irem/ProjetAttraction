@@ -7,7 +7,6 @@ import javax.persistence.Query;
 
 import dao.IDAO.IDAOAchat;
 import metier.Achat;
-import metier.Construction;
 import metier.Element;
 import metier.Parc;
 import util.Context;
@@ -61,7 +60,6 @@ public class DAOAchatJPA implements IDAOAchat {
 		em.remove(a);
 		em.getTransaction().commit();
 		em.close();
-		
 	}
 	
 	
@@ -75,16 +73,6 @@ public class DAOAchatJPA implements IDAOAchat {
 		List<Achat> a = myQuery.getResultList();
 		em.close();
 		return  a;	
-	}
-	
-	
-	@Override
-	public Achat findByIdParc (Integer id_parc) {
-		EntityManager em = Context.getInstance().getEmf().createEntityManager();
-		Achat a = em.find(Achat.class,id_parc);
-		em.close();
-		return a;
-		
 	}
 	
 	

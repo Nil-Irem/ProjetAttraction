@@ -66,6 +66,7 @@ public class MenuJoueur {
 		case 3 : Menu.menuPrincipal();break;
 		default : System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 3");break;
 		}
+		parc = Context.getInstance().getParc();
 		menuJoueur();
 	}
 
@@ -74,6 +75,7 @@ public class MenuJoueur {
 	public static void menuPartie() {
 		testSaisie = true;
 		int choix=0;
+		parc = Context.getInstance().getParc();
 
 		while (testSaisie)
 		{
@@ -99,6 +101,7 @@ public class MenuJoueur {
 		case 4 : menuJoueur();break;
 		default : System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 4");break;
 		}
+		parc = Context.getInstance().getParc();
 		menuPartie();
 	}
 
@@ -149,7 +152,8 @@ public class MenuJoueur {
 		int nb_i = 0; //nb d'incidents
 		double impact_e = 2;
 		double impactEA = 2;
-
+		
+		
 		for (Achat a : DaoAc.findByType("employe", parc)) {
 			Employe e = (Employe) a.getElement();
 			salaire += e.getSalaire();
@@ -180,16 +184,14 @@ public class MenuJoueur {
 				incident = 1; 
 			}
 			
-			if (Context.getInstance().getDaoAc().Nvamelioration(parc,at) != 0)
+			if (DaoAc.Nvamelioration(parc,at) != 0)
 			{
-				attractivite += Context.getInstance().getDaoAc().Nvamelioration(parc,at)/at.getNbAmelioration();
+				attractivite += DaoAc.Nvamelioration(parc,at)/at.getNbAmelioration();
 			}
 
 			capaciteMax += at.getAffluence()*incident;
 			prixFonctionnement += at.getPrixFonctionnement();
 		}
-
-		//parc = Context.getInstance().getDaoP().insert(parc);
 
 
 		for (Achat a : DaoAc.findByType("boutique", parc)) {
@@ -207,10 +209,10 @@ public class MenuJoueur {
 				incidentb = 1;
 			}
 
-			Amelioration am = Context.getInstance().getDaoP().findByIds(parc.getId(),b.getId());
-			if (am.getNiveauAmelioration() != 0)
+		
+			if (Context.getInstance().getDaoAc().Nvamelioration(parc,b) != 0)
 			{
-				attractivite += am.getNiveauAmelioration()/b.getNbAmelioration();
+				attractivite += Context.getInstance().getDaoAc().Nvamelioration(parc,b)/b.getNbAmelioration();
 			}
 
 			capaciteMax += b.getAffluence()*incidentb;
@@ -235,10 +237,10 @@ public class MenuJoueur {
 				
 				
 			
-			Amelioration am = Context.getInstance().getDaoP().findByIds(parc.getId(),r.getId());
-			if (am.getNiveauAmelioration() != 0)
+		
+			if (Context.getInstance().getDaoAc().Nvamelioration(parc,r) != 0)
 			{
-				attractivite += am.getNiveauAmelioration()/r.getNbAmelioration();
+				attractivite += Context.getInstance().getDaoAc().Nvamelioration(parc,r)/r.getNbAmelioration();
 			}
 
 			capaciteMax += r.getAffluence()*incidentr;
@@ -249,7 +251,7 @@ public class MenuJoueur {
 		System.out.println("il y a eu " + nb_i + " incidents dans votre parc aujourd'hui");
 
 
-		attractivite += (parc.getAchat().getCommodites().size()+parc.getAchat().getEmployes().size()+parc.getAchat().getAttractions().size()+parc.getAchat().getBoutiques().size()+parc.getAchat().getRestaurants().size())/100;
+		attractivite += (Context.getInstance().getDaoAc().findByParc(parc).size())/100; 
 		attractivite -= 1/impactEA;
 
 		if (attractivite > 1) {attractivite = 1;}
@@ -277,10 +279,13 @@ public class MenuJoueur {
 
 		argentGagne = nbVisiteur*prixEntree;
 		parc.setArgent(parc.getArgent()+argentGagne-salaire-prixFonctionnement);
+		Context.getInstance().setParc(parc);
 
 		System.out.println("Vous avez reçu "+Math.round(nbVisiteur)+" visiteurs");
 		System.out.println("Vous avez gagné "+ Myformat.format(argentGagne)+"€ et dépensé "+Myformat.format(salaire+prixFonctionnement)+"€");
 		System.out.println("Vous avez maintenant "+Myformat.format(parc.getArgent())+"€");
+		GestionJeu.saveGame();
+		parc = Context.getInstance().getParc();
 	}
 
 
@@ -320,9 +325,21 @@ public class MenuJoueur {
 
 
 	private static void menuAchatTerrain() {
-		System.out.println("Le prix du m² est de "+prixTerrain+"€");
-		System.out.println("Vous avez actuellement "+parc.getArgent()+"€");
-		int choix = saisieInt("Combien de m² voulez vous acheter ? (Donnez un nombre entier)");
+		testSaisie = true;
+		int choix=0;
+
+		while (testSaisie)
+		{
+			try {
+				System.out.println("Le prix du m² est de "+prixTerrain+"€");
+				System.out.println("Vous avez actuellement "+parc.getArgent()+"€");
+				choix = saisieInt("Combien de m² voulez vous acheter ? (Donnez un nombre entier)");
+				testSaisie = false;
+			}
+			catch (Exception e){
+				System.out.println("\nAttention il faut rentrer un nombre entier");
+			}
+		}
 
 		if (choix*prixTerrain > parc.getArgent()) {
 			System.out.println("Vous n'avez pas assez d'argent pour acheter autant de terrain");
@@ -332,6 +349,7 @@ public class MenuJoueur {
 		{
 			parc.setTaille(parc.getTaille()+choix);
 			parc.setArgent(parc.getArgent()-choix*prixTerrain);
+			Context.getInstance().setParc(parc);
 			System.out.println("\nFélicitation vous avez maintenant "+parc.getArgent()+"€ et "+parc.getTaille()+" m² de terrain");
 		}
 
@@ -370,30 +388,22 @@ public class MenuJoueur {
 		case 6 : menuModification();break;
 		default : System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 6");break;
 		}
-		
-		GestionJeu.saveGame(parc);
-		menuAchat();
-		
-		
+		GestionJeu.saveGame();
+		parc = Context.getInstance().getParc();
+		menuAchat();	
 	}
 
 
 
 	private static void achatRestaurant() {
-		
-		
-		/*
-		parc.setAchat(Context.getInstance().getDaoAc().findByType("rest", id)
-		getDaoP().findWithRestaurants(parc.getAchat().getId()));*/
 		List<Restaurant> allRestaurants = DaoR.findAll();
-		List<Achat> restaurants = DaoAc.findByType("restaurant",parc);
-		Restaurant r1=null;
-		
+		List<Achat> allAchatRestaurants = DaoAc.findByType("restaurant",parc);
+		Restaurant r1 = null;
 	
-		//allRestaurants.remove(restaurants);
-		for (int i=0; i<restaurants.size();i++) 
+		//allRestaurants.remove(allAchatRestaurants);
+		for (int i=0; i<allAchatRestaurants.size();i++) 
 		{
-			r1 = (Restaurant) restaurants.get(i).getElement();
+			r1 = (Restaurant) allAchatRestaurants.get(i).getElement();
 			
 			for (int j=0; j<allRestaurants.size();j++)
 			{	
@@ -406,7 +416,7 @@ public class MenuJoueur {
 		
 		if (allRestaurants.isEmpty())
 		{
-			System.out.println("Vous avez acheter tous les restaurants disponibles");
+			System.out.println("Vous avez acheté tous les restaurants disponibles");
 			menuAchat();			
 		}
 		else
@@ -435,29 +445,27 @@ public class MenuJoueur {
 
 		if (newResto.getPrixAcquisition() <= parc.getArgent() && newResto.getTaille() <= parc.getTaille())
 		{
-			Amelioration amelioration = new Amelioration(parc,newResto,0);
-			amelioration = Context.getInstance().getDaoP().insert(amelioration);
+			Achat restoBuy = new Achat(newResto,0,"restaurant",parc);
+			DaoAc.insert(restoBuy);
+			
 			parc.setArgent(parc.getArgent()-newResto.getPrixAcquisition());
 			parc.setTaille(parc.getTaille()-newResto.getTaille());
-			
-			
-			//parc.setAchat(Context.getInstance().getDaoP().findWithRestaurants(parc.getAchat().getId()));
-			parc.getAchat().newRestaurant(newResto);
+			Context.getInstance().setParc(parc);		
 		}
 		else
 		{
 			System.out.println("Vous n'avez pas assez d'argent ou de place pour acheter ce restaurant !");
 		}	
-
-
-
 	}
+
+
+
+
 
 
 	private static void achatCommodite() {
 		System.out.println("Voici toutes les commodites disponibles :");
 		for (Commodite c : DaoC.findAll()){System.out.println(c);}
-
 
 		testSaisie = true;
 		int choix=0;
@@ -477,28 +485,77 @@ public class MenuJoueur {
 		}
 
 		if (newCom.getPrixAcquisition() <= parc.getArgent() && newCom.getTaille() <= parc.getTaille())
-		{
-			parc.setArgent(parc.getArgent()-newCom.getPrixAcquisition());
+		{	
+			boolean exist=false;
+			Achat newAchat = null; 
+			for (Achat a : DaoAc.findByType("commodite", parc))
+			{
+				if(a.getElement().getId() == newCom.getId()) 
+				{
+					exist=true;
+					newAchat = a;
+					break;
+				}
+			}
+			
+			if (exist)
+			{
+				newAchat.setNbSameElement(newAchat.getNbSameElement()+1);
+				DaoAc.update(newAchat);
+			}
+			else
+			{
+				newAchat = new Achat(newCom,0,0,"commodite",parc);
+				DaoAc.insert(newAchat);
+			}
+			
 			parc.setTaille(parc.getTaille()-newCom.getTaille());
-			parc.setAchat(Context.getInstance().getDaoP().findWithCommodites(parc.getAchat().getId()));
-			parc.getAchat().newCommodite(newCom);
-
+			Context.getInstance().setParc(parc);
 		}
 		else
 		{
 			System.out.println("Vous n'avez pas assez d'argent ou de place pour acheter cette commodite !");
 		}
-
-
-
 	}
 
 
 
-	private static void achatBoutique() {
-		System.out.println("Voici toutes les boutiques disponibles :");
 
-		for (Boutique b : DaoB.findAll()) {System.out.println(b);}
+
+	private static void achatBoutique() {
+		List<Boutique> allBoutiques = DaoB.findAll();
+		List<Achat> allAchatBoutiques = DaoAc.findByType("boutique",parc);
+		Boutique b1 = null;
+	
+		//allBoutiques.remove(allAchatBoutiques);
+		for (int i=0; i<allAchatBoutiques.size();i++) 
+		{
+			b1 = (Boutique) allAchatBoutiques.get(i).getElement();
+			
+			for (int j=0; j<allBoutiques.size();j++)
+			{	
+				if (b1.getId()==allBoutiques.get(j).getId())
+				{			
+					allBoutiques.remove(j);
+				}
+			}
+		}
+		
+		if (allBoutiques.isEmpty())
+		{
+			System.out.println("Vous avez acheté toutes les boutiques disponibles");
+			menuAchat();			
+		}
+		else
+		{
+			System.out.println("Voici toutes les boutiques disponibles :");
+			
+			for (Boutique b : allBoutiques)
+			{
+				System.out.println(b);
+			}
+		}
+
 
 		testSaisie = true;
 		int choix=0;
@@ -519,19 +576,17 @@ public class MenuJoueur {
 
 		if (newBou.getPrixAcquisition() <= parc.getArgent() && newBou.getTaille() <= parc.getTaille())
 		{
-			Amelioration amelioration = new Amelioration(parc,newBou,0);
-			amelioration = Context.getInstance().getDaoP().insert(amelioration);
+			Achat newAchat = new Achat(newBou,0,"boutique",parc);
+			DaoAc.insert(newAchat);
+			
 			parc.setArgent(parc.getArgent()-newBou.getPrixAcquisition());
 			parc.setTaille(parc.getTaille()-newBou.getTaille());
-			parc.setAchat(Context.getInstance().getDaoP().findWithBoutiques(parc.getAchat().getId()));
-			parc.getAchat().newBoutique(newBou);
+			Context.getInstance().setParc(parc);	
 		}
 		else
 		{
 			System.out.println("Vous n'avez pas assez d'argent ou de place pour acheter cette boutique !");
 		}
-
-
 	}
 
 
@@ -543,7 +598,6 @@ public class MenuJoueur {
 		{
 			System.out.println(e);
 		}
-
 
 		testSaisie = true;
 		int choix=0;
@@ -563,9 +617,30 @@ public class MenuJoueur {
 		}
 
 		if (newEmp.getSalaire() <= parc.getArgent())
-		{
-			parc.setAchat(Context.getInstance().getDaoP().findWithEmployes(parc.getAchat().getId()));
-			parc.getAchat().newEmploye(newEmp);
+		{		
+			boolean exist=false;
+			Achat newAchat = null; 
+			for (Achat a : DaoAc.findByType("employe", parc))
+			{
+				if(a.getElement().getId() == newEmp.getId()) 
+				{
+					exist=true;
+					newAchat = a;
+					break;
+				}
+			}
+			
+			if (exist)
+			{
+				newAchat.setNbSameElement(newAchat.getNbSameElement()+1);
+				DaoAc.update(newAchat);
+
+			}
+			else
+			{
+				newAchat = new Achat(newEmp,1,0,"employe",parc);
+				DaoAc.insert(newAchat);
+			}
 		}
 		else
 		{
@@ -578,20 +653,16 @@ public class MenuJoueur {
 
 
 	private static void achatAttraction() {
-
-		parc.setAchat(Context.getInstance().getDaoP().findWithAttractions(parc.getAchat().getId()));
 		List<Attraction> allAttractions = DaoA.findAll();
-		List<Attraction> attractions = new ArrayList;
-		
-		for (Achat a : DaoAc.findByType("attraction", parc)){
-			attractions.add( (Attraction) a.getElement());
-		}
+		List<Achat> allAchatAttractions = DaoAc.findByType("attraction",parc);
+		Attraction a1 = null;
 
-		for (int i=0; i<attractions.size();i++) 
+		for (int i=0; i<allAchatAttractions.size();i++) 
 		{
+			a1 = (Attraction) allAchatAttractions.get(i).getElement();
 			for (int j=0; j<allAttractions.size();j++)
 			{
-				if (attractions.get(i).getId()==allAttractions.get(j).getId())
+				if (a1.getId()==allAttractions.get(j).getId())
 				{			
 					allAttractions.remove(j);
 				}
@@ -600,7 +671,7 @@ public class MenuJoueur {
 		
 		if (allAttractions.isEmpty())
 		{
-			System.out.println("Vous avez acheter tous les attractions disponibles");
+			System.out.println("Vous avez acheté toutes les attractions disponibles");
 			menuAchat();			
 		}
 		else
@@ -632,44 +703,55 @@ public class MenuJoueur {
 				System.out.println("\nAttention il faut rentrer un nombre entier");
 			}
 		}
+		
+		//parc = Context.getInstance().getParc();
 
 		if (newattrac.getPrixAcquisition() <= parc.getArgent() && newattrac.getTaille() <= parc.getTaille())
 		{
-			Amelioration amelioration = new Amelioration(parc,newattrac,0);
-			amelioration = Context.getInstance().getDaoP().insert(amelioration);
+			Achat newAchat = new Achat(newattrac,0,"attraction",parc);
+			Context.getInstance().getDaoAc().insert(newAchat);
+			
 			parc.setArgent(parc.getArgent()-newattrac.getPrixAcquisition());
 			parc.setTaille(parc.getTaille()-newattrac.getTaille());
-			parc.setAchat(Context.getInstance().getDaoP().findWithAttractions(parc.getAchat().getId()));
-			parc.getAchat().newAttraction(newattrac);
+			Context.getInstance().setParc(parc);
 			System.out.println("Attraction achetée !");
 		}
 		else
 		{
 			System.out.println("Vous n'avez pas assez d'argent ou de place pour acheter cet attraction !");
-		}	
-
-
+		}
 	}
 
 
 
 
 	private static void menuAmelioration() {
-		
-		if (parc.getAchat().getAttractions().isEmpty() && parc.getAchat().getBoutiques().isEmpty() && parc.getAchat().getRestaurants().isEmpty())
+		 //&& parc.getAchat().getBoutiques().isEmpty() && parc.getAchat().getRestaurants().isEmpty())
+		if (DaoAc.findByParc(parc).isEmpty())
 		{
 			System.out.println("Tu n'as pas de batiments ! \n Va en construire ! ");
-
 			menuModification();
 		}
 		else {
-			System.out.println("\nAmeliorez vos bâtiments !");
-			System.out.println("Choisir un menu");
-			System.out.println("1- Améliorez une boutique");
-			System.out.println("2- Améliorez un restaurant");
-			System.out.println("3- Améliorez une attraction");
-			System.out.println("4- Retour menu Modifications");
-			int choix = saisieInt("");
+			testSaisie = true;
+			int choix=0;
+
+			while (testSaisie)
+			{
+				try {
+					System.out.println("\nAmeliorez vos bâtiments !");
+					System.out.println("Choisir un menu");
+					System.out.println("1- Améliorer une boutique");
+					System.out.println("2- Améliorer un restaurant");
+					System.out.println("3- Améliorer une attraction");
+					System.out.println("4- Retour menu Modification");
+					choix = saisieInt("");
+					testSaisie = false;
+				}
+				catch (Exception e){
+					System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 4");
+				}
+			}
 
 			switch(choix) 
 			{
@@ -677,6 +759,7 @@ public class MenuJoueur {
 			case 2 : ameliorerRestaurant();break;
 			case 3 : ameliorerAttraction();break;
 			case 4 : menuModification();break;
+			default : System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 4");break;
 			}
 		}
 		menuAmelioration();
@@ -686,7 +769,7 @@ public class MenuJoueur {
 
 	private static void ameliorerAttraction() 
 	{
-		if (parc.getAchat().getAttractions().isEmpty())
+		if (DaoAc.findByType("attraction",parc).isEmpty())
 		{
 			System.out.println("Vous n'avez pas d'attractions à améliorer");
 			menuAmelioration();
@@ -697,53 +780,56 @@ public class MenuJoueur {
 
 			testSaisie = true;
 			int choix=0;
-			int i = 0;
+			Attraction at=null;
+			int idAchat=0;
 
 			while (testSaisie)
 			{
 				try {
 					choix = saisieInt("Choississez l'attraction à modifier (donner son numero) :");
-					for (Attraction a : parc.getAchat().getAttractions())
+					for (Achat a : DaoAc.findByType("attraction",parc)) 
 					{
-						if (a.getId() == choix) {break;}
-						else {i++;}
+						if (a.getElement().getId() == choix) 
+						{
+							at = (Attraction) a.getElement();
+							idAchat = a.getId();
+							break;
+						}
 					}
-
-					if(i > parc.getAchat().getAttractions().size()) {System.out.println("\nAttention vous n'avez pas cette attraction, réessayez");}
+					if(at == null) {System.out.println("\nAttention vous n'avez pas cette attraction, réessayez");}
 					else {testSaisie = false;}
 				}
 				catch (Exception e){
 					System.out.println("\nAttention il faut rentrer un nombre entier");
-
 				}
+				
 			}
 			
-			Amelioration am = Context.getInstance().getDaoP().findByIds(parc.getId(),parc.getAchat().getAttractions().get(i).getId());
-			
-
 			if (prixAmeliorationAttraction > parc.getArgent()) 
 			{
 				System.out.println("Vous n'avez pas assez d'argent pour améliorer cette attraction !");
 			}
-			else if (am.getNiveauAmelioration()>=parc.getAchat().getAttractions().get(i).getNbAmelioration())
+			else if (DaoAc.Nvamelioration(parc,at)>= at.getNbAmelioration())
 			{
 				System.out.println("Vous avez atteint le maximum d'améliorations de cette attraction !");
 			}
 			else
 			{
+				Achat a = DaoAc.findById(idAchat);
+				a.setNiveauAmelioration(a.getNiveauAmelioration()+1);
+				DaoAc.update(a);
+				
 				parc.setArgent(parc.getArgent()-prixAmeliorationAttraction);
-				am.setNiveauAmelioration(am.getNiveauAmelioration()+1);
-				Context.getInstance().getDaoP().update(am);
-			}
-			
+				Context.getInstance().setParc(parc);
+			}	
 		}
-
-
 	}
 
 
+
+
 	private static void ameliorerRestaurant() {
-		if (parc.getAchat().getRestaurants().isEmpty())
+		if (DaoAc.findByType("restaurant",parc).isEmpty())
 		{
 			System.out.println("Vous n'avez pas de restaurants à améliorer");
 			menuAmelioration();
@@ -754,19 +840,23 @@ public class MenuJoueur {
 
 			testSaisie = true;
 			int choix=0;
-			int i = 0;
+			Restaurant restoToUp=null;
+			int idAchat=0;
 
 			while (testSaisie)
 			{
 				try {
 					choix = saisieInt("Choississez le restaurant à modifier (donner son numero) :");
-					for (Restaurant r : parc.getAchat().getRestaurants())
+					for (Achat a : DaoAc.findByType("attraction",parc)) 
 					{
-						if (r.getId() == choix) {break;}
-						else {i++;}
+						if (a.getElement().getId() == choix) 
+						{
+							restoToUp = (Restaurant) a.getElement();
+							idAchat = a.getId();
+							break;
+						}
 					}
-
-					if(i > parc.getAchat().getRestaurants().size()) {System.out.println("\nAttention vous n'avez pas ce restaurant, réessayez");}
+					if(restoToUp==null) {System.out.println("\nAttention vous n'avez pas ce restaurant, réessayez");}
 					else {testSaisie = false;}
 				}
 				catch (Exception e){
@@ -774,24 +864,25 @@ public class MenuJoueur {
 				}
 			}
 			
-			Amelioration am = Context.getInstance().getDaoP().findByIds(parc.getId(),parc.getAchat().getRestaurants().get(i).getId());
+			Achat a = DaoAc.findById(idAchat);			
+			int actualAm = a.getNiveauAmelioration();
 			
 
 			if (prixAmeliorationRestaurant > parc.getArgent()) 
 			{
 				System.out.println("Vous n'avez pas assez d'argent pour améliorer ce restaurant !");
 			}
-			else if (am.getNiveauAmelioration()>=parc.getAchat().getRestaurants().get(i).getNbAmelioration())
-			//else if (parc.getAchat().getAttractions().get(i).getAmelioration().getNiveauAmelioration()>=parc.getAchat().getAttractions().get(i).getNbAmelioration() )
+			else if (actualAm>=restoToUp.getNbAmelioration())
 			{
 				System.out.println("Vous avez atteint le maximum d'améliorations pour ce restaurant !");
 			}
 			else
-			{
-				parc.setArgent(parc.getArgent()-prixAmeliorationRestaurant);
-				//parc.getAchat().getAttractions().get(i).getAmelioration().setNiveauAmelioration(parc.getAchat().getAttractions().get(i).getAmelioration().getNiveauAmelioration()+1);
-				am.setNiveauAmelioration(am.getNiveauAmelioration()+1);
-				Context.getInstance().getDaoP().update(am);
+			{	
+				a.setNiveauAmelioration(actualAm+1);
+				DaoAc.update(a);
+				
+				parc.setArgent(parc.getArgent()-prixAmeliorationAttraction);
+				Context.getInstance().setParc(parc);
 			}
 		}
 
@@ -799,7 +890,7 @@ public class MenuJoueur {
 	}
 
 	private static void ameliorerBoutique() {
-		if (parc.getAchat().getBoutiques().isEmpty())
+		if (DaoAc.findByType("boutique",parc).isEmpty())
 		{
 			System.out.println("Vous n'avez pas de magasin à améliorer");
 			menuAmelioration();
@@ -810,19 +901,25 @@ public class MenuJoueur {
 
 			testSaisie = true;
 			int choix=0;
-			int i = 0;
+			Boutique b = null;
+			int idAchat = 0;
 
 			while (testSaisie)
 			{
 				try {
 					choix = saisieInt("Choississez la boutique à modifier (donner son numero) :");
-					for (Boutique bou : parc.getAchat().getBoutiques())
+					for (Achat a : DaoAc.findByType("boutique",parc))
 					{
-						if (bou.getId() == choix) {break;}
-						else {i++;}
+						if (a.getElement().getId() == choix) 
+						{
+							b = (Boutique) a.getElement();
+							idAchat = a.getId();
+							break;
+						}						
 					}
 
-					if(i > parc.getAchat().getBoutiques().size()) {System.out.println("\nAttention vous n'avez pas ce magasin, réessayez");}
+					if(b == null)
+					{System.out.println("\nAttention vous n'avez pas ce magasin, réessayez");}
 					else {testSaisie = false;}
 				}
 				catch (Exception e){
@@ -830,41 +927,40 @@ public class MenuJoueur {
 				}
 			}
 			
-			Amelioration am = Context.getInstance().getDaoP().findByIds(parc.getId(),parc.getAchat().getBoutiques().get(i).getId());
 			
-
 			if (prixAmeliorationBoutique > parc.getArgent()) 
 			{
 				System.out.println("Vous n'avez pas assez d'argent pour améliorer cette boutique !");
 			}
-			else if (am.getNiveauAmelioration()>=parc.getAchat().getBoutiques().get(i).getNbAmelioration())
-			//else if (parc.getAchat().getAttractions().get(i).getAmelioration().getNiveauAmelioration()>=parc.getAchat().getAttractions().get(i).getNbAmelioration() )
+			else if (DaoAc.Nvamelioration(parc,b)>=b.getNbAmelioration())
 			{
 				System.out.println("Vous avez atteint le maximum d'améliorations de cette boutique !");
 			}
 			else
 			{
+				Achat a = DaoAc.findById(idAchat);
+				a.setNiveauAmelioration(a.getNiveauAmelioration()+1);
+				DaoAc.update(a);
+				
 				parc.setArgent(parc.getArgent()-prixAmeliorationBoutique);
-				//parc.getAchat().getAttractions().get(i).getAmelioration().setNiveauAmelioration(parc.getAchat().getAttractions().get(i).getAmelioration().getNiveauAmelioration()+1);
-				am.setNiveauAmelioration(am.getNiveauAmelioration()+1);
-				Context.getInstance().getDaoP().update(am);
+				Context.getInstance().setParc(parc);
 			}
-			
 		}
 	}
 
 
-	private static void menuPossession() {
 
-		if (parc.getAchat().getAttractions().isEmpty() && parc.getAchat().getBoutiques().isEmpty() && parc.getAchat().getRestaurants().isEmpty())
+
+	private static void menuPossession() {
+		List<Achat> allAchats = DaoAc.findByParc(parc);
+
+		if (allAchats.isEmpty())
 		{
 			System.out.println("Tu n'as pas de batiments ! \n Va en construire ! ");
-
 			menuModification();
 		}
 		else 
 		{
-
 			testSaisie = true;
 			int choix=0;
 
@@ -903,36 +999,21 @@ public class MenuJoueur {
 
 
 	private static void ShowEmploye() {
+		List<Achat> allAchatEmp = DaoAc.findByType("employe",parc);
 
-		if (parc.getAchat().getEmployes().isEmpty())
+		if (allAchatEmp.isEmpty())
 		{
 			System.out.println("Vous ne possèdez pas d'employé");
 		}
 		else 
 		{
-			List<String> metier=new ArrayList();
-			List<Integer> nbEmploye=new ArrayList();
-
-			for (Employe emp : parc.getAchat().getEmployes())
-			{
-				if (metier.contains(emp.getMetier()))
-				{
-					int i = metier.indexOf(emp.getMetier());	
-					nbEmploye.set(i, nbEmploye.get(i)+1);
-				}
-				else
-				{
-					metier.add(emp.getMetier());
-					nbEmploye.add(1);					
-				}
-			}
-
 			System.out.println("Voici les employes de votre parc :");
-			for (int i=0; i<metier.size(); i++)
+			for (Achat a : allAchatEmp)
 			{
-				System.out.println(nbEmploye.get(i)+" "+metier.get(i));
+				Employe emp = (Employe) a.getElement();
+				
+				System.out.println(a.getNbSameElement()+" "+emp.getMetier());
 			}
-
 		}
 	}
 
@@ -940,53 +1021,58 @@ public class MenuJoueur {
 
 
 	private static void ShowAttraction() {
+		List<Achat> allAchatAtt = DaoAc.findByType("attraction",parc);
 
-
-		if (parc.getAchat().getAttractions().isEmpty())
+		if (allAchatAtt.isEmpty())
 		{
 			System.out.println("Vous ne possèdez pas d'attraction");
 		}
 		else
 		{
 			System.out.println("Voici toutes les attractions présentes dans votre parc :");
-
-			for (Attraction a : parc.getAchat().getAttractions())
+			for (Achat a : allAchatAtt)
 			{
-				System.out.println(a);
+				Attraction at = (Attraction)a.getElement();
+				System.out.println(at);
 			}
 		}
 	}
 
 
-	private static void ShowRestaurant() {
 
-		if (parc.getAchat().getRestaurants().isEmpty())
+	private static void ShowRestaurant() {
+		List<Achat> allAchatRestaurants = DaoAc.findByType("restaurant",parc);
+		
+		if (allAchatRestaurants.isEmpty())
 		{
 			System.out.println("Vous ne possèdez pas de restaurant");
 		}
 		else 
 		{
 			System.out.println("Voici touts les restaurants présents dans votre parc :");
-
-			for (Restaurant r : parc.getAchat().getRestaurants())
+			for (Achat a : allAchatRestaurants)
 			{
+				Restaurant r = (Restaurant)a.getElement();
 				System.out.println(r);
 			}
 		}
 	}
 
 
-	private static void ShowCommodites() {
 
-		if (parc.getAchat().getCommodites().isEmpty())
+	private static void ShowCommodites() {
+		List<Achat> allAchatCom = DaoAc.findByType("commodite",parc);
+
+		if (allAchatCom.isEmpty())
 		{
 			System.out.println("Vous ne possèdez pas de commodites");
 		}
 		else 
 		{
 			System.out.println("Voici toutes les commodites présentes dans votre parc :");
-			for (Commodite c : parc.getAchat().getCommodites())
+			for (Achat a : allAchatCom)
 			{
+				Commodite c = (Commodite)a.getElement();
 				System.out.println(c);
 			}
 		}
@@ -994,16 +1080,18 @@ public class MenuJoueur {
 
 
 	private static void ShowBoutique() {
-
-		if (parc.getAchat().getBoutiques().isEmpty())
+		List<Achat> allAchatBoutique = DaoAc.findByType("boutique",parc);
+		
+		if (allAchatBoutique.isEmpty())
 		{
 			System.out.println("Vous ne possèdez pas de boutique");
 		}
 		else {
 			System.out.println("Voici toutes les boutiques présentes dans votre parc :");
 
-			for (Boutique b : parc.getAchat().getBoutiques())
+			for (Achat a : allAchatBoutique)
 			{
+				Boutique b = (Boutique)a.getElement();
 				System.out.println(b);
 			}
 		}

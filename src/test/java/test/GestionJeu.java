@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.Scanner;
 
 import dao.IDAO.IDAOParc;
-import metier.Achat;
 import metier.Difficulte;
 import metier.Joueur;
 import metier.Parc;
@@ -15,7 +14,6 @@ import util.Context;
 
 public class GestionJeu {
 
-	static List<Parc> SauvegardePartie = new ArrayList();
 	static Joueur joueur =  Context.getInstance().getJoueur();
 	static IDAOParc daoP = Context.getInstance().getDaoP();
 
@@ -49,7 +47,6 @@ public class GestionJeu {
 			nomParc = saisieString("Veuillez choisir un autre nom");
 		}
 
-		List<Achat> achat = new ArrayList();
 		Parc p = new Parc (joueur,nomParc,tailleP,0,argentJ,diff);
 		Context.getInstance().setParc(daoP.insert(p));
 		MenuJoueur.menuPartie();
@@ -86,7 +83,7 @@ public class GestionJeu {
 			{
 				if( p1.getId() == choix) 
 				{
-					Context.getInstance().setParc(daoP.insert(p1));
+					Context.getInstance().setParc(p1);
 					MenuJoueur.menuPartie();
 				}
 			}

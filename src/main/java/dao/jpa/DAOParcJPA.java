@@ -7,6 +7,7 @@ import javax.persistence.Query;
 
 import dao.IDAO.IDAOParc;
 import metier.Achat;
+import metier.Element;
 import metier.Joueur;
 import metier.Parc;
 import util.Context;
@@ -64,7 +65,7 @@ public class DAOParcJPA implements IDAOParc {
 		em.remove(p);
 		for (Achat a : achats)
 		{
-			em.remove(a);
+			 Context.getInstance().getDaoAc().delete(a.getId());
 		}
 		em.getTransaction().commit();
 		em.close();
@@ -87,6 +88,7 @@ public class DAOParcJPA implements IDAOParc {
 	}
 
 
+	@Override
 	public List<Parc> findByIdJoueur(Joueur joueur) {
 		EntityManager em = Context.getInstance().getEmf().createEntityManager();
 		Query query= em.createQuery("from Parc p where p.joueur = :lib",Parc.class);
@@ -97,6 +99,7 @@ public class DAOParcJPA implements IDAOParc {
 	}
 
 
+	@Override
 	public boolean checkSameParcName(String nomParc, Joueur joueur) {
 		boolean b=false;
 		
@@ -119,7 +122,10 @@ public class DAOParcJPA implements IDAOParc {
 		catch(Exception e) {}
 		return b;
 	}
+	
 
+
+	
 	
 }
 

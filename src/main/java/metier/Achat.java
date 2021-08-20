@@ -18,6 +18,7 @@ public class Achat {
 	@JoinColumn(name="id_element")
 	private Element element;
 	private int niveauAmelioration;
+	private int nbSameElement;
 	@Column(name="type_element",length = 40)
 	private String typeElement;
 	@ManyToOne
@@ -40,6 +41,14 @@ public class Achat {
 		this.parc=parc;
 	}
 
+	public Achat(Element element,int nbSameElement,int niveauAmelioration,String typeElement,Parc parc) {
+		this.element = element;
+		this.niveauAmelioration = niveauAmelioration;
+		this.nbSameElement=nbSameElement;
+		this.typeElement=typeElement;
+		this.parc=parc;
+	}
+
 	public Achat() {}
 
 	
@@ -51,6 +60,14 @@ public class Achat {
 
 	public void setTypeElement(String typeElement) {
 		this.typeElement = typeElement;
+	}
+	
+	public int getNbSameElement() {
+		return nbSameElement;
+	}
+
+	public void setNbSameElement(int nbSameElement) {
+		this.nbSameElement = nbSameElement;
 	}
 
 	public int getNiveauAmelioration() {
@@ -77,9 +94,7 @@ public class Achat {
 	}
 
 
-	public int geNiveauAmelioration() {
-		return niveauAmelioration;
-	}
+
 
 
 	public void setNiveauAmelioration(int niveauAmelioration) {
