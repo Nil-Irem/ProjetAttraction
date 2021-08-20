@@ -93,11 +93,15 @@ public class DAOAchatJPA implements IDAOAchat {
 	@Override
 	public List<Achat> findByParc (Parc p)
 	{
-		EntityManager em = Context.getInstance().getEmf().createEntityManager();
-		Query myQuery = em.createQuery("from Achat where parc=:parc", Achat.class);
-		myQuery.setParameter("parc", p);
-		List<Achat> a = myQuery.getResultList();
-		em.close();
+		List<Achat> a = null;
+		try {
+			EntityManager em = Context.getInstance().getEmf().createEntityManager();
+			Query myQuery = em.createQuery("from Achat where parc=:parc", Achat.class);
+			myQuery.setParameter("parc", p);
+			a = myQuery.getResultList();
+			em.close();
+		}
+		catch (Exception e){e.getStackTrace();}
 		return  a;		
 	}
 	

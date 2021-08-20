@@ -279,6 +279,7 @@ public class MenuJoueur {
 
 		argentGagne = nbVisiteur*prixEntree;
 		parc.setArgent(parc.getArgent()+argentGagne-salaire-prixFonctionnement);
+		parc.setNbjour(parc.getNbjour()+1);
 		Context.getInstance().setParc(parc);
 
 		System.out.println("Vous avez reçu "+Math.round(nbVisiteur)+" visiteurs");
@@ -505,7 +506,7 @@ public class MenuJoueur {
 			}
 			else
 			{
-				newAchat = new Achat(newCom,0,0,"commodite",parc);
+				newAchat = new Achat(newCom,1,0,"commodite",parc);
 				DaoAc.insert(newAchat);
 			}
 			
@@ -847,7 +848,7 @@ public class MenuJoueur {
 			{
 				try {
 					choix = saisieInt("Choississez le restaurant à modifier (donner son numero) :");
-					for (Achat a : DaoAc.findByType("attraction",parc)) 
+					for (Achat a : DaoAc.findByType("restaurant",parc)) 
 					{
 						if (a.getElement().getId() == choix) 
 						{
