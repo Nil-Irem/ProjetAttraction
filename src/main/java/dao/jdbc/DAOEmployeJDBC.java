@@ -6,11 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import dao.IDAO.IDAO;
+import dao.IDAO.IDAOEmploye;
 
 import metier.Employe;
 
-public class DAOEmploye implements IDAO<Employe, Integer> {
+public class DAOEmployeJDBC implements IDAOEmploye {
 
 	@Override
 	public Employe findById(Integer id) {
@@ -20,13 +20,13 @@ public class DAOEmploye implements IDAO<Employe, Integer> {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(urlBDD,loginBDD,passwordBDD);
 
-			PreparedStatement ps = conn.prepareStatement("SELECT * from employe where id_employe=?");
+			PreparedStatement ps = conn.prepareStatement("SELECT * from employe where id=?");
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
 
 			while(rs.next()) 
 			{
-				 emp = new Employe(rs.getInt("id_employe"),rs.getString("metier"),rs.getDouble("salaire"));
+				 emp = new Employe(rs.getInt("id"),rs.getString("metier"),rs.getDouble("salaire"));
 			}
 			rs.close();
 			ps.close();
@@ -50,7 +50,7 @@ public class DAOEmploye implements IDAO<Employe, Integer> {
 
 			while(rs.next()) 
 			{
-				Employe emp = new Employe(rs.getInt("id_employe"),rs.getString("metier"),rs.getDouble("salaire"));
+				Employe emp = new Employe(rs.getInt("id"),rs.getString("metier"),rs.getDouble("salaire"));
 				employe.add(emp);
 			}
 			rs.close();
@@ -85,7 +85,7 @@ public class DAOEmploye implements IDAO<Employe, Integer> {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(urlBDD,loginBDD,passwordBDD);
 
-			PreparedStatement ps = conn.prepareStatement("UPDATE employe set metier=?,salaire=? where id_employe=?");
+			PreparedStatement ps = conn.prepareStatement("UPDATE employe set metier=?,salaire=? where id=?");
 			
 			ps.setString(1, emp.getMetier());
 			ps.setDouble(2, emp.getSalaire());
@@ -105,7 +105,7 @@ public class DAOEmploye implements IDAO<Employe, Integer> {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(urlBDD,loginBDD,passwordBDD);
 
-			PreparedStatement ps = conn.prepareStatement("DELETE from employe where id_employe=?");
+			PreparedStatement ps = conn.prepareStatement("DELETE from employe where id=?");
 			ps.setInt(1, id);
 			ps.executeUpdate();
 
@@ -114,6 +114,13 @@ public class DAOEmploye implements IDAO<Employe, Integer> {
 		}
 		catch(Exception e) {e.printStackTrace();}	
 		
+	}
+
+
+	@Override
+	public List<Employe> filterEmploye(String mot) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

@@ -26,10 +26,12 @@ public class Achat {
 	private Parc parc;
 
 
-	public Achat(int id, Element element,int niveauAmelioration,String typeElement,Parc parc) {
+
+	public Achat(int id, Element element,int nbSameElement,int niveauAmelioration,String typeElement,Parc parc) {
 		this.id = id;
 		this.element = element;
 		this.niveauAmelioration = niveauAmelioration;
+		this.nbSameElement=nbSameElement;
 		this.typeElement=typeElement;
 		this.parc=parc;
 	}
@@ -94,8 +96,13 @@ public class Achat {
 	}
 
 
+	public Parc getParc() {
+		return parc;
+	}
 
-
+	public void setParc(Parc parc) {
+		this.parc = parc;
+	}
 
 	public void setNiveauAmelioration(int niveauAmelioration) {
 		this.niveauAmelioration = niveauAmelioration;

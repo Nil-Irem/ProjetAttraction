@@ -11,10 +11,8 @@ import util.Context;
 
 
 public class Menu {
-		
-	static Compte connected=Context.getInstance().getConnected();
+	
 	static IDAOCompte daoCpt = Context.getInstance().getDaoCpt();
-
 		
 	public static void menuPrincipal() {
 		
@@ -52,13 +50,13 @@ public class Menu {
 		private static void inscription() {
 			String login = saisieString("\nEntrez votre identifiant :");
 			
-			while (daoCpt.findByLogin(login))
+			while (daoCpt.checkSameLogin(login))
 			{
 				login = saisieString("\nL'identifiant "+login+ " est déjà utilisé essayez autre chose :");
 			}
 			String password = saisieString("Entrez votre mot de passe :");
 			
-			connected = new Joueur(login,password);
+			Compte connected = new Joueur(login,password);
 			Context.getInstance().setConnected(daoCpt.insert(connected));
 			Context.getInstance().setJoueur((Joueur) Context.getInstance().getConnected());
 			
@@ -70,10 +68,10 @@ public class Menu {
 		
 		private static void seConnecter() {
 			String login = saisieString("\nEntrez votre identifiant :");
-			String password = saisieString("Entrez votre mot de passe :");		
-			Context.getInstance().setConnected(daoCpt.seConnecter(login,password));
+			String password = saisieString("Entrez votre mot de passe :");
 			
-			connected = Context.getInstance().getConnected();
+			Compte connected = daoCpt.seConnecter(login,password);
+			Context.getInstance().setConnected(connected);
 			
 			if(connected instanceof Joueur) 
 			{

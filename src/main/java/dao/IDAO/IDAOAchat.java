@@ -8,7 +8,7 @@ import metier.Parc;
 
 public interface IDAOAchat extends IDAO<Achat,Integer> {
 
-	public List<Achat> findByType(String type,Parc parc);
+	public List<Achat> findByTypeAndParc(String type,Parc parc);
 	public int Nvamelioration (Parc parc, Element element);
 	public List<Achat> findByParc(Parc p);
 	

@@ -73,23 +73,7 @@ public class DAOParcJPA implements IDAOParc {
 
 
 	@Override
-	public List<Parc> filterParc(String mot) {
-		
-		List<Parc> parcs = null;
-		try {
-			EntityManager em = Context.getInstance().getEmf().createEntityManager();
-			Query query= em.createQuery("from Parc p where p.nom like :lib",Parc.class);
-			query.setParameter("lib", "%"+mot+"%");
-			parcs = query.getResultList();
-			em.close();
-		}
-		catch(Exception e) {}
-		return parcs;
-	}
-
-
-	@Override
-	public List<Parc> findByIdJoueur(Joueur joueur) {
+	public List<Parc> findByJoueur(Joueur joueur) {
 		EntityManager em = Context.getInstance().getEmf().createEntityManager();
 		Query query= em.createQuery("from Parc p where p.joueur = :lib",Parc.class);
 		query.setParameter("lib", joueur);
@@ -101,7 +85,7 @@ public class DAOParcJPA implements IDAOParc {
 
 	@Override
 	public boolean checkSameParcName(String nomParc, Joueur joueur) {
-		boolean b=false;
+		boolean b=true;
 		
 		try {
 			EntityManager em = Context.getInstance().getEmf().createEntityManager();
@@ -112,22 +96,29 @@ public class DAOParcJPA implements IDAOParc {
 			em.close();
 			if (parcs.isEmpty())
 			{
-				b = true;
+				b = false;
 			}
 			else
 			{
-				b = false;
+				b = true;
 			}
 		}
 		catch(Exception e) {}
 		return b;
 	}
-	
 
 
-	
-	
+	@Override
+	public List<Parc> filterParc(String mot) {
+		List<Parc> parcs = null;
+		try {
+			EntityManager em = Context.getInstance().getEmf().createEntityManager();
+			Query query= em.createQuery("from Parc p where p.nom like :lib",Parc.class);
+			query.setParameter("lib", "%"+mot+"%");
+			parcs = query.getResultList();
+			em.close();
+		}
+		catch(Exception e) {}
+		return parcs;
+	}
 }
-
-
-

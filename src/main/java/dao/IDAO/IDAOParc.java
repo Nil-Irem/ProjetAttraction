@@ -10,12 +10,9 @@ import metier.Parc;
 public interface IDAOParc extends IDAO<Parc, Integer> {
 
 	public List<Parc> filterParc (String mot);
-	public List<Parc> findByIdJoueur(Joueur joueur);
+	public List<Parc> findByJoueur(Joueur joueur);
 
+	//Return true si le nom existe deja pour le joueur
 	public boolean checkSameParcName(String nomParc, Joueur joueur);
-
-
-
-
 
 }

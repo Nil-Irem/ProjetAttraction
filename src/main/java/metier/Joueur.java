@@ -27,19 +27,10 @@ public class Joueur extends Compte {
 		super();
 	}
 
-	public int getId() {
-		return id;
-	}
-	
-	
-	public void setId(int id) {
-		this.id = id;
-	}
-
 
 	@Override
 	public String toString() {
-		return "Le joueur numero "+id+") possede ";
+		return "Le joueur "+login+" (numero "+id+")";
 	}
 
 

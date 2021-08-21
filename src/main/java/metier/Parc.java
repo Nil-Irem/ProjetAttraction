@@ -20,9 +20,7 @@ public class Parc {
 	private Joueur joueur;
 
     
-    
-    //constructeur pour find by id dans DAOParc
-    public Parc(int id,String nom, double taille, int nbjour, double argent, Difficulte typeDifficulte)
+    public Parc(int id,String nom, double taille, int nbjour, double argent, Difficulte typeDifficulte,Joueur joueur)
     {
     	this.id=id;
 		this.nomParc = nom;
@@ -30,8 +28,10 @@ public class Parc {
 		this.nbjour = nbjour;
 		this.argent=argent;
 		this.typeDifficulte=typeDifficulte;
+		this.joueur=joueur;
     }
-    
+   
+
     public Parc (Joueur joueur,String nomParc,double taille, int nbjour,double argent,Difficulte typeDifficulte) {	
 		this.joueur=joueur;
 		this.nomParc = nomParc;
@@ -42,12 +42,8 @@ public class Parc {
 	}
 			
 	
-
-	
 	public Parc() {}
 	
-	
-
 
 	public double getArgent() {
 		return argent;
@@ -60,17 +56,14 @@ public class Parc {
 	}
 
 
-
 	public Difficulte getTypeDifficulte() {
 		return typeDifficulte;
 	}
 
 
-
 	public void setTypeDifficulte(Difficulte typeDifficulte) {
 		this.typeDifficulte = typeDifficulte;
 	}
-
 
 
 	public int getId() {
@@ -111,6 +104,17 @@ public class Parc {
 	public void setNbjour(int nbjour) {
 		this.nbjour = nbjour;
 	}
+	
+
+	public Joueur getJoueur() {
+		return joueur;
+	}
+
+
+	public void setJoueur(Joueur joueur) {
+		this.joueur = joueur;
+	}
+
 
 	@Override
 	public String toString() {

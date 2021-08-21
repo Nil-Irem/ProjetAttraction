@@ -16,8 +16,6 @@ import util.Context;
 
 public class MenuJoueur {
 
-	static Joueur joueur =  Context.getInstance().getJoueur();
-	static Parc parc = Context.getInstance().getParc();
 	static IDAOAttraction DaoA = Context.getInstance().getDaoA();
 	static IDAOBoutique DaoB = Context.getInstance().getDaoB();
 	static IDAOCommodite DaoC = Context.getInstance().getDaoC();
@@ -63,10 +61,9 @@ public class MenuJoueur {
 		{
 		case 1 : GestionJeu.creerPartie() ;break;
 		case 2 : GestionJeu.chargerPartie();break;
-		case 3 : Menu.menuPrincipal();break;
+		case 3 : Context.getInstance().setJoueur(null); Menu.menuPrincipal();break;
 		default : System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 3");break;
 		}
-		parc = Context.getInstance().getParc();
 		menuJoueur();
 	}
 
@@ -75,7 +72,6 @@ public class MenuJoueur {
 	public static void menuPartie() {
 		testSaisie = true;
 		int choix=0;
-		parc = Context.getInstance().getParc();
 
 		while (testSaisie)
 		{
@@ -101,7 +97,6 @@ public class MenuJoueur {
 		case 4 : menuJoueur();break;
 		default : System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 4");break;
 		}
-		parc = Context.getInstance().getParc();
 		menuPartie();
 	}
 
@@ -142,6 +137,7 @@ public class MenuJoueur {
 
 
 	public static void finJournee() {
+		Parc parc = Context.getInstance().getParc();
 		double prixFonctionnement=0;
 		double attractivite=0;
 		double argentGagne=0;
@@ -154,7 +150,7 @@ public class MenuJoueur {
 		double impactEA = 2;
 		
 		
-		for (Achat a : DaoAc.findByType("employe", parc)) {
+		for (Achat a : DaoAc.findByTypeAndParc("employe", parc)) {
 			Employe e = (Employe) a.getElement();
 			salaire += e.getSalaire();
 
@@ -169,7 +165,7 @@ public class MenuJoueur {
 		}
 
 
-		for (Achat a : DaoAc.findByType("attraction", parc)) {
+		for (Achat a : DaoAc.findByTypeAndParc("attraction", parc)) {
 			Attraction at = (Attraction) a.getElement();
 			int alea = generateRandomInt(11);
 			double incident = 1;
@@ -194,7 +190,7 @@ public class MenuJoueur {
 		}
 
 
-		for (Achat a : DaoAc.findByType("boutique", parc)) {
+		for (Achat a : DaoAc.findByTypeAndParc("boutique", parc)) {
 			Boutique b = (Boutique) a.getElement();
 			int alea = generateRandomInt(11);
 			double incidentb = 1;
@@ -220,7 +216,7 @@ public class MenuJoueur {
 		}
 
 
-		for (Achat a : DaoAc.findByType ("restaurant", parc)) {
+		for (Achat a : DaoAc.findByTypeAndParc("restaurant", parc)) {
 			Restaurant r = (Restaurant) a.getElement();
 			int alea = generateRandomInt(11);
 			double incidentr = 1;
@@ -326,6 +322,7 @@ public class MenuJoueur {
 
 
 	private static void menuAchatTerrain() {
+		Parc parc = Context.getInstance().getParc();
 		testSaisie = true;
 		int choix=0;
 
@@ -390,15 +387,15 @@ public class MenuJoueur {
 		default : System.out.println("\nAttention il faut rentrer un chiffre entre 1 et 6");break;
 		}
 		GestionJeu.saveGame();
-		parc = Context.getInstance().getParc();
 		menuAchat();	
 	}
 
 
 
 	private static void achatRestaurant() {
+		Parc parc = Context.getInstance().getParc();
 		List<Restaurant> allRestaurants = DaoR.findAll();
-		List<Achat> allAchatRestaurants = DaoAc.findByType("restaurant",parc);
+		List<Achat> allAchatRestaurants = DaoAc.findByTypeAndParc("restaurant",parc);
 		Restaurant r1 = null;
 	
 		//allRestaurants.remove(allAchatRestaurants);
@@ -467,7 +464,8 @@ public class MenuJoueur {
 	private static void achatCommodite() {
 		System.out.println("Voici toutes les commodites disponibles :");
 		for (Commodite c : DaoC.findAll()){System.out.println(c);}
-
+		
+		Parc parc = Context.getInstance().getParc();
 		testSaisie = true;
 		int choix=0;
 		Commodite newCom = null;
@@ -489,7 +487,7 @@ public class MenuJoueur {
 		{	
 			boolean exist=false;
 			Achat newAchat = null; 
-			for (Achat a : DaoAc.findByType("commodite", parc))
+			for (Achat a : DaoAc.findByTypeAndParc("commodite", parc))
 			{
 				if(a.getElement().getId() == newCom.getId()) 
 				{
@@ -524,8 +522,9 @@ public class MenuJoueur {
 
 
 	private static void achatBoutique() {
+		Parc parc = Context.getInstance().getParc();
 		List<Boutique> allBoutiques = DaoB.findAll();
-		List<Achat> allAchatBoutiques = DaoAc.findByType("boutique",parc);
+		List<Achat> allAchatBoutiques = DaoAc.findByTypeAndParc("boutique",parc);
 		Boutique b1 = null;
 	
 		//allBoutiques.remove(allAchatBoutiques);
@@ -599,7 +598,8 @@ public class MenuJoueur {
 		{
 			System.out.println(e);
 		}
-
+		
+		Parc parc = Context.getInstance().getParc();
 		testSaisie = true;
 		int choix=0;
 		Employe newEmp = null;
@@ -621,7 +621,7 @@ public class MenuJoueur {
 		{		
 			boolean exist=false;
 			Achat newAchat = null; 
-			for (Achat a : DaoAc.findByType("employe", parc))
+			for (Achat a : DaoAc.findByTypeAndParc("employe", parc))
 			{
 				if(a.getElement().getId() == newEmp.getId()) 
 				{
@@ -654,8 +654,9 @@ public class MenuJoueur {
 
 
 	private static void achatAttraction() {
+		Parc parc = Context.getInstance().getParc();
 		List<Attraction> allAttractions = DaoA.findAll();
-		List<Achat> allAchatAttractions = DaoAc.findByType("attraction",parc);
+		List<Achat> allAchatAttractions = DaoAc.findByTypeAndParc("attraction",parc);
 		Attraction a1 = null;
 
 		for (int i=0; i<allAchatAttractions.size();i++) 
@@ -727,7 +728,8 @@ public class MenuJoueur {
 
 
 	private static void menuAmelioration() {
-		 //&& parc.getAchat().getBoutiques().isEmpty() && parc.getAchat().getRestaurants().isEmpty())
+		Parc parc = Context.getInstance().getParc();
+		
 		if (DaoAc.findByParc(parc).isEmpty())
 		{
 			System.out.println("Tu n'as pas de batiments ! \n Va en construire ! ");
@@ -770,7 +772,9 @@ public class MenuJoueur {
 
 	private static void ameliorerAttraction() 
 	{
-		if (DaoAc.findByType("attraction",parc).isEmpty())
+		Parc parc = Context.getInstance().getParc();
+		
+		if (DaoAc.findByTypeAndParc("attraction",parc).isEmpty())
 		{
 			System.out.println("Vous n'avez pas d'attractions à améliorer");
 			menuAmelioration();
@@ -788,7 +792,7 @@ public class MenuJoueur {
 			{
 				try {
 					choix = saisieInt("Choississez l'attraction à modifier (donner son numero) :");
-					for (Achat a : DaoAc.findByType("attraction",parc)) 
+					for (Achat a : DaoAc.findByTypeAndParc("attraction",parc)) 
 					{
 						if (a.getElement().getId() == choix) 
 						{
@@ -830,7 +834,9 @@ public class MenuJoueur {
 
 
 	private static void ameliorerRestaurant() {
-		if (DaoAc.findByType("restaurant",parc).isEmpty())
+		Parc parc = Context.getInstance().getParc();
+		
+		if (DaoAc.findByTypeAndParc("restaurant",parc).isEmpty())
 		{
 			System.out.println("Vous n'avez pas de restaurants à améliorer");
 			menuAmelioration();
@@ -848,7 +854,7 @@ public class MenuJoueur {
 			{
 				try {
 					choix = saisieInt("Choississez le restaurant à modifier (donner son numero) :");
-					for (Achat a : DaoAc.findByType("restaurant",parc)) 
+					for (Achat a : DaoAc.findByTypeAndParc("restaurant",parc)) 
 					{
 						if (a.getElement().getId() == choix) 
 						{
@@ -891,7 +897,9 @@ public class MenuJoueur {
 	}
 
 	private static void ameliorerBoutique() {
-		if (DaoAc.findByType("boutique",parc).isEmpty())
+		Parc parc = Context.getInstance().getParc();
+		
+		if (DaoAc.findByTypeAndParc("boutique",parc).isEmpty())
 		{
 			System.out.println("Vous n'avez pas de magasin à améliorer");
 			menuAmelioration();
@@ -909,7 +917,7 @@ public class MenuJoueur {
 			{
 				try {
 					choix = saisieInt("Choississez la boutique à modifier (donner son numero) :");
-					for (Achat a : DaoAc.findByType("boutique",parc))
+					for (Achat a : DaoAc.findByTypeAndParc("boutique",parc))
 					{
 						if (a.getElement().getId() == choix) 
 						{
@@ -953,6 +961,7 @@ public class MenuJoueur {
 
 
 	private static void menuPossession() {
+		Parc parc = Context.getInstance().getParc();
 		List<Achat> allAchats = DaoAc.findByParc(parc);
 
 		if (allAchats.isEmpty())
@@ -1000,7 +1009,8 @@ public class MenuJoueur {
 
 
 	private static void ShowEmploye() {
-		List<Achat> allAchatEmp = DaoAc.findByType("employe",parc);
+		Parc parc = Context.getInstance().getParc();
+		List<Achat> allAchatEmp = DaoAc.findByTypeAndParc("employe",parc);
 
 		if (allAchatEmp.isEmpty())
 		{
@@ -1022,7 +1032,8 @@ public class MenuJoueur {
 
 
 	private static void ShowAttraction() {
-		List<Achat> allAchatAtt = DaoAc.findByType("attraction",parc);
+		Parc parc = Context.getInstance().getParc();
+		List<Achat> allAchatAtt = DaoAc.findByTypeAndParc("attraction",parc);
 
 		if (allAchatAtt.isEmpty())
 		{
@@ -1042,7 +1053,8 @@ public class MenuJoueur {
 
 
 	private static void ShowRestaurant() {
-		List<Achat> allAchatRestaurants = DaoAc.findByType("restaurant",parc);
+		Parc parc = Context.getInstance().getParc();
+		List<Achat> allAchatRestaurants = DaoAc.findByTypeAndParc("restaurant",parc);
 		
 		if (allAchatRestaurants.isEmpty())
 		{
@@ -1062,7 +1074,8 @@ public class MenuJoueur {
 
 
 	private static void ShowCommodites() {
-		List<Achat> allAchatCom = DaoAc.findByType("commodite",parc);
+		Parc parc = Context.getInstance().getParc();
+		List<Achat> allAchatCom = DaoAc.findByTypeAndParc("commodite",parc);
 
 		if (allAchatCom.isEmpty())
 		{
@@ -1081,7 +1094,8 @@ public class MenuJoueur {
 
 
 	private static void ShowBoutique() {
-		List<Achat> allAchatBoutique = DaoAc.findByType("boutique",parc);
+		Parc parc = Context.getInstance().getParc();
+		List<Achat> allAchatBoutique = DaoAc.findByTypeAndParc("boutique",parc);
 		
 		if (allAchatBoutique.isEmpty())
 		{

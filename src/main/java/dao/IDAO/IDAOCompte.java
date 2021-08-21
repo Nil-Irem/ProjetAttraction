@@ -7,7 +7,8 @@ import metier.Compte;
 public interface IDAOCompte extends IDAO<Compte, Integer>{
 	
 	public Compte seConnecter(String login, String password);
-	public boolean findByLogin(String login);
 	public List<Compte> filterCompte(String mot);
-	
+
+	//Return True si le login existe deja
+	public boolean checkSameLogin(String login);	
 }

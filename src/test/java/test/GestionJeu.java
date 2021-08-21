@@ -14,12 +14,10 @@ import util.Context;
 
 public class GestionJeu {
 
-	static Joueur joueur =  Context.getInstance().getJoueur();
 	static IDAOParc daoP = Context.getInstance().getDaoP();
 
-
-
 	public static void creerPartie(){
+		Joueur joueur =  Context.getInstance().getJoueur();
 		Difficulte diff = Difficulte.Facile;
 		boolean testDifficulte = true;
 		System.out.println("Créons une nouvelle partie !");
@@ -41,7 +39,7 @@ public class GestionJeu {
 		
 		String nomParc= saisieString("Veuillez choisir un nom pour votre parc et le saisir");
 
-		while(!daoP.checkSameParcName(nomParc,joueur))
+		while(daoP.checkSameParcName(nomParc,joueur))
 		{
 			System.out.println("Vous avez déjà un parc avec ce nom");
 			nomParc = saisieString("Veuillez choisir un autre nom");
@@ -57,12 +55,13 @@ public class GestionJeu {
 
 	public static void chargerPartie()
 	{	
+		Joueur joueur =  Context.getInstance().getJoueur();
 		List<Parc> parcs = new ArrayList();
-		parcs = daoP.findByIdJoueur(joueur);
+		parcs = daoP.findByJoueur(joueur);
 		
 		if(!parcs.isEmpty()) {
 			
-			System.out.println("Cher " + joueur.getLogin() + " Sur quel parc souhaites-tu t'amuser ?");
+			System.out.println("Cher " + joueur.getLogin() + " sur quel parc souhaites-tu t'amuser ?");
 			for (Parc p : parcs) {System.out.println(p);}
 
 			boolean testSaisie = true;

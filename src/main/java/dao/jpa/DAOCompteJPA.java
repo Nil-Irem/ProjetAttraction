@@ -79,9 +79,8 @@ public class DAOCompteJPA implements IDAOCompte {
 
 
 	@Override
-	public boolean findByLogin(String login) {
+	public boolean checkSameLogin(String login) {
 		boolean b=true;
-			
 		try {
 			EntityManager em = Context.getInstance().getEmf().createEntityManager();
 			Query query= em.createQuery("from Compte where login = :lib",Compte.class);

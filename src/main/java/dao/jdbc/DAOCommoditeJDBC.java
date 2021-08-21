@@ -6,12 +6,11 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
-import dao.IDAO.IDAO;
-
+import dao.IDAO.IDAOCommodite;
+import metier.Attraction;
 import metier.Commodite;
 
-public class DAOCommodite implements IDAO<Commodite, Integer> {
-
+public class DAOCommoditeJDBC implements IDAOCommodite {
 
 	@Override
 	public Commodite findById(Integer id) {
@@ -21,13 +20,13 @@ public class DAOCommodite implements IDAO<Commodite, Integer> {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(urlBDD,loginBDD,passwordBDD);
 
-			PreparedStatement ps = conn.prepareStatement("SELECT * from commodite where id_commodite=?");
+			PreparedStatement ps = conn.prepareStatement("SELECT * from commodite where id=?");
 			ps.setInt(1, id);
 			ResultSet rs = ps.executeQuery();
 
 			while(rs.next()) 
 			{
-				 c = new Commodite(rs.getInt("id_commodite"),rs.getString("nom"),rs.getDouble("prix_acquisition"),rs.getDouble("taille"));	
+				 c = new Commodite(rs.getInt("id"),rs.getString("nom"),rs.getDouble("prix_acquisition"),rs.getDouble("taille"));	
 			}
 			rs.close();
 			ps.close();
@@ -36,7 +35,7 @@ public class DAOCommodite implements IDAO<Commodite, Integer> {
 		catch (Exception e) {e.printStackTrace();}
 		return c;
 	}
-	
+
 	
 
 	@Override
@@ -52,7 +51,7 @@ public class DAOCommodite implements IDAO<Commodite, Integer> {
 
 			while(rs.next()) 
 			{
-				Commodite c = new Commodite(rs.getInt("id_commodite"),rs.getString("nom"),rs.getDouble("prix_acquisition"),rs.getDouble("taille"));
+				Commodite c = new Commodite(rs.getInt("id"),rs.getString("nom"),rs.getDouble("prix_acquisition"),rs.getDouble("taille"));
 				commodites.add(c);
 			}
 			rs.close();
@@ -70,20 +69,33 @@ public class DAOCommodite implements IDAO<Commodite, Integer> {
 		try {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(urlBDD,loginBDD,passwordBDD);
+			PreparedStatement ps = conn.prepareStatement("SELECT next_val FROM hibernate_sequences");
+			ResultSet rs = ps.executeQuery();
 			
-			PreparedStatement ps = conn.prepareStatement("INSERT into commodite (nom,prix_acquisition,taille) VALUES (?,?,?)");
+			int id = rs.getInt("next_val")+1;
+			c.setId(id);
 
-			ps.setString(1, c.getNom());
-			ps.setDouble(2, c.getPrixAcquisition());
-			ps.setDouble(3, c.getTaille());
-			ps.executeUpdate();
-
+			rs.close();
 			ps.close();
+			
+			PreparedStatement ps2 = conn.prepareStatement("INSERT into commodite (nom,prix_acquisition,taille) VALUES (?,?,?)");
+
+			ps2.setString(1, c.getNom());
+			ps2.setDouble(2, c.getPrixAcquisition());
+			ps2.setDouble(3, c.getTaille());
+			ps2.executeUpdate();
+
+			ps2.close();
+			
+			PreparedStatement ps3 = conn.prepareStatement("UPDATE hibernate_sequences set next_val=? where sequence_name like default");
+
+			ps3.setInt(1,id);
+			
+			ps3.close();
 			conn.close();
 		}
 		catch(Exception e) {e.printStackTrace();}
 		
-		//Y ajouter l'id ?
 		return c;
 	}
 	
@@ -95,7 +107,7 @@ public class DAOCommodite implements IDAO<Commodite, Integer> {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(urlBDD,loginBDD,passwordBDD);
 
-			PreparedStatement ps = conn.prepareStatement("UPDATE commodite set nom=?,prix_acquisition=?,taille=? where id_commodite=?");
+			PreparedStatement ps = conn.prepareStatement("UPDATE commodite set nom=?,prix_acquisition=?,taille=? where id=?");
 
 			ps.setString(1, c.getNom());
 			ps.setDouble(2, c.getPrixAcquisition());
@@ -110,7 +122,6 @@ public class DAOCommodite implements IDAO<Commodite, Integer> {
 		return c;
 	}
 	
-	
 
 
 	@Override
@@ -119,7 +130,7 @@ public class DAOCommodite implements IDAO<Commodite, Integer> {
 			Class.forName("com.mysql.jdbc.Driver");
 			Connection conn = DriverManager.getConnection(urlBDD,loginBDD,passwordBDD);
 
-			PreparedStatement ps = conn.prepareStatement("DELETE from commodite where id_commodite=?");
+			PreparedStatement ps = conn.prepareStatement("DELETE from commodite where id=?");
 			ps.setInt(1, id);
 			ps.executeUpdate();
 
@@ -127,6 +138,33 @@ public class DAOCommodite implements IDAO<Commodite, Integer> {
 			conn.close();
 		}
 		catch(Exception e) {e.printStackTrace();}		
+	}
+
+
+
+	@Override
+	public List<Commodite> filterCommodite(String mot) {
+		List<Commodite> commodites = new ArrayList();
+		try {
+
+			Class.forName("com.mysql.jdbc.Driver");
+			Connection conn = DriverManager.getConnection(urlBDD,loginBDD,passwordBDD);
+
+			PreparedStatement ps = conn.prepareStatement("SELECT * from commodite where nom=?");
+			ps.setString(1,"%"+mot+"%");
+			ResultSet rs = ps.executeQuery();
+
+			while(rs.next()) 
+			{
+				Commodite a = new Commodite(rs.getInt("id"),rs.getString("nom"),rs.getDouble("prix_acquisition"),rs.getDouble("taille"));
+				commodites.add(a);
+			}
+			rs.close();
+			ps.close();
+			conn.close();
+		} 
+		catch (Exception e) {e.printStackTrace();}
+		return commodites;
 	}
 
 }

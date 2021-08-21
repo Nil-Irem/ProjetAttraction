@@ -64,7 +64,7 @@ public class DAOAchatJPA implements IDAOAchat {
 	
 	
 	@Override
-	public List<Achat> findByType(String type,Parc parc)
+	public List<Achat> findByTypeAndParc(String type,Parc parc)
 	{
 		EntityManager em = Context.getInstance().getEmf().createEntityManager();
 		Query myQuery = em.createQuery("from Achat where typeElement=:typeEl and parc=:parc", Achat.class);
