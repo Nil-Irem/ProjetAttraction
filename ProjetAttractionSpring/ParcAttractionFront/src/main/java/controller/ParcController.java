@@ -35,7 +35,7 @@ public class ParcController {
 
 	@GetMapping("")
 	public ModelAndView listParcs(HttpSession session) {
-		ModelAndView mAv = new ModelAndView("MenuJoueur");
+		ModelAndView mAv = new ModelAndView("jeu/MenuJoueur");
 		mAv.addObject("parc",new Parc());
 		mAv.addObject("parcs",daoP.findByJoueur((Joueur) session.getAttribute("joueur")));
 		mAv.addObject("typesDifficultes",Difficulte.values());
@@ -68,7 +68,7 @@ public class ParcController {
 	@GetMapping("play")
 	public ModelAndView play (@RequestParam Integer id,HttpSession session) {
 		session.setAttribute("parc", daoP.findById(id).get());
-		return new ModelAndView("modification/Modification");
+		return new ModelAndView("jeu/Modification");
 	}
 	
 

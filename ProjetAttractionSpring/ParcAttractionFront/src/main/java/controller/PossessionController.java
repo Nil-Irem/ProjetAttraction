@@ -49,7 +49,7 @@ public class PossessionController {
 
 	@GetMapping("")
 	public ModelAndView listPossessions(HttpSession session) {
-		ModelAndView mAv  = new ModelAndView("Possession");
+		ModelAndView mAv  = new ModelAndView("jeu/Possession");
 		List<Achat> allAchat = daoA.findByParc((Parc) session.getAttribute("parc"));
 		
 		HashMap<Attraction, Integer> attractions = new HashMap<Attraction, Integer>();

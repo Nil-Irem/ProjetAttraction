@@ -79,7 +79,7 @@ public class AchatController {
 		{
 			return goListE();
 		}
-		return new ModelAndView("Achat");
+		return new ModelAndView("jeu/Achat");
 	}
 
 
@@ -101,7 +101,7 @@ public class AchatController {
 			}
 		}
 		
-		ModelAndView modelAndView = new ModelAndView("Achat");
+		ModelAndView modelAndView = new ModelAndView("jeu/Achat");
 		modelAndView.addObject("achatsA", allAttractions);
 		return modelAndView;
 	}
@@ -124,7 +124,7 @@ public class AchatController {
 			}
 		}
 		
-		ModelAndView modelAndView = new ModelAndView("Achat");
+		ModelAndView modelAndView = new ModelAndView("jeu/Achat");
 		modelAndView.addObject("achatsR", allRestaurants);
 		return modelAndView;
 	}
@@ -147,14 +147,14 @@ public class AchatController {
 			}
 		}
 		
-		ModelAndView modelAndView = new ModelAndView("Achat");
+		ModelAndView modelAndView = new ModelAndView("jeu/Achat");
 		modelAndView.addObject("achatsB", allB);
 		return modelAndView;
 	}
 	
 	
 	private ModelAndView goListC() {
-		ModelAndView modelAndView = new ModelAndView("Achat");
+		ModelAndView modelAndView = new ModelAndView("jeu/Achat");
 		modelAndView.addObject("achatsC", cRepo.findAll());
 		return modelAndView;
 	}

@@ -5,6 +5,7 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.web.servlet.view.UrlBasedViewResolver;
@@ -23,9 +24,13 @@ public class WebConfig implements WebMvcConfigurer {
 		UrlBasedViewResolver uBVR=new UrlBasedViewResolver();
 		uBVR.setViewClass(JstlView.class);
 		uBVR.setPrefix("/WEB-INF/views/"); 
-		uBVR.setSuffix(".jsp"); 
-		System.out.println(uBVR);
+		uBVR.setSuffix(".jsp");
 		return uBVR;
 	}
+	
+	@Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/img/**").addResourceLocations("/img/");
+    }
 
 }

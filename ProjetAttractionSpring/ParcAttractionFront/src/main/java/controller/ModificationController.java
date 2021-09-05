@@ -46,7 +46,7 @@ public class ModificationController {
 	@GetMapping("")
 	public ModelAndView modif(HttpSession session) {
 			
-		ModelAndView modelAndView = new ModelAndView("modification/Modification");
+		ModelAndView modelAndView = new ModelAndView("jeu/Modification");
 		modelAndView.addObject("attractions", daoA.findByTypeElementAndParc("attraction", (Parc) session.getAttribute("parc") ));
 		modelAndView.addObject("boutiques", daoA.findByTypeElementAndParc("boutiques", (Parc) session.getAttribute("parc") ));
 		modelAndView.addObject("restaurants", daoA.findByTypeElementAndParc("restaurant", (Parc) session.getAttribute("parc") ));
