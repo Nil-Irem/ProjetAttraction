@@ -1,0 +1,162 @@
+<!----------------------BOOTSTRAP------------------------------>
+
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-U1DAWAznBHeqEIlVSCgzq+c9gqGAJn5c/t99JyeKa9xxaYpSvHU5awsuZVVFIhvj" crossorigin="anonymous"></script>
+<!-- <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMNCOe7tC1doHpGoWe/6oMVemdAVTMs2xqW4mwXrXsW0L84Iytr2wi5v2QjrP/xp" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/js/bootstrap.min.js" integrity="sha384-cn7l7gDp0eyniUwwAZgrzD06kc/tftFf19TOAs2zVinnD/C7E91j9yyk5//jjpt/" crossorigin="anonymous"></script> -->
+
+<!----------------------CSS------------------------------>
+<style media="screen">
+
+body{
+  background-image: url("img/parcBackground.webp");
+   background-position: center;
+   background-repeat: no-repeat;
+   background-size: cover;
+ }
+
+ header{
+   height:8%;
+
+ }
+
+ main{
+   height: 100%;
+   display:flex;
+   justify-content:space-around;
+   align-items: center;
+
+ }
+ aside{
+   display:flex;
+   flex-direction: column;
+   justify-content: space-between;
+   align-items: space-around;
+   color:black;
+   font-size:30px;
+   text-align: center;
+    background-color:  #ec8809b3;
+    border-radius: 25%;
+    width-max:20%;
+ }
+ section{
+
+   display:flex;
+   flex-direction: column;
+   justify-content: center;
+   align-items: center;
+   max-width:30%;
+
+ }
+
+ footer{
+   background-color:  #ec8809b3;
+   height: 8%;
+   display: flex;
+   justify-content: space-between;
+
+ }
+#fLeft, #fRight{
+
+  font-size: 20px;
+  color: #2c1bd7
+}
+
+ #logo{
+
+   /* background-color: #101934b3; */
+   background-color: #ec8809b3;
+   border-radius: 5%;
+
+ }
+#choix
+{
+  font-size: 50px;
+}
+#menu{
+  display: flex;
+  justify-content: space-around;
+}
+
+</style>
+
+
+<!-------------------HTML------------------------------>
+
+<!DOCTYPE html>
+<html lang=fr>
+
+  <head>
+    <meta charset="utf-8">
+
+    <title>YoloCoaster - Le Jeu</title>
+  </head>
+
+    <link rel="shortcut icon" href="img/logoYoloIcon.png">
+
+  <body>
+
+
+  <header>
+
+    <nav class="navbar navbar-dark " style="background-color: #ec8809b3;">
+      <div class="container-fluid">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <img id="menulogo" src="img/logoYoloSmall.png" alt="YoloLogo">
+      </div>
+    </nav>
+
+  <div class="collapse" id="navbarToggleExternalContent">
+    <div id="menu" class=" p-4" style="background-color: #ec8809b3;">
+      <a href="connexion.html"><button type="button" class="btn btn-primary btn-lg">Connexion</button></a>
+      <a href="Inscription.html"><button type="button" class="btn btn-secondary btn-lg">Inscription</button></a>
+      <a href="PageInfo.html"><button type="button" class="btn btn-info btn-lg">A propos</button></a>
+    </div>
+  </div>
+
+
+  </header>
+<main>
+  <aside>
+    <div> <br></div>
+    <h1><em><strong>"Un jeu génial!"<br>Tufu Mag</strong></em></h1>
+    <div> <br></div>
+    <h1><em><strong>"Une CLAQUE visuelle"<br>Geek Mag</strong></em></h1>
+    <div> <br></div>
+  </aside>
+
+  <section>
+    <div id="logo">
+      <img  src="img/logoBlanc.png" alt="YoloLogo">
+    </div>
+
+    <div id="choix">
+      <button type="button" class="btn btn-success" style="font-size:40px; height:200px;width:200px">Jouer !</button>
+      <!--<button type="button" class="btn btn-danger" style="font-size:40px;">Quitter</button>-->
+    </div>
+  </section>
+
+  <aside>
+    <div> <br></div>
+    <h1><em><strong>"Une immersion totale!"<br>Tufu Mag</strong></em></h1>
+    <div> <br></div>
+    <h1><em><strong>"Un jeu de génie"<br>Geek Mag</strong></em></h1>
+    <div> <br></div>
+  </aside>
+
+</main>
+  <footer>
+    <div id="fLeft">
+      <a href="">Accueil</a>
+      <a href="">Plan</a>
+      <a href="">Contact</a>
+      <a href="">CGU</a>
+    </div>
+    <div id="fRight"><span>YoloCompany - Copyrigth &#8471; 2019</span></div>
+  </footer>
+
+
+</body>
+</html>
