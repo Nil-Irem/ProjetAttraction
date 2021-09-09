@@ -448,7 +448,8 @@ public class MenuJoueur {
 			
 			parc.setArgent(parc.getArgent()-newResto.getPrixAcquisition());
 			parc.setTaille(parc.getTaille()-newResto.getTaille());
-			Context.getInstance().setParc(parc);		
+			Context.getInstance().setParc(parc);	
+			System.out.println("Restaurant acheté !");
 		}
 		else
 		{
@@ -506,6 +507,7 @@ public class MenuJoueur {
 			{
 				newAchat = new Achat(newCom,1,0,"commodite",parc);
 				DaoAc.insert(newAchat);
+				System.out.println("Commoduté achetée !");
 			}
 			
 			parc.setTaille(parc.getTaille()-newCom.getTaille());
@@ -582,6 +584,7 @@ public class MenuJoueur {
 			parc.setArgent(parc.getArgent()-newBou.getPrixAcquisition());
 			parc.setTaille(parc.getTaille()-newBou.getTaille());
 			Context.getInstance().setParc(parc);	
+			System.out.println("Boutique achetée !");
 		}
 		else
 		{
@@ -635,12 +638,14 @@ public class MenuJoueur {
 			{
 				newAchat.setNbSameElement(newAchat.getNbSameElement()+1);
 				DaoAc.update(newAchat);
+				
 
 			}
 			else
 			{
 				newAchat = new Achat(newEmp,1,0,"employe",parc);
 				DaoAc.insert(newAchat);
+				System.out.println("Employé embauché !");
 			}
 		}
 		else

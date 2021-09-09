@@ -1,4 +1,4 @@
-package metier;
+package SoprAjc.ParcAttractionBoot.model;
 
 import javax.persistence.*;
 
@@ -7,7 +7,7 @@ public class Parc {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
     @Column(name="nom")
     private String nomParc;
     private double taille;
@@ -20,7 +20,9 @@ public class Parc {
 	private Joueur joueur;
 
     
-    public Parc(int id,String nom, double taille, int nbjour, double argent, Difficulte typeDifficulte,Joueur joueur)
+    
+    //constructeur pour find by id dans DAOParc
+    public Parc(Integer id,String nom, double taille, int nbjour, double argent, Difficulte typeDifficulte)
     {
     	this.id=id;
 		this.nomParc = nom;
@@ -28,10 +30,8 @@ public class Parc {
 		this.nbjour = nbjour;
 		this.argent=argent;
 		this.typeDifficulte=typeDifficulte;
-		this.joueur=joueur;
     }
-   
-
+    
     public Parc (Joueur joueur,String nomParc,double taille, int nbjour,double argent,Difficulte typeDifficulte) {	
 		this.joueur=joueur;
 		this.nomParc = nomParc;
@@ -42,12 +42,11 @@ public class Parc {
 	}
 			
 	
+
+	
 	public Parc() {}
 	
-<<<<<<< Updated upstream:ProjetAttractionJPA/src/main/java/metier/Parc.java
-=======
 	
->>>>>>> Stashed changes:src/main/java/metier/Parc.java
 
 	public double getArgent() {
 		return argent;
@@ -60,9 +59,11 @@ public class Parc {
 	}
 
 
+
 	public Difficulte getTypeDifficulte() {
 		return typeDifficulte;
 	}
+
 
 
 	public void setTypeDifficulte(Difficulte typeDifficulte) {
@@ -70,12 +71,13 @@ public class Parc {
 	}
 
 
-	public int getId() {
+
+	public Integer getId() {
 		return id;
 	}
 
 
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -108,7 +110,7 @@ public class Parc {
 	public void setNbjour(int nbjour) {
 		this.nbjour = nbjour;
 	}
-	
+
 
 	public Joueur getJoueur() {
 		return joueur;
@@ -118,7 +120,6 @@ public class Parc {
 	public void setJoueur(Joueur joueur) {
 		this.joueur = joueur;
 	}
-
 
 	@Override
 	public String toString() {

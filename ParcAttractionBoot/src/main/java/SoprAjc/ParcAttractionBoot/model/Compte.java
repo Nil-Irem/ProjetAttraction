@@ -1,4 +1,4 @@
-package metier;
+package SoprAjc.ParcAttractionBoot.model;
 
 import javax.persistence.*;
 
@@ -11,12 +11,14 @@ public abstract class Compte {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name="id_compte")
-	protected int id;
+	protected Integer id;
 	protected String login;
 	protected String password;
+	@Column(name="enable")
+	private boolean enable;
 	
 	
-	public Compte(int id,String login, String password) {
+	public Compte(Integer id,String login, String password) {
 		this.login = login;
 		this.password = password;
 		this.id = id;
@@ -38,26 +40,28 @@ public abstract class Compte {
 	}
 
 
-	public int getId() {
+	
+	
+	public boolean isEnable() {
+		return enable;
+	}
+
+
+	public void setEnable(boolean enable) {
+		this.enable = enable;
+	}
+
+
+	public Integer getId() {
 		return id;
 	}
-<<<<<<< Updated upstream:ProjetAttractionJPA/src/main/java/metier/Compte.java
-
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-
-=======
 	
 	
-	public void setId(int id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	
 	
->>>>>>> Stashed changes:src/main/java/metier/Compte.java
 	public String getLogin() {
 		return login;
 	}
