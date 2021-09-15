@@ -1,0 +1,40 @@
+
+#body {
+	background-position: center;
+	background-repeat: no-repeat;
+	background-size: cover;
+}
+
+#header {
+	height: 8%;
+}
+
+#main {
+	height: 88%;
+	display: flex;
+	justify-content: space-around;
+	align-items: center;
+}
+
+#footer {
+	background-color: #ec8809b3;
+	height: 4%;
+	justify-content: space-between;
+}
+
+nav {
+	background-color: #ec8809b3;
+}
+
+
+#fLeft, #fRight {
+	font-size: 20px;
+	text-align: center;
+}
+
+
+#menu {
+	display: flex;
+	justify-content: space-around;
+	background-color: #ec8809b3;
+}
