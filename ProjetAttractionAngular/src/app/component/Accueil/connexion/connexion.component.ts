@@ -1,3 +1,4 @@
+import { UserAccountService } from './../../../service/user-account.service';
 import { FormControl, FormGroup, FormBuilder, Validators, ValidationErrors } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 
@@ -8,16 +9,19 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ConnexionComponent implements OnInit {
 
-  FormulaireConnexion: FormGroup;
-  GroupConnexion: FormGroup;
+  connexionForm: FormGroup;
   InputLogin:FormControl;
   InputPassword:FormControl;
+  userValid = true;
 
-  constructor(private formBuilder:FormBuilder) {
+  constructor(
+    private formBuilder:FormBuilder,
+    private userAccountService:UserAccountService)
+  {
     this.InputLogin = this.formBuilder.control('',[
         Validators.required,
         Validators.minLength(3)
-      ]
+      ],
     );
 
     this.InputPassword = this.formBuilder.control('',[
@@ -26,12 +30,7 @@ export class ConnexionComponent implements OnInit {
       ]
     );
 
-    this.FormulaireConnexion = this.formBuilder.group({
-      InputLogin: this.InputLogin,
-      InputPassword: this.InputPassword
-    });
-
-    this.GroupConnexion = this.formBuilder.group({
+    this.connexionForm = this.formBuilder.group({
       login: this.InputLogin,
       password: this.InputPassword
     });
@@ -40,16 +39,12 @@ export class ConnexionComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  controlEquals(group: FormGroup): ValidationErrors | null {
-      let value1 = group.controls.input1.value;
-      let value2 = group.controls['input2'].value;
-      if (group.controls.input1.errors) {
-        return null;
-      }
-      return value1 != value2 ? { notEquals: true } : null;
-  }
 
-  submit(){
-    console.log("connexion envoyé");
+  async submit(){
+    await this.userAccountService.connexion(
+      this.connexionForm.get('login')?.value,
+      this.connexionForm.get('password')?.value);
+
+    this.userValid = false;
   }
 }

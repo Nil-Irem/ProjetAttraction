@@ -1,40 +1,39 @@
+#asideRight, #asideLeft {
+	display: flex;
+	flex-direction: column;
+	color: black;
+	font-size: 30px;
+	text-align: center;
+	background-color: #ec8809b3;
+	border-radius: 25%;
+}
 
-#body {
+#section {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	align-items: center;
+}
+
+#logo {
+	background-color: #ec8809b3;
+	border-radius: 5%;
+}
+
+#btnPlay {
+	font-size: 3vw;
+	height: 50%;
+	width: 50%;
+}
+
+#container{
+  background-image: url(../../../assets/img/parcBackground.webp);
 	background-position: center;
 	background-repeat: no-repeat;
 	background-size: cover;
 }
 
-#header {
-	height: 8%;
-}
-
-#main {
-	height: 88%;
-	display: flex;
-	justify-content: space-around;
-	align-items: center;
-}
-
-#footer {
-	background-color: #ec8809b3;
-	height: 4%;
-	justify-content: space-between;
-}
-
-nav {
-	background-color: #ec8809b3;
-}
-
-
-#fLeft, #fRight {
-	font-size: 20px;
-	text-align: center;
-}
-
-
-#menu {
-	display: flex;
-	justify-content: space-around;
-	background-color: #ec8809b3;
+#row{
+  margin-left: 3%;
+  margin-right: 3%;
 }

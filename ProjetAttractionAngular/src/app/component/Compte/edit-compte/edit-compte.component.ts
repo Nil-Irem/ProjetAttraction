@@ -1,13 +1,10 @@
-import { LoginService } from './../../../service/login.service';
+import { GestionCompteService } from './../../../service/gestion-compte.service';
 import { CustomValidator } from './../../../Validator/custom-validator';
 import { Joueur } from './../../../model/joueur';
-import { CompteService } from './../../../service/compte.service';
 import { Compte } from './../../../model/compte';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AbstractControl, AsyncValidatorFn, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
-import { Observable } from 'rxjs';
-import { map } from 'rxjs/operators';
 
 @Component({
   selector: 'app-edit-compte',
@@ -23,7 +20,7 @@ export class EditCompteComponent implements OnInit {
   constructor(
     private fb:FormBuilder,
     private activatedRoute: ActivatedRoute,
-    private compteService: CompteService,
+    private gestionCompteService: GestionCompteService,
     private router: Router
   ) {
     this.Input = this.fb.control('',[
@@ -37,7 +34,7 @@ export class EditCompteComponent implements OnInit {
     });
     this.activatedRoute.params.subscribe((params) => {
       if (params.id) {
-        this.compteService.get(params.id).subscribe((res) => {
+        this.gestionCompteService.get(params.id).subscribe((res) => {
           this.compte = res;
         });
       }
@@ -50,12 +47,12 @@ export class EditCompteComponent implements OnInit {
   save() {
     if (this.compte.id) {
       console.log('update');
-      this.compteService.update(this.compte).subscribe((res) => {
+      this.gestionCompteService.update(this.compte).subscribe((res) => {
         this.goListcompte();
       });
     } else {
       console.log('create');
-      this.compteService.create(this.compte).subscribe((res) => {
+      this.gestionCompteService.create(this.compte).subscribe((res) => {
         this.goListcompte();
       });
     }

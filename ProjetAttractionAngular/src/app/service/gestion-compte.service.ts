@@ -1,12 +1,12 @@
-import { Compte } from './../model/compte';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { Compte } from '../model/compte';
 
 @Injectable({
   providedIn: 'root'
 })
-export class CompteService {
+export class GestionCompteService {
 
   private url: string="http://localhost:8080/Yolo/api/compte"
   private headers: HttpHeaders =new HttpHeaders();
@@ -17,8 +17,7 @@ export class CompteService {
 
   public initHeaders(){
     this.headers = new HttpHeaders({
-      'Content-Type': 'application/json',
-      Authorization: 'Basic '+btoa('toto:toto')
+      'Content-Type': 'application/json'
     });
   }
 
@@ -37,7 +36,7 @@ export class CompteService {
 
   public get(id: number): Observable<Compte> {
     this.initHeaders();
-    return this.httpClient.get<Compte>(this.url + "/" + id,{headers:this.headers});
+    return this.httpClient.get<Compte>(this.url + "/id=" + id,{headers:this.headers});
   }
 
 
@@ -45,14 +44,27 @@ export class CompteService {
     this.initHeaders();
     const obj = {
       login:compte.login,
-      password:compte.password
+      password:compte.password,
+      isJoueur:compte.isJoueur,
+      id:0
     };
-    return this.httpClient.post<Compte>(this.url+"/create", obj,{headers:this.headers});
+    console.log("create",obj);
+    return this.httpClient.post<Compte>(this.url +"/create",obj,{headers:this.headers});
   }
 
 
   public update(compte: Compte): Observable<Compte> {
     this.initHeaders();
     return this.httpClient.put<Compte>(this.url + "/" + compte.id, compte,{headers:this.headers});
+  }
+
+
+  public connexion(login:string,password:string): Observable<Compte> {
+    this.initHeaders();
+    return this.httpClient.post<Compte>(this.url + "/connexion",{login:login,password:password},{headers:this.headers});
+  }
+
+  loginIsPresent(login:string):Observable<boolean>{
+    return this.httpClient.get<boolean>(this.url+"/loginIsPresent/"+login);
   }
 }

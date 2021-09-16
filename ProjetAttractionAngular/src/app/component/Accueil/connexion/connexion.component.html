@@ -1,18 +1,19 @@
-<div class="row h-100 justify-content-center align-items-center">
-  <div class="col-sm-2 col-md-6 col-lg-4">
-    <form (ngSubmit)="submit()" [formGroup]="FormulaireConnexion" class="formulaire">
-      <div class="form-group" >
-        Pseudo* <input name="login" [formControl]="InputLogin" required><br>
-        <div *ngIf="InputLogin.dirty&&InputLogin.invalid">Invalide !</div>
-        <div *ngIf="InputLogin.dirty&&InputLogin.hasError('isPresent')">Pseudo déjà pris</div>
-        Mot de passe* <input name="password" [formControl]="InputPassword" required><br>
-        <div *ngIf="InputLogin.dirty&&InputLogin.invalid">Invalide !</div>
-        <div *ngIf="InputLogin.dirty&&InputLogin.hasError('isSecure')">Mot de passe pas assez sécurisé</div>
-        <br><br>
-        <button type="submit" [disabled]="FormulaireConnexion.invalid" class="btn btn-success">S'inscrire</button>
-        <br><br>
-        <a [routerLink]="['/connexion']" routerLinkActive="active">Déjà inscrit ?</a> <br>
-      </div>
-    </form>
+<div id="container" class="container-fluid h-100">
+  <div class="row h-100 justify-content-center align-items-center">
+    <div class="col-sm-2 col-md-5 col-lg-3">
+      <form (ngSubmit)="submit()" [formGroup]="connexionForm" class="formulaire">
+        <div class="form-group" >
+          <br>
+          <span *ngIf="!userValid" class="erreur">Identifiant ou mot de passe incorrect</span>
+          <br *ngIf="!userValid">
+          <br>
+          Identifiant* <input required name="login" [formControl]="InputLogin"><br><br>
+          Mot de passe* <input name="password" [formControl]="InputPassword" required type="password"><br><br>
+          <button type="submit" [disabled]="connexionForm.invalid" class="btn btn-success">Se Connecter</button>
+          <br><br>
+          <a [routerLink]="['/inscription']" routerLinkActive="active">Créer un compte</a> <br><br>
+        </div>
+      </form>
+    </div>
   </div>
 </div>

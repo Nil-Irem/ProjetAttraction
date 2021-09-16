@@ -3,7 +3,8 @@ export abstract class Compte {
   constructor(
     protected _login?: string,
     protected _password?: string,
-    protected _id?: number
+    protected _id?: number,
+    protected _isJoueur?: boolean
   ){}
 
 
@@ -30,6 +31,15 @@ export abstract class Compte {
 
 	public set id(id : number|undefined) {
 		this._id = id;
+	}
+
+	public get isJoueur() : boolean | undefined {
+    return this._isJoueur;
+	}
+
+
+	public set isJoueur(isJoueur : boolean|undefined) {
+		this._isJoueur = isJoueur;
 	}
 
 }

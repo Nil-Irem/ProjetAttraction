@@ -1,0 +1,55 @@
+
+<h1>Liste des parties</h1>
+<!-- &emsp; &emsp;
+<input id="btnAddParc" type="button" class="btn btn-success" value="Créer une nouvelle partie">
+&emsp;
+<input id="filterPartie" placeholder="filtre">
+
+<div id="addFormParc" style="display: none">
+	<h3>Nouvelle partie</h3>
+	<form:form action="${ctx}/parcs/addparc" method="post" modelAttribute="parc" class="formulaire">
+		<form:input required="true" path="joueur.id" type="hidden" value="${sessionScope.joueur.id}"/><br>
+		Nom* <form:input required="true" path="nomParc" placeholder="nom" type="text"/><br>
+			<form:errors path="nomParc" style="color:red"/><br><br>
+		Difficulte* <form:select required="true" path="typeDifficulte" items="${typesDifficultes}"/><br><br>
+		<button type="submit" class="btn btn-success">Ajouter</button><br><br>
+	</form:form>
+</div>
+
+     <table class="table table-striped">
+       <thead>
+         <tr>
+           <th>Nom</th>
+           <th>Taille</th>
+           <th>Argent</th>
+           <th>Nombre jours joués</th>
+           <th>Difficulté</th>
+           </tr>
+       </thead>
+        <tbody id="contentTable">
+			<c:forEach items="${parcs}" var="parc">
+				<tr>
+					<td>${parc.nomParc}</td>
+					<td>${parc.taille}</td>
+					<td>${parc.argent}</td>
+					<td>${parc.nbjour}</td>
+					<td>${parc.typeDifficulte}</td>
+					<td>
+                   		<a href="${ctx}/parcs/play?id=${parc.id}" type="button" class ="btn btn-warning">Jouer</a>
+                   		<a href="${ctx}/parcs/delete?id=${parc.id}" type="button" class ="btn btn-danger">Supprimer</a>
+                	 </td>
+				</tr>
+			</c:forEach>
+		</tbody>
+     </table>
+
+
+
+<script>
+
+	btnAddParc.onclick=function()
+	{
+		addFormParc.style.display="block";
+	}
+
+</script> -->

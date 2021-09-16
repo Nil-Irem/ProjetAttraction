@@ -26,6 +26,7 @@ import ParcAttractionBoot.exception.CompteException;
 import ParcAttractionBoot.model.Achat;
 import ParcAttractionBoot.model.Admin;
 import ParcAttractionBoot.model.Compte;
+import ParcAttractionBoot.model.Connexion;
 import ParcAttractionBoot.model.Joueur;
 import ParcAttractionBoot.model.JsonViews;
 import ParcAttractionBoot.model.Parc;
@@ -45,12 +46,22 @@ public class CompteRestController {
 	@Autowired
 	private AchatRepository achatRepo;
 	@Autowired
-	private PasswordEncoder passwordEncoder;
+	private PasswordEncoder encoder;
+	
 	
 	@GetMapping("")
 	@JsonView(JsonViews.Common.class)
 	public List<Compte> getAll(){
-		return compteRepo.findAll();
+		List<Compte> comptes = compteRepo.findAll();
+		for(Compte c :comptes) {
+			if(c instanceof Joueur) {
+				c.setIsJoueur(true);
+			}
+			else if(c instanceof Admin) {
+				c.setIsJoueur(false);
+			}
+		}
+		return comptes;
 	}
 	
 	
@@ -77,17 +88,22 @@ public class CompteRestController {
 	@PostMapping("/create")
 	@JsonView(JsonViews.Common.class)
 	@ResponseStatus(HttpStatus.CREATED)
-	public Compte create(@Valid @RequestBody Joueur joueur, BindingResult br) {
+	public Compte create(@RequestBody Connexion connexion, BindingResult br) {
 		if(br.hasErrors()) {
 			throw new CompteException(br.getGlobalError().toString());
 		}
-		else if (joueur.getId()!=null || compteRepo.findByLogin(joueur.getLogin()).isPresent())
+		else if (compteRepo.findById(connexion.getId()).isPresent() || compteRepo.findByLogin(connexion.getLogin()).isPresent())
 		{
 			throw new CompteException("Compte avec des données incorrectes - création impossible");
 		}
-		
-		joueur.setPassword(passwordEncoder.encode(joueur.getPassword()));
-		return compteRepo.save(joueur);
+
+		connexion.setPassword(encoder.encode(connexion.getPassword()));
+		if (connexion.isJoueur()) {
+			return compteRepo.save(new Joueur(connexion.getLogin(),connexion.getPassword()));
+		}
+		else {
+			return compteRepo.save(new Admin(connexion.getLogin(),connexion.getPassword()));
+		}
 	}
 
 	
@@ -151,6 +167,24 @@ public class CompteRestController {
 	public boolean LoginIsPresent(@PathVariable String login){
 		return compteRepo.findByLogin(login).isPresent();
 	}
-
+	
+	
+	@PostMapping("/connexion")
+	@JsonView(JsonViews.Common.class)
+	public Compte Connexion(@RequestBody Connexion connect){
+		Optional<Compte> opt=compteRepo.findByLogin(connect.getLogin());
+		if (opt.isPresent() && encoder.matches(connect.getPassword(),opt.get().getPassword())) {
+			Compte compte = opt.get();
+			if (compte instanceof Joueur) {
+				compte.setIsJoueur(true);
+			}
+			else if (compte instanceof Admin) {
+				compte.setIsJoueur(false);
+			}
+			return compte;
+		}
+		return null;
+	}
+	
 
 }
