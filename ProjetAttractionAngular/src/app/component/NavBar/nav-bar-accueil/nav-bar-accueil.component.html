@@ -1,0 +1,16 @@
+<nav class="navbar navbar-dark">
+  <div class="container-fluid">
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="#navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+    <img id="menulogo" src="assets/img/logoYoloSmall.png" alt="YoloLogo">
+  </div>
+</nav>
+
+<div class="collapse" id="navbarToggleExternalContent">
+  <div id="menu" class="p-4">
+    <button [routerLink]="['/connexion']" routerLinkActive="active" class="btn btn-primary btn-lg">Connexion</button>
+    <button [routerLink]="['/inscription']" routerLinkActive="active" class="btn btn-secondary btn-lg">Inscription</button>
+    <button [routerLink]="['/infosJeu']" routerLinkActive="active" class="btn btn-info btn-lg">A propos</button>
+  </div>
+</div>

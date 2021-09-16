@@ -1,6 +1,13 @@
 package ParcAttractionBoot.model;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.DiscriminatorColumn;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Inheritance;
+import javax.persistence.InheritanceType;
 
 import com.fasterxml.jackson.annotation.JsonView;
 
@@ -23,6 +30,9 @@ public abstract class Compte {
 	@JsonView(JsonViews.Common.class)
 	private boolean enable;
 	
+	@JsonView(JsonViews.Common.class)
+	private transient boolean isJoueur;
+	
 	
 	public Compte(Integer id,String login, String password) {
 		this.login = login;
@@ -34,6 +44,13 @@ public abstract class Compte {
 	public Compte(String login, String password) {
 		this.login = login;
 		this.password = password;
+	}
+	
+
+	public Compte(String login, String password,boolean isJoueur) {
+		this.login = login;
+		this.password = password;
+		this.isJoueur = isJoueur;
 	}
 	
 	public Compte(String login) {
@@ -85,6 +102,16 @@ public abstract class Compte {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+
+	public boolean isJoueur() {
+		return isJoueur;
+	}
+
+
+	public void setIsJoueur(boolean isJoueur) {
+		this.isJoueur = isJoueur;
 	}
 
 

@@ -12,7 +12,11 @@ import { AccueilComponent } from './component/Accueil/accueil.component';
 import { ConnexionComponent } from './component/Accueil/connexion/connexion.component';
 import { InscriptionComponent } from './component/Accueil/inscription/inscription.component';
 import { InfosComponent } from './component/Accueil/infos/infos.component';
-import { BaseComponent } from './component/Accueil/base/base.component';
+import { NavBarAccueilComponent } from './component/NavBar/nav-bar-accueil/nav-bar-accueil.component';
+import { NavBarJoueurComponent } from './component/NavBar/nav-bar-joueur/nav-bar-joueur.component';
+import { NavBarAdminComponent } from './component/NavBar/nav-bar-admin/nav-bar-admin.component';
+import { ChoixParcComponent } from './component/Jeu/choix-parc/choix-parc.component';
+import { AdminComponent } from './component/Admin/admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -23,7 +27,11 @@ import { BaseComponent } from './component/Accueil/base/base.component';
     ConnexionComponent,
     InscriptionComponent,
     InfosComponent,
-    BaseComponent
+    NavBarAccueilComponent,
+    NavBarJoueurComponent,
+    NavBarAdminComponent,
+    ChoixParcComponent,
+    AdminComponent
   ],
   imports: [
     BrowserModule,

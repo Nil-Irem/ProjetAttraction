@@ -1,0 +1,9 @@
+nav {
+	background-color: #5809ecb3;
+}
+
+#menu {
+	display: flex;
+	justify-content: space-around;
+	background-color: #5809ecb3;
+}

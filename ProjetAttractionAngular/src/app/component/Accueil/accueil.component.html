@@ -1,27 +1,35 @@
-<div id="header">
-  <nav class="navbar navbar-dark">
-    <div class="container-fluid">
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="#navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-             <span class="navbar-toggler-icon"></span>
-          </button>
-      <img id="menulogo" src="${imgPath}/logoYoloSmall.png" alt="YoloLogo">
+<div id="container" class="container-fluid h-100">
+    <div id="row" class="row h-100 justify-content-center align-items-center">
+      <div class="col-3" id="asideLeft">
+      <br>
+      <h1>
+        <em><strong>"Un jeu génial!"<br>Tufu Mag</strong></em>
+      </h1>
+      <br>
+      <h1>
+        <em><strong>"Une CLAQUE visuelle"<br>Geek Mag</strong></em>
+      </h1>
+      <br>
     </div>
-  </nav>
 
-  <div class="collapse" id="navbarToggleExternalContent">
-    <div id="menu" class="p-4">
-      <button [routerLink]="['/connexion']" routerLinkActive="active" class="btn btn-primary btn-lg">Connexion</button>
-      <button [routerLink]="['/inscription']" routerLinkActive="active" class="btn btn-secondary btn-lg">Inscription</button>
-      <a [routerLink]="['/infosJeu']" routerLinkActive="active" type="button" class="btn btn-info btn-lg">A propos</a>
+    <div class="col-6" id="section">
+      <div id="logo">
+        <img src="assets/img/logoBlanc.png" alt="YoloLogo" width="100%">
+      </div>
+      <br>
+      <a id="btnPlay" [routerLink]="['/connexion']" routerLinkActive="active" type="button"
+          class="btn btn-success">Jouer !</a>
+    </div>
+
+    <div class="col-3" id="asideRight">
+      <br>
+      <h1>
+        <em><strong>"Une immersion totale!"<br>NY Mag</strong></em>
+      </h1>
+      <br>
+      <h1>
+        <em><strong>"Un jeu de génie"<br>Games Mag</strong></em>
+      </h1>
+      <br>
     </div>
   </div>
-</div>
-
-<div id="main">
-  <accueil-base ></accueil-base><br><br>
-<!-- <router-outlet></router-outlet> -->
-</div>
-
-<div id="footer">
-    <span>YoloCompany - Copyrigth &copy; 2021</span>
-</div>

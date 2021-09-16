@@ -1,5 +1,5 @@
+import { GestionCompteService } from './../../../service/gestion-compte.service';
 import { Compte } from './../../../model/compte';
-import { CompteService } from './../../../service/compte.service';
 import { Component, OnInit } from '@angular/core';
 
 @Component({
@@ -11,20 +11,20 @@ export class ListCompteComponent implements OnInit {
 
   comptes: Compte[]=[];
 
-  constructor(private compteService: CompteService) { }
+  constructor(private gestionCompteService: GestionCompteService) { }
 
   ngOnInit(): void {
     this.list();
   }
 
   public list(){
-    this.compteService.getAll()
+    this.gestionCompteService.getAll()
       .subscribe(res=>{this.comptes=res;});
   }
 
   public delete(id:number|undefined){
     if (id !== undefined){
-      this.compteService.delete(id)
+      this.gestionCompteService.delete(id)
         .subscribe(res=>{this.list();});
     }
   }
