@@ -18,6 +18,7 @@ export class GestionParcService {
 
   public initHeaders(){
     this.headers = new HttpHeaders({
+      // Access-Control-Allow-Origin: *
       'Content-Type': 'application/json'
     });
   }
@@ -25,19 +26,25 @@ export class GestionParcService {
   public listByJoueur(compte:Compte|undefined): Observable<Parc[]>{
     this.initHeaders();
     if (compte){
-      return this.httpClient.post<Parc[]>(this.url+"/byJoueur",compte,{headers:this.headers});
+      return this.httpClient.post<Parc[]>(this.url+"/byJoueur",{id:compte.id},{headers:this.headers});
     }
     else{
       return new Observable;
     }
   }
 
-  public create(parc:Parc): Observable<Parc>{
+  public getAll(): Observable<Parc[]>{
+    this.initHeaders();
+    return this.httpClient.post<Parc[]>(this.url,{headers:this.headers});
+  }
+
+  public create(parc:Parc,compte:Compte): Observable<Parc>{
     this.initHeaders();
     const obj = {
       nomParc:parc.nomParc,
       typeDifficulte:parc.typeDifficulte,
-      id:null
+      id:0,
+      joueur:{id:compte.id}
     };
     return this.httpClient.post<Parc>(this.url+"/create",obj,{headers:this.headers});
   }
@@ -45,6 +52,10 @@ export class GestionParcService {
   public delete(id:number){
     this.initHeaders();
     return this.httpClient.delete(this.url+"/delete/"+id,{headers:this.headers});
+  }
+
+  public nomIsPresent(nom:string,compte:Compte):Observable<boolean>{
+    return this.httpClient.post<boolean>(this.url+"/nomIsPresent/"+nom,compte);
   }
 
 }

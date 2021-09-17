@@ -1,4 +1,4 @@
-export abstract class Compte {
+export class Compte {
 
   constructor(
     protected _login?: string,

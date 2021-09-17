@@ -8,6 +8,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,6 +32,7 @@ import ParcAttractionBoot.repositories.ParcRepository;
 
 @RestController
 @RequestMapping("/api/parc")
+@CrossOrigin(origins="*")
 public class ParcRestController {
 
 	@Autowired
@@ -106,14 +108,22 @@ public class ParcRestController {
 		{
 			throw new ParcException(br.getGlobalError().toString());
 		}
-		else if(parc.getId()!=null || parc.getJoueur().getId()==null
+		else if(parc.getId()!=0
+				|| parc.getJoueur().getId()==null
 				|| !daoCpt.findById(parc.getJoueur().getId()).isPresent()
 				|| daoP.findById(parc.getId()).isPresent())
 		{
 			throw new ParcException("Parc avec des données incorrectes - impossible à créer");
 		}
 		
-		return daoP.save(parc);
+		try {
+			parc.setArgent(parc.getTypeDifficulte().getArgent());
+			parc.setTaille(parc.getTypeDifficulte().getTailleParc());
+			return daoP.save(parc);
+		}
+		catch(Exception e) {
+			throw new ParcException("exception");
+		}
 	}
 	
 	
@@ -150,4 +160,11 @@ public class ParcRestController {
 			throw new ParcException("Parc inexistant - suppression impossible");
 		}	
 	}
+
+	@PostMapping("/nomIsPresent/{nom}")
+	@JsonView(JsonViews.Common.class)
+	public boolean nomIsPresent(@RequestBody Joueur joueur,@PathVariable String nom){
+		return getParcByJoueurAndNom(joueur, nom)==null?false:true;
+	}
+	
 }

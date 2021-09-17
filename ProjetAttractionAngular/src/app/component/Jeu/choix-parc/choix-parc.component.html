@@ -1,9 +1,9 @@
 
 <h1>Liste des parties</h1>
 &emsp; &emsp;
-<button id="btnAddParc" (click)="ajout=true" class="btn btn-success" value="Créer une nouvelle partie">
+<button id="btnAddParc" (click)="ajout=!ajout" class="btn btn-success">Créer une nouvelle partie</button>
 &emsp;
-<input id="filterPartie" placeholder="filtre">
+<!-- <input id="filterPartie" placeholder="filtre"> -->
 
 <div id="addFormParc" *ngIf="ajout">
 	<h3>Nouvelle partie</h3>
@@ -16,12 +16,13 @@
         <option value="Moyen">Moyen</option>
         <option value="Difficile">Difficile</option>
       </select>
+      <br><br>
       <button type="submit" [disabled]="newParcForm.invalid" class="btn btn-success">Ajouter</button>
     </div>
   </form>
 </div>
 
-     <table class="table table-striped">
+     <table class="table table-striped" *ngIf="parcs.length>0">
        <thead>
          <tr>
            <th>Nom</th>
@@ -29,17 +30,21 @@
            <th>Argent</th>
            <th>Nombre jours joués</th>
            <th>Difficulté</th>
+           <th></th>
+           <th></th>
            </tr>
        </thead>
         <tbody id="contentTable">
-				<tr *ngFor="let parc of parcs,">
+				<tr *ngFor="let parc of parcs;let index = index">
 					<td>{{parc.nomParc}}</td>
 					<td>{{parc.taille}}</td>
 					<td>{{parc.argent}}</td>
 					<td>{{parc.nbjour}}</td>
 					<td>{{parc.typeDifficulte}}</td>
 					<td>
-            <button (click)="playParc(parc.id)" class ="btn btn-warning">Jouer</button>
+            <button (click)="playParc(index)" class ="btn btn-warning">Jouer</button>
+          </td>
+          <td>
             <button (click)="deleteParc(parc.id,parc.nomParc)" class ="btn btn-danger">Supprimer</button>
           </td>
 				</tr>

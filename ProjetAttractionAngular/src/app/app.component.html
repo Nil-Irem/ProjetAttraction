@@ -2,7 +2,7 @@
   <nav-bar-accueil *ngIf="!isConnectedJoueur()&&!isConnectedAdmin()"></nav-bar-accueil>
   <nav-bar-admin *ngIf="isConnectedAdmin()"></nav-bar-admin>
   <nav-bar-joueur *ngIf="isConnectedJoueur()"></nav-bar-joueur>
-  <nav-bar-joueur *ngIf="parcIsChosen()"></nav-bar-joueur>
+  <head-parc *ngIf="parcIsChosen()"></head-parc>
 </div>
 
 <div id="main">

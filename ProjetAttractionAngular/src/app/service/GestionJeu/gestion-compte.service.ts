@@ -64,7 +64,7 @@ export class GestionCompteService {
     return this.httpClient.post<Compte>(this.url + "/connexion",{login:login,password:password},{headers:this.headers});
   }
 
-  loginIsPresent(login:string):Observable<boolean>{
+  public loginIsPresent(login:string):Observable<boolean>{
     return this.httpClient.get<boolean>(this.url+"/loginIsPresent/"+login);
   }
 }
