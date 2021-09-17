@@ -1,5 +1,4 @@
 import { CanActivate } from '@angular/router';
-import { UserAccountService } from './../user-account.service';
 import { Injectable } from '@angular/core';
 
 @Injectable({
@@ -7,23 +6,10 @@ import { Injectable } from '@angular/core';
 })
 export class AdminRightsService implements CanActivate {
 
-  isConnectedAdmin = false;
-
-  constructor(private userAccountService: UserAccountService) {
-    this.userAccountService.isConnectedAdmin().subscribe(
-      (res) => this.isConnectedAdmin = res,
-      (error) => console.error(error)
-    );
-  }
+  constructor() { }
 
   canActivate():boolean{
-    if (this.isConnectedAdmin){
-      return true;
-    }
-    else
-    {
-      return false;
-    }
+    return localStorage.getItem("isAdmin")?true:false;
   }
 
 

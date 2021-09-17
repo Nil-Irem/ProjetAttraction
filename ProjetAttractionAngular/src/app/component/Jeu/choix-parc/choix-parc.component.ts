@@ -1,5 +1,4 @@
 import { GestionParcService } from './../../../service/GestionJeu/gestion-parc.service';
-import { UserAccountService } from './../../../service/user-account.service';
 import { FormControl, FormGroup, FormBuilder, Validators, AsyncValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -20,7 +19,6 @@ export class ChoixParcComponent implements OnInit {
 
   constructor(
     private formBuilder:FormBuilder,
-    private userAccountService:UserAccountService,
     private gestionParcService:GestionParcService)
   {
     this.InputNom = this.formBuilder.control('',[
@@ -45,10 +43,11 @@ export class ChoixParcComponent implements OnInit {
   }
 
   private listParc(){
-    this.gestionParcService.listByJoueur(this.userAccountService.userAccount()).subscribe(
-      (res)=>this.parcs=res,
-      (error)=>console.log(error)
-    );
+    // this.gestionParcService.listByJoueur().subscribe(
+    //   (res)=>this.parcs=res,
+    //   (error)=>console.log(error)
+    // );
+    // localStorage.getItem("isJoueur")
   }
 
   // controlParcIsPresent():AsyncValidatorFn{

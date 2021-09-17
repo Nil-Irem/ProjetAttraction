@@ -20,7 +20,7 @@ export const routes : Routes = [
   {path: 'inscription', component: InscriptionComponent,canActivate:[AnonymousRightsService]},
   {path: 'infosJeu', component: InfosComponent,canActivate:[AnonymousRightsService]},
 
-  {path: 'jeu/choixparc', component: ChoixParcComponent,canActivate:[JoueurRightsService,PartieChosenRightsService]},
+  {path: 'jeu/choixparc', component: ChoixParcComponent,canActivate:[JoueurRightsService]},
   {path: 'jeu/mainBoard', component: MainBoardComponent,canActivate:[PartieChosenRightsService]},
 
   {path: 'admin', component: AdminComponent,canActivate:[AdminRightsService]},

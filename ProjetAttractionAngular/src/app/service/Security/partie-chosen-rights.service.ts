@@ -1,5 +1,3 @@
-import { Observable } from 'rxjs';
-import { UserAccountService } from './../user-account.service';
 import { CanActivate } from '@angular/router';
 import { Injectable } from '@angular/core';
 
@@ -8,9 +6,9 @@ import { Injectable } from '@angular/core';
 })
 export class PartieChosenRightsService implements CanActivate {
 
-  constructor(private userAccountService: UserAccountService) { }
+  constructor() { }
 
-  canActivate():Observable<boolean>{
-    return this.userAccountService.parcIsChosen();
+  canActivate():boolean{
+    return localStorage.getItem("parcChosen")?true:false;
   }
 }

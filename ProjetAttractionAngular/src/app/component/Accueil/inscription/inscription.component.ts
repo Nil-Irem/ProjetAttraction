@@ -1,10 +1,9 @@
 import { GestionCompteService } from './../../../service/GestionJeu/gestion-compte.service';
-
-import { UserAccountService } from './../../../service/user-account.service';
 import { AbstractControl, AsyncValidatorFn, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { debounceTime, map } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-inscription',
@@ -20,7 +19,7 @@ export class InscriptionComponent implements OnInit {
   constructor(
     private formBuilder:FormBuilder,
     private gestionCompteService:GestionCompteService,
-    private userAccountService:UserAccountService)
+    private router: Router)
   {
     this.InputLogin = this.formBuilder.control('',[
         Validators.required,
@@ -56,13 +55,15 @@ export class InscriptionComponent implements OnInit {
     };
   }
 
-  submit(){
+  async submit(){
     const login = this.inscriptionForm.get('login')?.value;
     const password = this.inscriptionForm.get('password')?.value;
+    const user = await this.gestionCompteService.create({login:login,password:password,isJoueur:true,id:undefined}).toPromise();
 
-    this.gestionCompteService.create({login:login,password:password,isJoueur:true,id:undefined}).subscribe(
-      (res) => this.userAccountService.connexion(login,password),
-      (error) => console.log(error)
-    );
+    if (user){
+      const userBody = {id:user.id,login:user.login,password:user.password};
+      localStorage.setItem("isJoueur",JSON.stringify(userBody));
+      this.router.navigate(['/jeu/choixparc']);
+    }
   }
 }

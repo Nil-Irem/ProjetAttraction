@@ -1,17 +1,18 @@
-import { UserAccountService } from './../user-account.service';
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
-import { Observable } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class JoueurRightsService implements CanActivate {
 
-  constructor(private userAccountService: UserAccountService) { }
+  constructor() { }
 
-  canActivate(): Observable<boolean> {
-    return this.userAccountService.isConnectedJoueur();
+  canActivate(): boolean {
+    if(localStorage.getItem("isJoueur") && !localStorage.getItem("parcChosen")){
+      return true;
+    }
+    return false;
   }
 
 }
