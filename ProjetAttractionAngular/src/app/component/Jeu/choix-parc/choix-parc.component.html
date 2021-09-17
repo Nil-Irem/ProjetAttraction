@@ -1,19 +1,24 @@
 
 <h1>Liste des parties</h1>
-<!-- &emsp; &emsp;
-<input id="btnAddParc" type="button" class="btn btn-success" value="Créer une nouvelle partie">
+&emsp; &emsp;
+<button id="btnAddParc" (click)="ajout=true" class="btn btn-success" value="Créer une nouvelle partie">
 &emsp;
 <input id="filterPartie" placeholder="filtre">
 
-<div id="addFormParc" style="display: none">
+<div id="addFormParc" *ngIf="ajout">
 	<h3>Nouvelle partie</h3>
-	<form:form action="${ctx}/parcs/addparc" method="post" modelAttribute="parc" class="formulaire">
-		<form:input required="true" path="joueur.id" type="hidden" value="${sessionScope.joueur.id}"/><br>
-		Nom* <form:input required="true" path="nomParc" placeholder="nom" type="text"/><br>
-			<form:errors path="nomParc" style="color:red"/><br><br>
-		Difficulte* <form:select required="true" path="typeDifficulte" items="${typesDifficultes}"/><br><br>
-		<button type="submit" class="btn btn-success">Ajouter</button><br><br>
-	</form:form>
+  <form (ngSubmit)="addParc()" [formGroup]="newParcForm" class="formulaire">
+    <div class="form-group" >
+      Nom* <input required name="login" [formControl]="InputNom"><br><br>
+      <span *ngIf="InputNom.dirty&&InputNom.invalid" class="erreur">Vous possédez déjà un parc de ce nom</span>
+      Difficulté* <select name="password" [formControl]="InputDifficulte" required><br><br>
+        <option value="Facile">Facile</option>
+        <option value="Moyen">Moyen</option>
+        <option value="Difficile">Difficile</option>
+      </select>
+      <button type="submit" [disabled]="newParcForm.invalid" class="btn btn-success">Ajouter</button>
+    </div>
+  </form>
 </div>
 
      <table class="table table-striped">
@@ -27,29 +32,16 @@
            </tr>
        </thead>
         <tbody id="contentTable">
-			<c:forEach items="${parcs}" var="parc">
-				<tr>
-					<td>${parc.nomParc}</td>
-					<td>${parc.taille}</td>
-					<td>${parc.argent}</td>
-					<td>${parc.nbjour}</td>
-					<td>${parc.typeDifficulte}</td>
+				<tr *ngFor="let parc of parcs,">
+					<td>{{parc.nomParc}}</td>
+					<td>{{parc.taille}}</td>
+					<td>{{parc.argent}}</td>
+					<td>{{parc.nbjour}}</td>
+					<td>{{parc.typeDifficulte}}</td>
 					<td>
-                   		<a href="${ctx}/parcs/play?id=${parc.id}" type="button" class ="btn btn-warning">Jouer</a>
-                   		<a href="${ctx}/parcs/delete?id=${parc.id}" type="button" class ="btn btn-danger">Supprimer</a>
-                	 </td>
+            <button (click)="playParc(parc.id)" class ="btn btn-warning">Jouer</button>
+            <button (click)="deleteParc(parc.id,parc.nomParc)" class ="btn btn-danger">Supprimer</button>
+          </td>
 				</tr>
-			</c:forEach>
 		</tbody>
      </table>
-
-
-
-<script>
-
-	btnAddParc.onclick=function()
-	{
-		addFormParc.style.display="block";
-	}
-
-</script> -->

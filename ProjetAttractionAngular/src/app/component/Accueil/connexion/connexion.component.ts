@@ -1,6 +1,7 @@
 import { UserAccountService } from './../../../service/user-account.service';
 import { FormControl, FormGroup, FormBuilder, Validators, ValidationErrors } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-connexion',
@@ -16,7 +17,8 @@ export class ConnexionComponent implements OnInit {
 
   constructor(
     private formBuilder:FormBuilder,
-    private userAccountService:UserAccountService)
+    private userAccountService:UserAccountService,
+    private router: Router)
   {
     this.InputLogin = this.formBuilder.control('',[
         Validators.required,
@@ -41,9 +43,16 @@ export class ConnexionComponent implements OnInit {
 
 
   async submit(){
-    await this.userAccountService.connexion(
+    const typeCompte = await this.userAccountService.connexion(
       this.connexionForm.get('login')?.value,
       this.connexionForm.get('password')?.value);
+
+    if (typeCompte==="joueur"){
+      this.router.navigate(['/jeu/choixparc']);
+    }
+    else if(typeCompte==="admin"){
+      this.router.navigate(['/admin']);
+    }
 
     this.userValid = false;
   }

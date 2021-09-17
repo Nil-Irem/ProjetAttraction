@@ -48,7 +48,7 @@ public class ParcRestController {
 	}
 	
 	
-	@GetMapping("/byJoueur")
+	@PostMapping("/byJoueur")
 	@JsonView(JsonViews.Common.class)
 	public List<Parc> getParcByJoueur(@Valid @RequestBody Joueur joueur)
 	{

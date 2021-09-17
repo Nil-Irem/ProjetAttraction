@@ -1,4 +1,5 @@
-import { GestionCompteService } from './../../../service/gestion-compte.service';
+import { GestionCompteService } from './../../../service/GestionJeu/gestion-compte.service';
+
 import { Compte } from './../../../model/compte';
 import { Component, OnInit } from '@angular/core';
 

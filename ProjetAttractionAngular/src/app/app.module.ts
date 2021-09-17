@@ -17,6 +17,7 @@ import { NavBarJoueurComponent } from './component/NavBar/nav-bar-joueur/nav-bar
 import { NavBarAdminComponent } from './component/NavBar/nav-bar-admin/nav-bar-admin.component';
 import { ChoixParcComponent } from './component/Jeu/choix-parc/choix-parc.component';
 import { AdminComponent } from './component/Admin/admin/admin.component';
+import { MainBoardComponent } from './component/Jeu/main-board/main-board.component';
 
 @NgModule({
   declarations: [
@@ -31,7 +32,8 @@ import { AdminComponent } from './component/Admin/admin/admin.component';
     NavBarJoueurComponent,
     NavBarAdminComponent,
     ChoixParcComponent,
-    AdminComponent
+    AdminComponent,
+    MainBoardComponent
   ],
   imports: [
     BrowserModule,

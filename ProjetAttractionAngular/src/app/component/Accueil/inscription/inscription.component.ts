@@ -1,4 +1,5 @@
-import { GestionCompteService } from './../../../service/gestion-compte.service';
+import { GestionCompteService } from './../../../service/GestionJeu/gestion-compte.service';
+
 import { UserAccountService } from './../../../service/user-account.service';
 import { AbstractControl, AsyncValidatorFn, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';

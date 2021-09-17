@@ -1,31 +1,30 @@
-import { Difficulte } from './Difficulte';
 import { Joueur } from './joueur';
 export class Parc {
 
   constructor(
     private _nomParc: string,
-    private _taille: number,
-    private _nbjour: number,
-  	private _argent: number,
-  	private _typeDifficulte: Difficulte,
-    private _joueur: Joueur,
+  	private _typeDifficulte: string,
+    private _taille?: number,
+    private _nbjour?: number,
+  	private _argent?: number,
+    private _joueur?: Joueur,
     private _id?: number
   ){}
 
 
-	public get argent(): number {
+	public get argent(): number|undefined {
 		return this._argent;
 	}
 
-	public set argent(argent: number) {
+	public set argent(argent: number|undefined) {
 		this._argent = argent;
 	}
 
-	public get typeDifficulte(): Difficulte {
+	public get typeDifficulte(): string {
 		return this._typeDifficulte;
 	}
 
-	public set typeDifficulte(typeDifficulte: Difficulte) {
+	public set typeDifficulte(typeDifficulte: string) {
 		this._typeDifficulte = typeDifficulte;
 	}
 
@@ -40,32 +39,32 @@ export class Parc {
 	}
 
 
-	public get taille(): number {
+	public get taille(): number|undefined {
 		return this._taille;
 	}
 
 
-	public set taille(taille: number) {
+	public set taille(taille: number|undefined) {
 		this._taille = taille;
 	}
 
 
-	public get nbjour(): number {
+	public get nbjour(): number|undefined {
 		return this._nbjour;
 	}
 
 
-	public set nbjour(nbjour: number) {
+	public set nbjour(nbjour: number|undefined) {
 		this._nbjour = nbjour;
 	}
 
 
-	public get joueur(): Joueur {
+	public get joueur(): Joueur|undefined {
 		return this._joueur;
 	}
 
 
-	public set joueur(joueur: Joueur) {
+	public set joueur(joueur: Joueur|undefined) {
 		this._joueur = joueur;
 	}
 

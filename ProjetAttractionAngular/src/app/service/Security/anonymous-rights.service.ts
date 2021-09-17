@@ -1,13 +1,10 @@
-import { UserAccountService } from './service/user-account.service';
-import { Component } from '@angular/core';
+import { UserAccountService } from './../user-account.service';
+import { Injectable } from '@angular/core';
 
-@Component({
-  selector: 'app-root',
-  templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+@Injectable({
+  providedIn: 'root'
 })
-export class AppComponent {
-  title = 'ProjetAttractionAngular';
+export class AnonymousRightsService {
   isConnectedJoueur = false;
   isConnectedAdmin = false;
   parcIsChosen = false;
@@ -29,4 +26,13 @@ export class AppComponent {
     );
   }
 
+  canActivate():boolean{
+    if (this.isConnectedAdmin || this.isConnectedJoueur || this.parcIsChosen ){
+      return false;
+    }
+    else
+    {
+      return true;
+    }
+  }
 }

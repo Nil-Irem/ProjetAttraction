@@ -1,4 +1,5 @@
-import { GestionCompteService } from './../../../service/gestion-compte.service';
+import { GestionCompteService } from './../../../service/GestionJeu/gestion-compte.service';
+
 import { CustomValidator } from './../../../Validator/custom-validator';
 import { Joueur } from './../../../model/joueur';
 import { Compte } from './../../../model/compte';
