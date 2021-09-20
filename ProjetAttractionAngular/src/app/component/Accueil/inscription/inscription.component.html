@@ -1,0 +1,32 @@
+<div id="container" class="container-fluid h-100">
+  <div class="row h-100 justify-content-center align-items-center">
+    <div class="col-sm-2 col-md-5 col-lg-3">
+      <form (ngSubmit)="submit()" [formGroup]="inscriptionForm" class="formulaire">
+        <div class="form-group" >
+          <br><br>
+          Pseudo* <input name="login" [formControl]="InputLogin" required><br>
+          <span *ngIf="InputLogin.dirty&&InputLogin.invalid&&!InputLogin.hasError('isPresent')" class="erreur">Doit 3 caractères minimum</span>
+          <br *ngIf="!InputLogin.hasError('isPresent')">
+          <span *ngIf="InputLogin.dirty&&InputLogin.hasError('isPresent')" class="erreur">Pseudo déjà pris</span>
+
+          <br *ngIf="InputLogin.dirty&&InputLogin.invalid">
+          <br *ngIf="InputLogin.dirty&&InputLogin.hasError('isPresent')">
+
+          Mot de passe* <input name="password" [formControl]="InputPassword" required type="password"><br>
+          <div *ngIf="InputPassword.dirty&&InputPassword.invalid" class="erreur">Mot de passe pas assez sécurisé, doit comporter:</div>
+          <ul id="listeErreur" *ngIf="InputPassword.dirty&&InputPassword.invalid" class="erreur">
+            <li>5 Caractères</li>
+            <li>1 Majuscule</li>
+            <li>1 Minuscule</li>
+            <li>1 Nombre</li>
+          </ul>
+          <br *ngIf="!InputPassword.dirty || InputPassword.valid">
+
+          <button type="submit" [disabled]="inscriptionForm.invalid" class="btn btn-success">S'inscrire</button>
+          <br><br>
+          <a [routerLink]="['/connexion']" routerLinkActive="active">Déjà inscrit ?</a> <br><br>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

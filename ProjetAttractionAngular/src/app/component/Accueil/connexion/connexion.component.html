@@ -1,0 +1,19 @@
+<div id="container" class="container-fluid h-100">
+  <div class="row h-100 justify-content-center align-items-center">
+    <div class="col-sm-2 col-md-5 col-lg-3">
+      <form (ngSubmit)="submit()" [formGroup]="connexionForm" class="formulaire">
+        <div class="form-group" >
+          <br>
+          <span *ngIf="!userValid" class="erreur">Identifiant ou mot de passe incorrect</span>
+          <br *ngIf="!userValid">
+          <br>
+          Identifiant* <input required name="login" [formControl]="InputLogin"><br><br>
+          Mot de passe* <input name="password" [formControl]="InputPassword" required type="password"><br><br>
+          <button type="submit" [disabled]="connexionForm.invalid" class="btn btn-success">Se Connecter</button>
+          <br><br>
+          <a [routerLink]="['/inscription']" routerLinkActive="active">Créer un compte</a> <br><br>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

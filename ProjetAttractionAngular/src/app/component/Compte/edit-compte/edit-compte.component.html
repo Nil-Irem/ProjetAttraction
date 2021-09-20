@@ -1,0 +1,25 @@
+<form (ngSubmit)="onSubmit()" #monForm="ngForm">
+	<div class="form-group">
+    Login* <input name="login" [(ngModel)]="compte.login" #inputFormControl="ngModel" required><br>
+		<div *ngIf="inputFormControl.dirty&&inputFormControl.invalid">
+      Invalide !
+    </div>
+    Password* <input name="password" [(ngModel)]="compte.password" #inputFormControl="ngModel" required><br>
+		<br><br>
+		<button type="submit" [disabled]="monForm.invalid" class="btn btn-primary btn-block">OK</button>
+		<br><br>
+	</div>
+</form>
+
+<form [formGroup]="Formulaire">
+	<div class="form-group" >
+    Login* <input name="login" [formControl]="Input" required><br>
+		<div *ngIf="inputFormControl.dirty&&inputFormControl.invalid">
+      Invalide !
+    </div>
+    Password* <input name="password" [(ngModel)]="compte.password" #inputFormControl="ngModel" required><br>
+		<br><br>
+		<button type="submit" [disabled]="Formulaire.invalid" class="btn btn-primary btn-block">OK</button>
+		<br><br>
+	</div>
+</form>

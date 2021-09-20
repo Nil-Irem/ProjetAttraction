@@ -1,0 +1,20 @@
+<a type="button"
+  [routerLink]="['/compte', 'edit']"
+  routerLinkActive="active"
+  class="btn btn-success">Nouveau Compte</a>
+<table>
+  <thead>
+    <th>Id</th>
+    <th>Login</th>
+    <th>Password</th>
+  </thead>
+  <tr *ngFor="let c of comptes">
+    <td>{{c.id}}</td>
+    <td>{{c.login}}</td>
+    <td>{{c.password}}</td>
+    <td><a type="button"
+      [routerLink]="['/compte', 'edit',c.id]"
+      routerLinkActive="active" class="btn btn-warning">Modifier</a></td>
+    <td><button (click)="delete(c.id)" class="btn btn-danger">Supprimer</button></td>
+  </tr>
+</table>
