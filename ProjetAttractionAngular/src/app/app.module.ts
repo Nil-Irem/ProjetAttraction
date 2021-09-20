@@ -1,3 +1,5 @@
+import { PossessionComponent } from './component/Jeu/possession/possession.component';
+import { AchatComponent } from './component/Jeu/achat/achat.component';
 import { HeadParcComponent } from './component/Head/head-parc.component';
 import { NavBarAdminComponent } from './component/Head/NavBar/nav-bar-admin/nav-bar-admin.component';
 import { NavBarJoueurComponent } from './component/Head/NavBar/nav-bar-joueur/nav-bar-joueur.component';
@@ -34,8 +36,10 @@ import { MainBoardComponent } from './component/Jeu/main-board/main-board.compon
     NavBarAdminComponent,
     ChoixParcComponent,
     AdminComponent,
+    AchatComponent,
     MainBoardComponent,
-    HeadParcComponent
+    HeadParcComponent,
+    PossessionComponent
   ],
   imports: [
     BrowserModule,
@@ -47,4 +51,5 @@ import { MainBoardComponent } from './component/Jeu/main-board/main-board.compon
   providers: [],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

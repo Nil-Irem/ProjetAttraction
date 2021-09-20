@@ -1,4 +1,6 @@
-export class Construction {
+import { Element } from './element';
+
+export class Construction extends Element{
 
   constructor(
 	  protected _nom : string,
@@ -8,8 +10,8 @@ export class Construction {
 	  protected _nbAmelioration: number,
 	  protected _tauxIncident: number,
 	  protected _affluence: number,
-	  protected _id?: number
-  ){}
+	  id?: number
+  ){super(id);}
 
 
 
@@ -81,15 +83,5 @@ export class Construction {
 
 	public set affluence(affluence: number) {
 		this._affluence = affluence;
-	}
-
-
-	public get id() : number | undefined {
-    return this._id;
-	}
-
-
-	public set id(id : number|undefined) {
-		this._id = id;
 	}
 }

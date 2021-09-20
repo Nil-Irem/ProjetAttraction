@@ -5,12 +5,14 @@ import { PartieChosenRightsService } from './service/Security/partie-chosen-righ
 import { JoueurRightsService } from './service/Security/joueur-rights.service';
 import { AdminComponent } from './component/Admin/admin/admin.component';
 import { ChoixParcComponent } from './component/Jeu/choix-parc/choix-parc.component';
+import { AchatComponent } from './component/Jeu/achat/achat.component';
 import { InfosComponent } from './component/Accueil/infos/infos.component';
 import { InscriptionComponent } from './component/Accueil/inscription/inscription.component';
 import { ConnexionComponent } from './component/Accueil/connexion/connexion.component';
 import { AccueilComponent } from './component/Accueil/accueil.component';
 import { EditCompteComponent } from './component/Compte/edit-compte/edit-compte.component';
 import { ListCompteComponent } from './component/Compte/list-compte/list-compte.component';
+import { PossessionComponent } from './component/Jeu/possession/possession.component';
 import { Routes } from "@angular/router";
 
 export const routes : Routes = [
@@ -22,9 +24,14 @@ export const routes : Routes = [
 
   {path: 'jeu/choixparc', component: ChoixParcComponent,canActivate:[JoueurRightsService]},
   {path: 'jeu/mainBoard', component: MainBoardComponent,canActivate:[PartieChosenRightsService]},
+  {path: 'jeu/possession', component: PossessionComponent,canActivate:[PartieChosenRightsService]},
+  {path: 'jeu/possession/:typeElement', component: PossessionComponent,canActivate:[PartieChosenRightsService]},
+  {path: 'jeu/achat', component: AchatComponent,canActivate:[PartieChosenRightsService]},
+  {path: 'jeu/achat/:typeElement', component: AchatComponent,canActivate:[PartieChosenRightsService]},
 
   {path: 'admin', component: AdminComponent,canActivate:[AdminRightsService]},
   {path: 'admin/comptes', component: ListCompteComponent,canActivate:[AdminRightsService]},
   {path: 'admin/compte/edit/:id', component: EditCompteComponent,canActivate:[AdminRightsService]},
-  {path: 'admin/compte/edit', component: EditCompteComponent,canActivate:[AdminRightsService]}
+  {path: 'admin/compte/edit', component: EditCompteComponent,canActivate:[AdminRightsService]},
+
 ];

@@ -1,1 +1,39 @@
-<p>main-board works!</p>
+<h1>Bienvenue dans votre Parc ! {{getParc().nomParc}} </h1>
+
+
+<div>
+
+    <tr *ngFor="let achat of achats">
+        <td> {{achat.element}}</td>
+
+    </tr>
+
+</div>
+
+<div>
+
+<div class="">
+    <a [routerLink]="['/jeu/achat']" routerLinkActive="active" class="">Acheter du terrain</a>
+</div>
+<div class="">
+    <a [routerLink]="['/jeu/achat']" routerLinkActive="active" class="">Acheter des attractions, restaurants, boutiques, commodités ou employés</a>
+</div>
+
+<div class="">
+    <a [routerLink]="['/jeu/possession']" routerLinkActive="active" class="">Voir et modifier vos Possessions</a>
+</div>
+
+&emsp; &emsp;
+<button (click)="retour()" class="" >Retour</button>
+
+<button (click)="finJournee()" class="">Finir la Journée</button>
+
+</div>
+
+<!-- <div class="resFinJ">
+    <p>Aujourd'hui il a fait {{finJournee().meteo}}</p>
+    <p>Vous avez eu {{finJournee().nbV}} Visiteurs</p>
+    <p>Vous avez dépensé {{finJournee().depenses}}€.</p>
+    <p>Vous avez gagné {{finJournee().recette}} €.</p>
+</div> -->
+

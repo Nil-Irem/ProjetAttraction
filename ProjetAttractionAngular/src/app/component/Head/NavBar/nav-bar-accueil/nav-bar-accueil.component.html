@@ -1,4 +1,4 @@
-<nav class="navbar navbar-dark">
+<!-- <nav class="navbar navbar-dark">
   <div class="container-fluid">
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="#navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -13,17 +13,14 @@
     <button [routerLink]="['/inscription']" routerLinkActive="active" class="btn btn-secondary btn-lg">Inscription</button>
     <button [routerLink]="['/infosJeu']" routerLinkActive="active" class="btn btn-info btn-lg">A propos</button>
   </div>
-</div>
+</div> -->
+<nav class="navbar navbar-expand-lg navbar-light">
+    <div class="navbar-nav">
+      <a [routerLink]="['/connexion']" routerLinkActive="active" class="nav-item nav-link active">Connexion</a>
+      <a [routerLink]="['/inscription']" routerLinkActive="active" class="nav-item nav-link active">Inscription</a>
+      <a [routerLink]="['/infosJeu']" routerLinkActive="active" class="nav-item nav-link active">A propos</a>
+    </div>
 
-<!-- <nav class="navbar">
-    <a class="navbar-brand" href="#">WebSiteName</a>
-    <ul class="nav navbar-nav">
-      <li class="nav-item"><a href="#" class="nav-link">Home</a></li>
-      <li><a href="#">Page 1</a></li>
-      <li><a href="#">Page 2</a></li>
-    </ul>
-    <ul class="nav navbar-nav navbar-right">
-      <li><a href="#"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
-      <li><a href="#"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
-    </ul>
-</nav> -->
+    <div class="container"> </div>
+    <img class="navbar-brand" src="assets/img/logoYoloSmall.png" alt="YoloLogo">
+</nav>

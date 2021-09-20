@@ -1,21 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { PossessionComponent } from './possession.component';
 
-import { AccueilComponent } from './accueil.component';
-
-describe('AccueilComponent', () => {
-  let component: AccueilComponent;
-  let fixture: ComponentFixture<AccueilComponent>;
+describe('PossessionComponent', () => {
+  let component: PossessionComponent;
+  let fixture: ComponentFixture<PossessionComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AccueilComponent ]
+      declarations: [ PossessionComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AccueilComponent);
+    fixture = TestBed.createComponent(PossessionComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

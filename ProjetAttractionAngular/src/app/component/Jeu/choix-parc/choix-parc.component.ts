@@ -47,14 +47,12 @@ export class ChoixParcComponent implements OnInit {
   }
 
   private listParc(){
-    const joueur = localStorage.getItem('isJoueur');
-    if (joueur){
-      this.gestionParcService.listByJoueur(JSON.parse(joueur)).subscribe(
+    if (this.joueur){
+      this.gestionParcService.listByJoueur(JSON.parse(this.joueur)).subscribe(
         (res)=>this.parcs=res,
         (error)=>console.log(error)
       );
     }
-
   }
 
   controlNomIsPresent():AsyncValidatorFn{

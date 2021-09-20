@@ -2,8 +2,13 @@ nav {
 	background-color: #ec8809b3;
 }
 
-#menu {
+.navbar-bar{
+	width: 100%;
+}
+
+
+/* #menu {
 	display: flex;
 	justify-content: space-around;
 	background-color: #ec8809b3;
-}
+} */
