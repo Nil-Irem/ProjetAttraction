@@ -142,7 +142,7 @@ public class AchatRestController {
 	}
 	
 	
-	@PatchMapping("/save")
+	@PatchMapping("/save/{id}")
 	@JsonView(JsonViews.Common.class)
 	public Achat save (@RequestBody Map<String, Object> fields,BindingResult br,@PathVariable Integer id) {
 		Optional<Achat> opt = daoA.findById(id);
@@ -159,25 +159,23 @@ public class AchatRestController {
 	}
 	
 	
-	@DeleteMapping("/delete")
+	@DeleteMapping("/delete/{id}")
 	@JsonView(JsonViews.Common.class)
-	public void delete(@Valid @RequestBody Achat achat,BindingResult br){
+	public void delete(@PathVariable Integer id,BindingResult br){
 		if (br.hasErrors())
 		{
 			throw new AchatException(br.getGlobalError().toString());
 		}
-		else if (achat.getId()==null || achat.getParc().getId()==null)
+		else if (id==null || id==0)
 		{
 			throw new AchatException("Achat avec des données incorrectes - suppression impossible");
 		}
-		else if (!daoA.findById(achat.getId()).isPresent())
+		else if (!daoA.findById(id).isPresent())
 		{
 			throw new AchatException("Achat demandé inexistant - suppression impossible");		
 		}
-		else
-		{
-			daoA.delete(achat);	
-		}
+		
+		daoA.deleteById(id);
 	}
 	
 	
@@ -203,7 +201,25 @@ public class AchatRestController {
 	}
 
 
-	@PostMapping("/byElementAndParc/{type}")
+
+	@PostMapping("/byElementAndParc/{id}")
+	@JsonView(JsonViews.Common.class)
+	public Achat getAllAchatByElementAndParc(@Valid @RequestBody Parc parc,@PathVariable String type,@PathVariable Integer id){
+		if(parc.getId()==null || !daoP.findById(parc.getId()).isPresent())
+		{
+			throw new AchatException("Parc inexistant - liste des achats associés impossible");
+		}
+		
+		Optional<Achat> achat = daoA.findByParcAndIdElement(parc,id);
+		if (achat.isPresent()) {
+			return achat.get();
+		}
+		
+		throw new AchatException("Achat inexistant");
+	}
+	
+	
+	@PostMapping("/byTypeElementAndParc/{type}")
 	@JsonView(JsonViews.Common.class)
 	public List<Achat> getAllAchatByTypeElementAndParc(@Valid @RequestBody Parc parc,@PathVariable String type){
 		if(parc.getId()==null || !daoP.findById(parc.getId()).isPresent())

@@ -1,3 +1,4 @@
+import { Parc } from 'src/app/model/parc';
 import { GestionElementService } from './../../../service/GestionJeu/gestion-element.service';
 import { Commodite } from './../../../model/commodite';
 import { Employe } from './../../../model/employe';
@@ -112,7 +113,7 @@ export class AchatComponent implements OnInit {
 
   private listAttractionWithoutAchat(){
     if (this.parcStorage){
-      this.gestionAchatService.getByElementAndParc("attraction",JSON.parse(this.parcStorage)).subscribe(
+      this.gestionAchatService.getByTypeElementAndParc("attraction",JSON.parse(this.parcStorage)).subscribe(
         (res) => {
           res.forEach(
             achat => {
@@ -133,7 +134,7 @@ export class AchatComponent implements OnInit {
 
   private listBoutiqueWithoutAchat(){
     if (this.parcStorage){
-      this.gestionAchatService.getByElementAndParc("boutique",JSON.parse(this.parcStorage)).subscribe(
+      this.gestionAchatService.getByTypeElementAndParc("boutique",JSON.parse(this.parcStorage)).subscribe(
         (res) => {
           res.forEach(
             achat => {
@@ -152,7 +153,7 @@ export class AchatComponent implements OnInit {
 
   private listRestaurantWithoutAchat(){
     if (this.parcStorage){
-      this.gestionAchatService.getByElementAndParc("restaurant",JSON.parse(this.parcStorage)).subscribe(
+      this.gestionAchatService.getByTypeElementAndParc("restaurant",JSON.parse(this.parcStorage)).subscribe(
         (res) => {
           res.forEach(
             achat => {
@@ -181,7 +182,7 @@ export class AchatComponent implements OnInit {
       }
       else if (type==="commodite" || type==="employe"){
         let exist = false;
-        this.gestionAchatService.getByElementAndParc(type,JSON.parse(this.parcStorage)).subscribe(
+        this.gestionAchatService.getByTypeElementAndParc(type,JSON.parse(this.parcStorage)).subscribe(
           (res) => {
             res.forEach(
               achat => {
@@ -204,8 +205,21 @@ export class AchatComponent implements OnInit {
 
 
   newParc(element:Element){
-    // parc.setArgent(parc.getArgent()-newResto.getPrixAcquisition());
-    // parc.setTaille(parc.getTaille()-newResto.getTaille());
+    let storage = localStorage.getItem("parcChosen");
+    if (storage){
+      let parc:Parc = JSON.parse(storage);
+
+      // if (parc.argent && element.prixAcquisition){
+      //   parc.argent -= element.prixAcquisition;
+      // }
+
+      // if (parc.taille && element.taille){
+      //   parc.taille -= element.taille;
+      // }
+
+      localStorage.setItem("parcChosen",JSON.stringify(parc));
+    }
     this.constructionListes();
   }
+
 }

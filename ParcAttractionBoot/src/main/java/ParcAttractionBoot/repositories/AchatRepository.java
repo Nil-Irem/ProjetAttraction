@@ -21,6 +21,9 @@ public interface AchatRepository extends JpaRepository<Achat, Integer>  {
 
 	@Query("select niveauAmelioration from Achat where parc=:parc and element=:element")
 	Optional<Integer> Nvamelioration (@Param("parc")Parc parc,@Param("element") Element element);
+	
+	@Query("select a from Achat a where a.parc=:parc and a.element.id=:id")
+	Optional<Achat> findByParcAndIdElement (@Param("parc")Parc parc,@Param("id")Integer id);
 
 	@Query("select a from Achat a where a.parc.id=:id")
 	List<Achat> findByIdParc (@Param("id")Integer id);

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { GestionAchatService } from 'src/app/service/GestionJeu/gestion-achat.service';
 import { Parc } from 'src/app/model/parc';
 
@@ -20,8 +20,7 @@ export class PossessionComponent implements OnInit {
 
  constructor(
     private ar: ActivatedRoute,
-    private gestionAchatService:GestionAchatService,
-    private router:Router) {
+    private gestionAchatService:GestionAchatService) {
 
       this.listPossession();
   }
@@ -102,7 +101,7 @@ export class PossessionComponent implements OnInit {
     let storage = localStorage.getItem("parcChosen");
     if (storage && id){
       let parc:Parc = JSON.parse(storage);
-      let prix = 0;
+      let prixAmelioration = 5;
 
       this.gestionAchatService.getByElementAndParc(id,JSON.parse(storage)).subscribe(
         (res) => {
@@ -111,35 +110,37 @@ export class PossessionComponent implements OnInit {
         },
         (error) => console.log(error)
       );
-	// 	Achat achat = daoA.findByElementAndParc(element,parc).get();
-	// 	achat.setNiveauAmelioration(achat.getNiveauAmelioration()+1);
-	// 	daoA.save(achat);
 
-	// 	parc.setArgent(parc.getArgent()-prix);
+      if (parc.argent){
+        parc.argent -= prixAmelioration;
+      }
+
     localStorage.setItem("parcChosen",JSON.stringify(parc));
     this.listPossession();
     }
   }
 
-vendre(id:number|undefined){
-    // Element element = new Attraction();
-		// Parc parc = (Parc) session.getAttribute("parc");
-		// double prix=0;
-		// switch(type)
-		// {
-		// 	case "attraction" : element=daoAt.findById(id).get();prix=prixVenteAttraction;break;
-		// 	case "boutique" : element=daoB.findById(id).get();prix=prixVenteBoutique;break;
-		// 	case "restaurant" : element=daoR.findById(id).get();prix=prixVenteRestaurant;break;
-		// 	case "commodite" : element=daoC.findById(id).get();prix=prixVenteCommodite;break;
-		// 	case "employe" : element=daoE.findById(id).get();break;
-		// 	default : return new ModelAndView("redirect:/possessions");
-		// }
-		// Achat achat = daoA.findByElementAndParc(element,parc).get();
-		// daoA.delete(achat);
+  vendre(id:number|undefined){
+    let storage = localStorage.getItem("parcChosen");
+    if (storage && id){
+      let parc:Parc = JSON.parse(storage);
+      let prixVente = 100.5;
 
-		// parc.setArgent(parc.getArgent()+prix);
-		// session.setAttribute("parc", parc);
-		// return new ModelAndView("redirect:/possessions");
+      this.gestionAchatService.getByElementAndParc(id,JSON.parse(storage)).subscribe(
+        (res) => {
+          if (res.id){
+          this.gestionAchatService.delete(res.id).subscribe();
+        }},
+        (error) => console.log(error)
+      );
+
+      if (parc.argent){
+        parc.argent += prixVente;
+      }
+
+      localStorage.setItem("parcChosen",JSON.stringify(parc));
+      this.listPossession();
+    }
   }
 
   public getParc(): Parc{
