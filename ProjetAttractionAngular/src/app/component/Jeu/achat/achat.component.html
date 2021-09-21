@@ -1,27 +1,32 @@
 <h1 id="titreh1">Yolocoaster Tycoon Achat</h1>
 <br><br>
-  <table >
-    <thead class="table">
-        <th>Type de Construction</th>
-				<th>Nom</th>
-				<th>Prix d'Acquisition (€)</th>
-				<th>Coût par tour (€)</th>
-				<th>Nombre d'Améliorations Possibles</th>
-        <th>Taux d'Incidents (%)</th>
+<div class="container-fluid">
+
+  <!-- <span id="message" *ngIf="elementAcheter.typeElement!=='employe'&&afficheMessage"> Embauche réussi pour l'employé suivant : {{elementAcheter.metier}}</span>
+  <span id="message" *ngIf="elementAcheter.typeElement!=='employe'&&afficheMessage">Achat effectué : {{elementAcheter.typeElement}} {{elementAcheter.nom}}</span> -->
+
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Type de construction</th>
+  			<th>Nom</th>
+	  		<th>Prix d'acquisition (€)</th>
+		  	<th>Coût journalier (€)</th>
+			  <th>Nombre d'améliorations possibles</th>
+        <th>Taux d'incidents/jour (%)</th>
         <th>Taille (m²)</th>
         <th>Affluence</th>
-        <th>Revenu Journalier par Client</th>
+        <th>Revenu/jour/visiteur (€)</th>
+        <th></th>
+      </tr>
     </thead>
-
-    <br>
     <tbody id="contentTable">
-
       <tr *ngFor="let att of attractions">
         <td id="titreh3">Attraction</td>
-				<td>{{att.nom}}</td>
-				<td>{{att.prixAcquisition}}</td>
-				<td>{{att.prixFonctionnement}}</td>
-				<td>{{att.nbAmelioration}}</td>
+  			<td>{{att.nom}}</td>
+	  		<td>{{att.prixAcquisition}}</td>
+		  	<td>{{att.prixFonctionnement}}</td>
+        <td>{{att.nbAmelioration}}</td>
         <td>{{att.tauxIncident}}</td>
         <td>{{att.taille}}</td>
         <td>{{att.affluence}}</td>
@@ -31,7 +36,19 @@
         </td>
       </tr>
 
-      <br>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
+
       <tr *ngFor="let r of restaurants">
         <td id="titreh3">Restaurant</td>
 				<td>{{r.nom}}</td>
@@ -42,65 +59,95 @@
         <td>{{r.taille}}</td>
       	<td>{{r.affluence}}</td>
         <td>{{r.revenuJourPersonne}}</td>
-      <td>
-        <button class="btn btn-outline-info"  (click)="achat(r,'restaurant')">Acheter</button>
-      </td>
-    </tr>
+        <td>
+          <button class="btn btn-outline-info"  (click)="achat(r,'restaurant')">Acheter</button>
+        </td>
+      </tr>
 
-    <br>
-     <tr *ngFor="let b of boutiques">
-     <td id="titreh3">Boutique</td>
-     <td>{{b.nom}}</td>
-     <td>{{b.prixAcquisition}}</td>
-     <td>{{b.prixFonctionnement}}</td>
-     <td>{{b.nbAmelioration}}</td>
-     <td>{{b.tauxIncident}}</td>
-     <td>{{b.taille}}</td>
-     <td>{{b.affluence}}</td>
-     <td>{{b.revenuJourPersonne}}</td>
-     <td>
-      <button class="btn btn-outline-info" (click)="achat(b,'boutique')">Acheter</button>
-     </td>
-    </tr>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
 
-    <br>
-     <tr *ngFor="let c of commodites">
-     <td id="titreh3">Commodité</td>
-     <td>{{c.nom}}</td>
-     <td>{{c.prixAcquisition}}</td>
-     <td>0</td>
-     <td>0</td>
-     <td>0</td>
-     <td>{{c.taille}}</td>
-     <td>Augmente l'affluence</td>
-     <td>0</td>
-     <td>
-      <button class="btn btn-outline-info" (click)="achat(c,'commodite')">Acheter</button>
-     </td>
-    </tr>
+      <tr *ngFor="let b of boutiques">
+        <td id="titreh3">Boutique</td>
+        <td>{{b.nom}}</td>
+        <td>{{b.prixAcquisition}}</td>
+        <td>{{b.prixFonctionnement}}</td>
+        <td>{{b.nbAmelioration}}</td>
+        <td>{{b.tauxIncident}}</td>
+        <td>{{b.taille}}</td>
+        <td>{{b.affluence}}</td>
+        <td>{{b.revenuJourPersonne}}</td>
+        <td>
+          <button class="btn btn-outline-info" (click)="achat(b,'boutique')">Acheter</button>
+        </td>
+      </tr>
 
-    <br>
-     <tr *ngFor="let e of employes">
-     <td id="titreh3">Employé</td>
-     <td>{{e.metier}}</td>
-     <td>-</td>
-     <td>{{e.salaire}}</td>
-     <td>-</td>
-     <td **ngIf="e.salaire>50"><p>Diminue le taux d'incidents de {{e.salaire}} %</p></td>
-     <td>-</td>
-     <td **ngIf="e.salaire<50"><p>Augmente l'affluence de {{e.salaire}}%</p></td>
-     <td>-</td>
-     <td>-</td>
-     <td>-</td>
-     <td>
-      <button class="btn btn-outline-info"  (click)="achat(e,'employe')">Acheter</button>
-     </td>
-    </tr>
-  </tbody>
-</table>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+      </tr>
 
-    <br><br>
-    <button [routerLink]="['/jeu/mainBoard']" routerLInkActive="active" class="btn btn-warning" >Retour</button>
+      <tr *ngFor="let c of commodites">
+        <td id="titreh3">Commodité</td>
+        <td>{{c.nom}}</td>
+        <td>{{c.prixAcquisition}}</td>
+        <td>0</td>
+        <td>0</td>
+        <td>0</td>
+        <td>{{c.taille}}</td>
+        <td>Augmente l'affluence</td>
+        <td>0</td>
+        <td>
+          <button class="btn btn-outline-info" (click)="achat(c,'commodite')">Acheter</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
+  <br><br>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Main d'oeuvre</th>
+  			<th>Métier</th>
+		  	<th>Salaire journalier (€)</th>
+        <th>Diminution du nombre d'incidents journalier (%)</th>
+        <th>Augmentation de l'affluence journalière (%) </th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody id="contentTable">
+      <tr *ngFor="let e of employes">
+        <td id="titreh3">Employé</td>
+        <td>{{e.metier}}</td>
+        <td>{{e.salaire}}</td>
+        <td *ngIf="e.salaire>50">{{e.salaire}} </td>
+        <td>-</td>
+        <td *ngIf="e.salaire<=50">{{e.salaire}}</td>
+        <td>
+          <button class="btn btn-outline-info"  (click)="achat(e,'employe')">Embaucher</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
 
 

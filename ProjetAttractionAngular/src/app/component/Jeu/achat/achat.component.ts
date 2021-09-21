@@ -22,15 +22,30 @@ export class AchatComponent implements OnInit {
   boutiques : Boutique[]=[];
   restaurants : Restaurant[]=[];
   employes : Employe[]=[];
+  // attractions : Element[]=[];
+  // commodites : Element[]=[];
+  // boutiques : Element[]=[];
+  // restaurants : Element[]=[];
+  // employes : Element[]=[];
+  afficheMessage = false;
   private parcStorage = localStorage.getItem("parcChosen");
 
 
   constructor(
+    // private elementAcheter:Element,
     private ar: ActivatedRoute,
     private gestionAchatService:GestionAchatService,
     private gestionElementService:GestionElementService,
     private router:Router) {
 
+      this.constructionListes();
+  }
+
+  ngOnInit(): void {
+  }
+
+
+  private constructionListes(){
     this.ar.params.subscribe((params) => {
       if (params.typeElement) {
         if (params.typeElement==="attraction"){
@@ -94,10 +109,6 @@ export class AchatComponent implements OnInit {
       }
     });
   }
-
-  ngOnInit(): void {
-  }
-
 
   private listAttractionWithoutAchat(){
     if (this.parcStorage){
@@ -163,7 +174,10 @@ export class AchatComponent implements OnInit {
   public achat(element:Element,type:string){
     if (this.parcStorage){
       if (type==="attraction" || type==="boutique" || type==="restaurant"){
-        this.gestionAchatService.create(new Achat(JSON.parse(this.parcStorage),element,type,0,0)).subscribe();
+        this.gestionAchatService.create(new Achat(JSON.parse(this.parcStorage),element,type,0,0)).subscribe(
+          (res) => this.newParc(element) ,
+          (error) => console.log(error)
+        );
       }
       else if (type==="commodite" || type==="employe"){
         let exist = false;
@@ -178,6 +192,9 @@ export class AchatComponent implements OnInit {
                 }
               }
             );
+            // this.elementAcheter = element;
+            this.afficheMessage = true;
+            this.newParc(element);
           },
           (error) => console.log(error)
         )
@@ -185,4 +202,10 @@ export class AchatComponent implements OnInit {
     }
   }
 
+
+  newParc(element:Element){
+    // parc.setArgent(parc.getArgent()-newResto.getPrixAcquisition());
+    // parc.setTaille(parc.getTaille()-newResto.getTaille());
+    this.constructionListes();
+  }
 }

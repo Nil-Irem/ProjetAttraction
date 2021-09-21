@@ -16,6 +16,8 @@
         <a class="dropdown-item" href="#" [routerLink]="['/jeu/achat/commodite']" routerLinkActive="active">Acheter une commodité</a>
         <a class="dropdown-item" href="#" [routerLink]="['/jeu/achat/employe']" routerLinkActive="active">Embaucher un employé</a>
       </div> -->
+      &nbsp;&nbsp;
+      <a *ngIf="parcIsChosen()" class="nav-item btn btn-warning" [routerLink]="['/jeu/mainBoard']" routerLInkActive="active">Map</a>
     </div>
     <img class="navbar-brand" src="assets/img/logoYoloSmall.png" alt="YoloLogo">
   </div>

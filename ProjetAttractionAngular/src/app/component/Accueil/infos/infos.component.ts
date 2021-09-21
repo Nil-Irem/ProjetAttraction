@@ -12,4 +12,6 @@ export class InfosComponent implements OnInit {
   ngOnInit(): void {
   }
 
+
+
 }

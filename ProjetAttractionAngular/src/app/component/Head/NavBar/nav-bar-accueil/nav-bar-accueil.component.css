@@ -18,8 +18,7 @@ nav {
   color:#537910;
 }
 
-/* #menu {
-	display: flex;
-	justify-content: space-around;
-	background-color: #ec8809b3;
-} */
+#accueil{
+  font-weight: bold;
+  color:#353e40;
+}

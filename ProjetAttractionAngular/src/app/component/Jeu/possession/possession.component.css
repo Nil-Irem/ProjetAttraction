@@ -8,14 +8,14 @@
 #titreh1{
   font-weight: bold;
   font-size: 50px;
- text-align: center;
- color: #dd840fe1;
+  text-align: center;
+  color: #dd840fe1;
 }
 
 #button{
   display:block;
-margin-left: 500px;
-margin-right: 500px;
+margin-left: 30%;
+margin-right: 30%;
 }
 
 

@@ -11,7 +11,7 @@ export class Construction extends Element{
 	  protected _tauxIncident: number,
 	  protected _affluence: number,
 	  id?: number
-  ){super(id);}
+  ){super();}
 
 
 

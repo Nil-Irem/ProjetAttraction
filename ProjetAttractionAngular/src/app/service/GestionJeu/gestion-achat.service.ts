@@ -59,10 +59,14 @@ export class GestionAchatService {
     return this.httpClient.get<Achat[]>(this.url +"/element="+ element,{headers:this.headers});
   }
 
-  public getByElementAndParc(element: string,parc: Parc ): Observable <Achat[]>{
+  public getByTypeElementAndParc(element: string,parc: Parc ): Observable <Achat[]>{
+    this.initHeaders();
+    return this.httpClient.post<Achat[]>(this.url +"/byTypeElementAndParc/"+ element,parc,{headers:this.headers});
+  }
+
+  public getByElementAndParc(element: number,parc: Parc ): Observable <Achat[]>{
     this.initHeaders();
     return this.httpClient.post<Achat[]>(this.url +"/byElementAndParc/"+ element,parc,{headers:this.headers});
-
   }
 
 

@@ -1,0 +1,38 @@
+#titreh1{
+  text-align: center;
+  font-weight: bold;
+  color:#dd840fe1;
+}
+
+#titreCarac{
+  font-size:25pt;
+  font-weight: bold;
+  color:#a8214de0;
+}
+
+#image{
+  margin-left:5%;
+}
+
+#texte{
+font-size:13pt;
+text-align: justify;
+margin-left:-55%;
+margin-right:15%;
+color:black;
+background-color: #d3d3d357;
+padding-top:5%;
+padding-bottom: 5%;
+padding-left: 5%;
+padding-right: 5% ;
+}
+
+
+#synopsis{
+  font-weight: bold;
+  margin-top: 2%;
+  font-size:20pt;
+  color:#a8214de0;
+  text-align: left;
+
+}

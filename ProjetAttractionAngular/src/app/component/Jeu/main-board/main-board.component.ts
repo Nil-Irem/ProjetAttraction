@@ -60,9 +60,16 @@ export class MainBoardComponent implements OnInit {
   }
 
   public finJourneeA() {
-    /* Afficher dans le footer les résultats ?
+    /*
+    //Afficher dans le footer les résultats :
     //meteo,nbVisiteurs, dépenses, recette
-    //return this.
+    this.gestionJourneeService.finJourneeS(JSON.parse(this.parcStorage)).subscribe(
+(res) =>
+  {this.parc.set(parc.nbjour, parc.nbjour+1);}
+  (error) => console.log(error)
+    );
+    return this.gestionJourneeService.finJourneeS(JSON.parse(this.parcStorage)).subscribe();
+
 */
 
   }

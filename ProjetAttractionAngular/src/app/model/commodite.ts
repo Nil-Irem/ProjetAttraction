@@ -7,7 +7,7 @@ export class Commodite extends Element{
   	private _prixAcquisition: number,
   	private _taille: number,
     id?: number
-  ){super(id);}
+  ){super();}
 
 
 	public get nom(): string {
