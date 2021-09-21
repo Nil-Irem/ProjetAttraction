@@ -198,10 +198,6 @@ public class AchatRestController {
 	@DeleteMapping("/delete/{id}")
 	@JsonView(JsonViews.Common.class)
 	public void delete(@PathVariable Integer id){
-		//		if (br.hasErrors())
-		//		{
-		//			throw new AchatException(br.getGlobalError().toString());
-		//		}
 		if (id==null || id==0)
 		{
 			throw new AchatException("Achat avec des données incorrectes - suppression impossible");

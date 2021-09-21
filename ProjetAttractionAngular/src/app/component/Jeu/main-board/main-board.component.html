@@ -4,7 +4,7 @@
 <div>
 
     <tr *ngFor="let achat of achats">
-        <td> {{achat.element}}</td>
+        <td> {{achat.element.nom}}</td>
 
     </tr>
 
@@ -24,7 +24,6 @@
 </div>
 
 &emsp; &emsp;
-<button (click)="retour()" class="btn btn-warning" >Retour</button>
 
 <button (click)="finJourneeA()" class="btn btn-light">Finir la Journée</button>
 

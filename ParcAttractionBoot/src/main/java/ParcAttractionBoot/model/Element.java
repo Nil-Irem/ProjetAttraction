@@ -12,6 +12,7 @@ public abstract class Element {
 	@GeneratedValue(strategy = GenerationType.TABLE)
 	@JsonView(JsonViews.Common.class)
 	protected Integer id;
+	private transient String typeElement;
 
 	public Element(Integer id) {
 		this.id = id;
@@ -28,4 +29,13 @@ public abstract class Element {
 	public void setId(Integer id) {
 		this.id = id;
 	}
+
+	public String getTypeElement() {
+		return typeElement;
+	}
+
+	public void setTypeElement(String typeElement) {
+		this.typeElement = typeElement;
+	}
+	
 }

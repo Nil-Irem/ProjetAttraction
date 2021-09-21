@@ -13,9 +13,9 @@
           <br *ngIf="InputLogin.dirty&&InputLogin.hasError('isPresent')">
 
           Mot de passe* <input name="password" [formControl]="InputPassword" required type="password"><br>
-          <div *ngIf="InputPassword.dirty&&InputPassword.invalid" class="erreur">Mot de passe pas assez sécurisé, doit comporter:</div>
+          <div *ngIf="InputPassword.dirty&&InputPassword.invalid" class="erreur">Mot de passe pas assez sécurisé, doit comporter :</div>
           <ul id="listeErreur" *ngIf="InputPassword.dirty&&InputPassword.invalid" class="erreur">
-            <li>5 Caractères</li>
+            <li>5 Caractères minimum</li>
             <li>1 Majuscule</li>
             <li>1 Minuscule</li>
             <li>1 Nombre</li>

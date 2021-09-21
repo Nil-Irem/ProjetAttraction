@@ -30,9 +30,9 @@
         <td>{{att.tauxIncident}}</td>
         <td>{{att.taille}}</td>
         <td>{{att.affluence}}</td>
-        <td>0</td>
+        <td>-</td>
         <td>
-          <button class="btn btn-outline-info"  (click)="achat(att,'attraction')">Acheter</button>
+          <button class="btn btn-outline-info"  (click)="achat(att)">Acheter</button>
         </td>
       </tr>
 
@@ -60,7 +60,7 @@
       	<td>{{r.affluence}}</td>
         <td>{{r.revenuJourPersonne}}</td>
         <td>
-          <button class="btn btn-outline-info"  (click)="achat(r,'restaurant')">Acheter</button>
+          <button class="btn btn-outline-info"  (click)="achat(r)">Acheter</button>
         </td>
       </tr>
 
@@ -88,7 +88,7 @@
         <td>{{b.affluence}}</td>
         <td>{{b.revenuJourPersonne}}</td>
         <td>
-          <button class="btn btn-outline-info" (click)="achat(b,'boutique')">Acheter</button>
+          <button class="btn btn-outline-info" (click)="achat(b)">Acheter</button>
         </td>
       </tr>
 
@@ -109,21 +109,21 @@
         <td id="titreh3">Commodité</td>
         <td>{{c.nom}}</td>
         <td>{{c.prixAcquisition}}</td>
-        <td>0</td>
-        <td>0</td>
-        <td>0</td>
+        <td>-</td>
+        <td>-</td>
+        <td>-</td>
         <td>{{c.taille}}</td>
         <td>Augmente l'affluence</td>
-        <td>0</td>
+        <td>-</td>
         <td>
-          <button class="btn btn-outline-info" (click)="achat(c,'commodite')">Acheter</button>
+          <button class="btn btn-outline-info" (click)="achat(c)">Acheter</button>
         </td>
       </tr>
     </tbody>
   </table>
 
   <br><br>
-  <table class="table table-striped">
+  <table *ngIf="employes.length >0" class="table table-striped">
     <thead>
       <tr>
         <th>Main d'oeuvre</th>
@@ -137,17 +137,15 @@
     <tbody id="contentTable">
       <tr *ngFor="let e of employes">
         <td id="titreh3">Employé</td>
-        <td>{{e.metier}}</td>
+        <td>{{e.nom}}</td>
         <td>{{e.salaire}}</td>
-        <td *ngIf="e.salaire>50">{{e.salaire}} </td>
+        <td *ngIf="e.salaire && e.salaire>50">{{e.salaire}} </td>
         <td>-</td>
-        <td *ngIf="e.salaire<=50">{{e.salaire}}</td>
+        <td *ngIf="e.salaire &&  e.salaire<=50">{{e.salaire}}</td>
         <td>
-          <button class="btn btn-outline-info"  (click)="achat(e,'employe')">Embaucher</button>
+          <button class="btn btn-outline-info"  (click)="achat(e)">Embaucher</button>
         </td>
       </tr>
     </tbody>
   </table>
 </div>
-
-
