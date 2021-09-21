@@ -22,13 +22,19 @@ public class Achat {
 	@JoinColumn(name="id_element")
 	@JsonView(JsonViews.Common.class)
 	private Element element;
+	
+	@Column(name="niveau_amelioration")
 	@JsonView(JsonViews.Common.class)
 	private int niveauAmelioration;
+	
+	@Column(name="nb_same_element")
 	@JsonView(JsonViews.Common.class)
 	private int nbSameElement;
+	
 	@Column(name="type_element",length = 40)
 	@JsonView(JsonViews.Common.class)
 	private String typeElement;
+	
 	@ManyToOne
 	@JoinColumn(name="id_parc")
 	@JsonView(JsonViews.Common.class)

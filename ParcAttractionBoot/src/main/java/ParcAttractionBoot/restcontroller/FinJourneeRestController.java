@@ -2,6 +2,8 @@ package ParcAttractionBoot.restcontroller;
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.beans.factory.annotation.Autowired;
 import java.util.Random;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import java.text.NumberFormat;
 import javax.validation.Valid;
@@ -34,7 +36,7 @@ public class FinJourneeRestController {
 
     @GetMapping("/byParc")
 	@JsonView(JsonViews.Common.class)
-    public void finJournee(@Valid @RequestBody Parc parc){
+    public List<String> finJournee(@Valid @RequestBody Parc parc){
 		double prixFonctionnement=0;
 		double attractivite=0;
 		double argentGagne=0;
@@ -45,7 +47,7 @@ public class FinJourneeRestController {
 		int nb_i = 0; //nb d'incidents
 		double impact_e = 2;
 		double impactEA = 2;
-		
+		List<String> res = new ArrayList();
 
 
 		for (Achat a : achatRepo.findByTypeElementAndParc("employe", parc)) {
@@ -80,8 +82,6 @@ public class FinJourneeRestController {
 				incident = 1; 
 			}
 
-			//tentative de récupérer le niveauAm
-	
 
 			if(nvAm.isEmpty()){
 				//que fait-on?
@@ -158,7 +158,7 @@ public class FinJourneeRestController {
 		}
 
 
-		System.out.println("il y a eu " + nb_i + " incidents dans votre parc aujourd'hui");
+		//System.out.println("il y a eu " + nb_i + " incidents dans votre parc aujourd'hui");
 
 
 		attractivite += (achatRepo.findByParc(parc).size())/100; 
@@ -166,23 +166,29 @@ public class FinJourneeRestController {
 
 		if (attractivite > 1) {attractivite = 1;}
 		else if (attractivite < 0) {attractivite = 0.1;}
+		String meteo = "temps";
 
 
 		switch (tempsJournee)
 		{
-		case 0 : System.out.println("\nAujourd'hui il a beaucoup plu");
+		case 0 : meteo="beaucoup plu";
+		//System.out.println("\nAujourd'hui il a beaucoup plu");
 		nbVisiteur = capaciteMax*attractivite*0.7;
 		break;
-		case 1 : System.out.println("\nAujourd'hui il a un peu plu");
+		case 1 : meteo="un peu plu";
+		//System.out.println("\nAujourd'hui il a un peu plu");
 		nbVisiteur = capaciteMax*attractivite*0.7;
 		break;
-		case 2 : System.out.println("\nAujourd'hui il a fait nuageux");
+		case 2 : meteo="fait nuageux";
+		//System.out.println("\nAujourd'hui il a fait nuageux");
 		nbVisiteur = capaciteMax*attractivite*0.9;
 		break;
-		case 3 : System.out.println("\nAujourd'hui il a fait beau");
+		case 3 : meteo = "fait beau";
+		//System.out.println("\nAujourd'hui il a fait beau");
 		nbVisiteur = capaciteMax*attractivite;
 		break;
-		case 4 : System.out.println("\nAujourd'hui il a fait très chaud");
+		case 4 : meteo = "fait très chaud";
+		//System.out.println("\nAujourd'hui il a fait très chaud");
 		nbVisiteur = capaciteMax*attractivite*0.7;
 		break;
 		}
@@ -192,12 +198,20 @@ public class FinJourneeRestController {
 		parc.setNbjour(parc.getNbjour()+1);
 		//Context.getInstance().setParc(parc);
 
-		System.out.println("Vous avez reçu "+Math.round(nbVisiteur)+" visiteurs");
-		System.out.println("Vous avez gagné "+ Myformat.format(argentGagne)+"€ et dépensé "+Myformat.format(salaire+prixFonctionnement)+"€");
-		System.out.println("Vous avez maintenant "+Myformat.format(parc.getArgent())+"€");
+		//System.out.println("Vous avez reçu "+Math.round(nbVisiteur)+" visiteurs");
+		//System.out.println("Vous avez gagné "+ Myformat.format(argentGagne)+"€ et dépensé "+Myformat.format(salaire+prixFonctionnement)+"€");
+		//System.out.println("Vous avez maintenant "+Myformat.format(parc.getArgent())+"€");
         pRepo.save(parc);
 		//gestionJeu.saveGame();
 		//parc = Context.getInstance().getParc();
+		res.add("" + nb_i);//nb incidents
+		res.add(meteo);
+		res.add(""+ Math.round(nbVisiteur));
+		res.add(Myformat.format(argentGagne));
+		res.add(Myformat.format(salaire+prixFonctionnement));
+		res.add(Myformat.format(parc.getArgent()));
+
+		return res;
 
 
     }
