@@ -1,26 +1,10 @@
-<!-- <nav class="navbar navbar-dark">
-  <div class="container-fluid">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="#navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-    <img id="menulogo" src="assets/img/logoYoloSmall.png" alt="YoloLogo">
-  </div>
-</nav>
-
-<div class="collapse" id="navbarToggleExternalContent">
-  <div id="menu" class="p-4">
-    <button [routerLink]="['/connexion']" routerLinkActive="active" class="btn btn-primary btn-lg">Connexion</button>
-    <button [routerLink]="['/inscription']" routerLinkActive="active" class="btn btn-secondary btn-lg">Inscription</button>
-    <button [routerLink]="['/infosJeu']" routerLinkActive="active" class="btn btn-info btn-lg">A propos</button>
-  </div>
-</div> -->
 <nav class="navbar navbar-expand-lg navbar-light">
+  <div class="container-fluid">
     <div class="navbar-nav">
-      <a [routerLink]="['/connexion']" routerLinkActive="active" class="nav-item nav-link active">Connexion</a>
-      <a [routerLink]="['/inscription']" routerLinkActive="active" class="nav-item nav-link active">Inscription</a>
-      <a [routerLink]="['/infosJeu']" routerLinkActive="active" class="nav-item nav-link active">A propos</a>
+      <a id="connexion" [routerLink]="['/connexion']" routerLinkActive="active" class="nav-item nav-link active">Connexion</a>
+      <a id="inscription" [routerLink]="['/inscription']" routerLinkActive="active" class="nav-item nav-link active">Inscription</a>
+      <a id="infos" [routerLink]="['/infosJeu']" routerLinkActive="active" class="nav-item nav-link active">Informations</a>
     </div>
-
-    <div class="container"> </div>
     <img class="navbar-brand" src="assets/img/logoYoloSmall.png" alt="YoloLogo">
+  </div>
 </nav>

@@ -2,10 +2,21 @@ nav {
 	background-color: #ec8809b3;
 }
 
-.navbar-bar{
-	width: 100%;
+
+#infos{
+  font-weight: bold;
+  color:#327dcd;
 }
 
+#inscription{
+  font-weight: bold;
+  color:#ac1000;
+}
+
+#connexion{
+  font-weight: bold;
+  color:#537910;
+}
 
 /* #menu {
 	display: flex;

@@ -1,19 +1,23 @@
+<div class="conatiner-fluid">
  <div id="listAttraction" >
-	&emsp; &emsp;
-	<a [routerLink]="['/achat/attraction']" type="button" class="btn btn-success">Acheter une nouvelle attraction</a>
-	&emsp;
-	<input id="filterAttraction" placeholder="filtre attraction">
+   <h1 id="titreh1">Les possessions du parc : {{getParc().nomParc}} </h1>
+    <br><br>
     <table class="table table-striped">
-       <thead>
-		 <tr> <th colspan=6 class="centerText">Liste des attractions du parc {{getParc().nomParc}}</th></tr>
-         <tr>
-           <th>Nom</th>
-           <th>Taille</th>
-           <th>Prix de fonctionnement quotidient (€)</th>
-           <th>Niveau d'amélioration</th>
-           <th>Affluence maximum quotidient</th>
-           </tr>
+      <thead>
+
+        <input id="filterAttraction" placeholder="Filtre attraction">
+        <tr>
+          <th colspan=6 class="centerText">Liste des attractions :</th>
+        </tr>
+        <tr>
+          <th>Nom</th>
+          <th>Taille</th>
+          <th>Prix de fonctionnement quotidient (€)</th>
+          <th>Niveau d'amélioration</th>
+          <th>Affluence maximum quotidient</th>
+        </tr>
        </thead>
+
         <tbody class="contentTable">
 			<tr *ngFor="let attraction of attractions | keyvalue">
 				<td>{{attraction.key.nom}}</td>
@@ -21,22 +25,24 @@
 				<td>{{attraction.key.prixFonctionnement}}</td>
 				<td>{{attraction.value}} / {{attraction.key.nbAmelioration}}</td>
 				<td>
-                   	<a (click)="ameliorer(attraction.key.id)" class ="btn btn-warning">Améliorer</a>
-                	<a (click)="vendre(attraction.key.id)" class ="btn btn-danger">Vendre</a>
-            	</td>
+          <a (click)="ameliorer(attraction.key.id)" class ="btn btn-warning">Améliorer</a>
+          <a (click)="vendre(attraction.key.id)" class ="btn btn-danger">Vendre</a>
+        </td>
 			</tr>
 		</tbody>
      </table>
+     <br>
+     <a id="button" [routerLink]="['/achat/attraction']" type="button" class="btn btn-success">Acheter une nouvelle attraction</a>
 </div>
 
+
+<br><br>
 <div id="listBoutique" >
 	&emsp; &emsp;
-	<a [routerLink]="['/achat/boutique']" type="button" class="btn btn-success">Acheter une nouvelle boutique</a>
-	&emsp;
-	<input id="filterBoutique" placeholder="filtre boutique">
     <table class="table table-striped">
        <thead>
-		 <tr> <th colspan=6 class="centerText">Liste des boutiques du parc {{getParc().nomParc}}</th></tr>
+         <tr>	<input id="filterBoutique" placeholder="Filtre boutique"></tr>
+		 <tr> <th colspan=6 class="centerText">Liste des boutiques : </th></tr>
          <tr>
            <th>Nom</th>
            <th>Taille</th>
@@ -60,16 +66,19 @@
 			</tr>
 		</tbody>
      </table>
+     <br>
+     <a id="button"  [routerLink]="['/achat/boutique']" type="button" class="btn btn-success">Acheter une nouvelle boutique</a>
+	&emsp;
+
 </div>
 
+<br>
 <div id="listRestaurant" >
 	&emsp; &emsp;
-	<a [routerLink]="['/achat/restaurant']" type="button" class="btn btn-success">Acheter un nouveau restaurant</a>
-	&emsp;
-	<input id="filterRestaurant" placeholder="filtre restaurant">
     <table class="table table-striped">
        <thead>
-		 <tr> <th colspan=6 class="centerText">Liste des restaurants du parc {{getParc().nomParc}}</th></tr>
+         <tr> <input id="filterRestaurant" placeholder="Filtre restaurant"></tr>
+		 <tr> <th colspan=6 class="centerText">Liste des restaurants :</th></tr>
          <tr>
            <th>Nom</th>
            <th>Taille</th>
@@ -93,17 +102,18 @@
 			</tr>
 		</tbody>
      </table>
+     <br>
+     <a id="button"  [routerLink]="['/achat/restaurant']" type="button" class="btn btn-success">Acheter un nouveau restaurant</a>
 </div>
 
-
+<br><br>
 <div id="listCommodite">
 	&emsp; &emsp;
-	<a [routerLink]="['/achat/commodite']" type="button" class="btn btn-success">Acheter une nouvelle commodite</a>
-	&emsp;
-	<input id="filterCommodite" placeholder="filtre commodite">
      <table class="table table-striped">
+
        <thead>
-		 <tr> <th colspan=4 class="centerText">Liste des commodités du parc {{getParc().nomParc}}</th></tr>
+         <tr><input id="filterCommodite" placeholder="Filtre commodite"></tr>
+		 <tr> <th colspan=4 class="centerText">Liste des commodités :</th></tr>
          <tr>
            <th>Quantité</th>
            <th>Nom</th>
@@ -121,17 +131,17 @@
 			</tr>
 		</tbody>
      </table>
+     <br>
+     <a id="button"  [routerLink]="['/achat/commodite']" type="button" class="btn btn-success">Acheter une nouvelle commodite</a>
 </div>
 
-
+<br><br>
 <div id="listEmploye">
 	&emsp; &emsp;
-	<a [routerLink]="['/achat/employe']" type="button" class="btn btn-success">Acheter un nouvel employe</a>
-	&emsp;
-	<input id="filteremploye" placeholder="filtre employe">
      <table class="table table-striped">
        <thead>
-		 <tr> <th colspan=4 class="centerText">Liste des employés du parc {{getParc().nomParc}}</th></tr>
+         <tr><input id="filteremploye" placeholder="Filtre employe"></tr>
+		 <tr> <th colspan=4 class="centerText">Liste des employés :</th></tr>
          <tr>
            <th>Nombre</th>
            <th>Métier</th>
@@ -149,7 +159,10 @@
 			</tr>
 		</tbody>
      </table>
+     <br>
+     <a id="button"  [routerLink]="['/achat/employe']" type="button" class="btn btn-success">Acheter un nouvel employe</a>
 </div>
 
-&emsp; &emsp;
-<button [routerLink]="['/jeu/mainBoard']" routerLInkActive="active" >Retour</button>
+<br>
+<button  [routerLink]="['/jeu/mainBoard']" routerLInkActive="active" class="btn btn-warning" >Retour</button>
+</div>

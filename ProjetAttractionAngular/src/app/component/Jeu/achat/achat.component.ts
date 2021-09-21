@@ -59,14 +59,12 @@ export class AchatComponent implements OnInit {
             (res) => this.employes = res,
             (error) => console.log(error)
           );
-          this.listEmployeWithoutAchat();
         }
         else if (params.typeElement==="commodite"){
           this.gestionElementService.getCommodite().subscribe(
             (res) => this.commodites = res,
             (error) => console.log(error)
           );
-          this.listCommoditeWithoutAchat();
         }
       }
       else{
@@ -93,8 +91,6 @@ export class AchatComponent implements OnInit {
       this.listAttractionWithoutAchat();
       this.listBoutiqueWithoutAchat();
       this.listRestaurantWithoutAchat();
-      this.listEmployeWithoutAchat();
-      this.listCommoditeWithoutAchat();
       }
     });
   }
@@ -162,51 +158,9 @@ export class AchatComponent implements OnInit {
     }
   }
 
-  private listEmployeWithoutAchat(){
-    if (this.parcStorage){
-      this.gestionAchatService.getByElementAndParc("employe",JSON.parse(this.parcStorage)).subscribe(
-        (res) => {
-          res.forEach(
-            achat => {
-            this.employes.forEach(
-              employe =>{
-                if(employe.id === achat.element.id)
-                {this.employes.splice(this.employes.indexOf(employe),1);}
-              }
-            )
-            }
-          )},
-        (error) => console.log(error)
-      );
-    }
-  }
-
-  private listCommoditeWithoutAchat(){
-
-    if (this.parcStorage){
-      this.gestionAchatService.getByElementAndParc("commodite",JSON.parse(this.parcStorage)).subscribe(
-        (res) => {
-          res.forEach(
-            achat => {
-            this.commodites.forEach(
-              commodite =>{
-                if(commodite.id === achat.element.id)
-                {
-                  this.commodites.splice(this.commodites.indexOf(commodite),1);
-                }
-              }
-            )
-            }
-          )},
-        (error) => console.log(error)
-      );
-    }
-  }
-
 
 
   public achat(element:Element,type:string){
-
     if (this.parcStorage){
       if (type==="attraction" || type==="boutique" || type==="restaurant"){
         this.gestionAchatService.create(new Achat(JSON.parse(this.parcStorage),element,type,0,0)).subscribe();

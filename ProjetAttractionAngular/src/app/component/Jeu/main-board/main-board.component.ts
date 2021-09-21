@@ -50,33 +50,6 @@ export class MainBoardComponent implements OnInit {
 
   public ameliorer(id: number){
     // Ça se fera dans possession plutôt, je pense
-    //Number nvAm =
-    // Achat achat={
-
-    //   id:id;
-    // }
-
-
-    // update(achat);
-    /*Element element = new Attraction();
-		Parc parc = (Parc) session.getAttribute("parc");
-		double prix=0;
-		switch(type)
-		{
-			case "attraction" : element=daoAt.findById(id).get();prix=prixAmeliorationAttraction;break;
-			case "boutique" : element=daoB.findById(id).get();prix=prixAmeliorationBoutique;break;
-			case "restaurant" : element=daoR.findById(id).get();prix=prixAmeliorationRestaurant;break;
-			default : return new ModelAndView("redirect:/possessions");
-		}
-		Achat achat = daoA.findByElementAndParc(element,parc).get();
-		achat.setNiveauAmelioration(achat.getNiveauAmelioration()+1);
-		daoA.save(achat);
-
-		parc.setArgent(parc.getArgent()-prix);
-		session.setAttribute("parc", parc);
-		return new ModelAndView("redirect:/possessions");*/
-
-
     }
   public deleteAchat(id: number,idj: number,ida: number){}
 
@@ -86,12 +59,11 @@ export class MainBoardComponent implements OnInit {
 
   }
 
-  public finJournee(){
-    /* Afficher dans le footer les résultats ?*/
+  public finJourneeA() {
+    /* Afficher dans le footer les résultats ?
     //meteo,nbVisiteurs, dépenses, recette
-
-
+    //return this.
+*/
 
   }
-
 }

@@ -1,0 +1,22 @@
+.centerText{
+  font-weight: bold;
+  color: #a8214de0;
+  font-size: 25px;
+  text-align: center;
+}
+
+#titreh1{
+  font-weight: bold;
+  font-size: 50px;
+ text-align: center;
+ color: #dd840fe1;
+}
+
+#button{
+  display:block;
+margin-left: 500px;
+margin-right: 500px;
+}
+
+
+

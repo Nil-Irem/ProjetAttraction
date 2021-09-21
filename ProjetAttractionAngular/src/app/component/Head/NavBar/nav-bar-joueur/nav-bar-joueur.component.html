@@ -1,24 +1,23 @@
-<!-- <nav class="navbar navbar-dark">
-  <div class="container-fluid">
-    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarToggleExternalContent" aria-controls="#navbarToggleExternalContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-    <img id="menulogo" src="assets/img/logoYoloSmall.png" alt="YoloLogo">
-  </div>
-</nav>
-
-<div class="collapse" id="navbarToggleExternalContent">
-  <div id="menu" class="p-4">
-    <button (click)="deconnection()" class="btn btn-primary btn-lg">Déconnexion</button>
-  </div>
-</div> -->
-
-
 <nav class="navbar navbar-expand-lg navbar-light">
-  <div class="navbar-nav">
-    <a (click)="deconnection()" class="nav-item nav-link active">Déconnexion</a>
+  <div class="container-fluid">
+    <div class="navbar-nav">
+      <a (click)="deconnection()" class="nav-item btn btn-dark">Déconnexion</a>
+      &nbsp;&nbsp;
+      <a *ngIf="parcIsChosen()" (click)="changerParc()" class="nav-item btn btn-secondary">Changer de parc</a>
+      &nbsp;&nbsp;
+      <a *ngIf="parcIsChosen()" class="nav-item btn btn-info" [routerLink]="['/jeu/achat']" routerLinkActive="active" >Achat</a>
+      <!-- <a class="nav-item dropdown btn btn-info dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Achat</a>
+      <div class="dropdown-menu">
+        <a class="dropdown-item" href="#" [routerLink]="['/jeu/achat']" routerLinkActive="active">Menu Achat</a>
+        <a class="dropdown-item" href="#" [routerLink]="['/jau/achat/terrain']" routerLinkActive="active">Acheter de terrain</a>
+        <a class="dropdown-item" href="#" [routerLink]="['/jeu/achat/attraction']" routerLinkActive="active">Acheter une attraction</a>
+        <a class="dropdown-item" href="#" [routerLink]="['/jeu/achat/boutique']" routerLinkActive="active">Acheter une boutique</a>
+        <a class="dropdown-item" href="#" [routerLink]="['/jeu/achat/restaurant']" routerLinkActive="active">Acheter un restaurant</a>
+        <a class="dropdown-item" href="#" [routerLink]="['/jeu/achat/commodite']" routerLinkActive="active">Acheter une commodité</a>
+        <a class="dropdown-item" href="#" [routerLink]="['/jeu/achat/employe']" routerLinkActive="active">Embaucher un employé</a>
+      </div> -->
+    </div>
+    <img class="navbar-brand" src="assets/img/logoYoloSmall.png" alt="YoloLogo">
   </div>
-
-  <div class="container"> </div>
-  <img class="navbar-brand" src="assets/img/logoYoloSmall.png" alt="YoloLogo">
 </nav>
+

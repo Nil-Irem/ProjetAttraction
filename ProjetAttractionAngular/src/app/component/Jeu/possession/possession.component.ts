@@ -101,8 +101,9 @@ export class PossessionComponent implements OnInit {
   vendre(id:number| undefined){}
 
   public getParc(): Parc{
-    if(this.parcStorage){
-      return JSON.parse(this.parcStorage);
+    let parc = localStorage.getItem("parcChosen");
+    if(parc){
+      return JSON.parse(parc);
     }
     return new Parc("probleme","probleme");
   }

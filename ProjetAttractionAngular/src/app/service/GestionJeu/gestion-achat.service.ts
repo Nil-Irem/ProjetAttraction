@@ -25,13 +25,12 @@ export class GestionAchatService {
     this.initHeaders();
     const obj={
       parc:achat.parc,
-      element:achat.element,
       typeElement:achat.typeElement,
       nbSameElement:achat.nbSameElement,
       niveauAmelioration:achat.niveauAmelioration,
       id:0
     };
-    return this.httpClient.post<Achat>(this.url+"/create",obj,{headers:this.headers});
+    return this.httpClient.post<Achat>(this.url+"/create/"+achat.element.id,obj,{headers:this.headers});
   }
 
   public update(achat:Achat): Observable <Achat>{

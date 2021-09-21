@@ -18,4 +18,15 @@ export class NavBarJoueurComponent implements OnInit {
     this.router.navigate(['/accueil']);
   }
 
+  changerParc(){
+    localStorage.removeItem("parcChosen");
+    this.router.navigate(['/jeu/choixparc']);
+  }
+
+  parcIsChosen():boolean{
+    if (localStorage.getItem("parcChosen")){
+      return true;
+    }
+    return false;
+  }
 }
