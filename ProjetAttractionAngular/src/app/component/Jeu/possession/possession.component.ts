@@ -30,6 +30,12 @@ export class PossessionComponent implements OnInit {
 
 
   public listPossession(){
+    this.attractions.clear();
+    this.boutiques.clear();
+    this.restaurants.clear();
+    this.commodites.clear();
+    this.employes.clear();
+
     this.ar.params.subscribe((params) => {
       if (params.typeElement && this.parcStorage) {
         if (params.typeElement==="attraction"){
@@ -106,42 +112,75 @@ export class PossessionComponent implements OnInit {
       this.gestionAchatService.getByElementAndParc(id,JSON.parse(storage)).subscribe(
         (res) => {
           res.niveauAmelioration++;
-          this.gestionAchatService.update(res).subscribe();
+          this.gestionAchatService.update(res).subscribe(
+            (res2) => {
+              if (parc.argent){
+                parc.argent -= prixAmelioration;
+              }
+              localStorage.setItem("parcChosen",JSON.stringify(parc));
+              this.listPossession();
+            },
+            (error) => console.log(error)
+          );
         },
         (error) => console.log(error)
       );
-
-      if (parc.argent){
-        parc.argent -= prixAmelioration;
-      }
-
-    localStorage.setItem("parcChosen",JSON.stringify(parc));
-    this.listPossession();
     }
   }
 
-  vendre(id:number|undefined){
+
+  vendre(id:number|undefined,nom:string){
+    let confirmation = confirm("Voulez vous vraiment vendre "+nom+" ?");
     let storage = localStorage.getItem("parcChosen");
-    if (storage && id){
+    if (storage && id && confirmation){
       let parc:Parc = JSON.parse(storage);
       let prixVente = 100.5;
 
       this.gestionAchatService.getByElementAndParc(id,JSON.parse(storage)).subscribe(
         (res) => {
           if (res.id){
-          this.gestionAchatService.delete(res.id).subscribe();
+          this.gestionAchatService.delete(res.id).subscribe(
+            (res2) =>{
+              if (parc.argent){
+                parc.argent += prixVente;
+              }
+              localStorage.setItem("parcChosen",JSON.stringify(parc));
+              this.listPossession();
+            },
+            (error) => console.log(error)
+          );
         }},
         (error) => console.log(error)
       );
-
-      if (parc.argent){
-        parc.argent += prixVente;
-      }
-
-      localStorage.setItem("parcChosen",JSON.stringify(parc));
-      this.listPossession();
     }
   }
+
+  virer(id:number|undefined,nom:string){
+    let confirmation = confirm("Voulez vous vraiment virer "+nom+" ?");
+    let storage = localStorage.getItem("parcChosen");
+    if (storage && id && confirmation){
+      let parc:Parc = JSON.parse(storage);
+      let prixVente = 100.5;
+
+      this.gestionAchatService.getByElementAndParc(id,JSON.parse(storage)).subscribe(
+        (res) => {
+          if (res.id){
+          this.gestionAchatService.delete(res.id).subscribe(
+            (res2) =>{
+              if (parc.argent){
+                parc.argent += prixVente;
+              }
+              localStorage.setItem("parcChosen",JSON.stringify(parc));
+              this.listPossession();
+            },
+            (error) => console.log(error)
+          );
+        }},
+        (error) => console.log(error)
+      );
+    }
+  }
+
 
   public getParc(): Parc{
     let parc = localStorage.getItem("parcChosen");

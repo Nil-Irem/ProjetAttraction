@@ -35,7 +35,14 @@ export class GestionAchatService {
 
   public update(achat:Achat): Observable <Achat>{
     this.initHeaders();
-    return this.httpClient.patch<Achat>(this.url+"/save"+achat.id,{headers:this.headers});
+    const obj={
+      parc:achat.parc,
+      typeElement:achat.typeElement,
+      nbSameElement:achat.nbSameElement,
+      niveauAmelioration:achat.niveauAmelioration,
+      id:achat.id
+    };
+    return this.httpClient.put<Achat>(this.url+"/replace/"+achat.element.id,obj,{headers:this.headers});
   }
 
   public delete(id: number){
@@ -64,9 +71,9 @@ export class GestionAchatService {
     return this.httpClient.post<Achat[]>(this.url +"/byTypeElementAndParc/"+ element,parc,{headers:this.headers});
   }
 
-  public getByElementAndParc(element: number,parc: Parc ): Observable <Achat>{
+  public getByElementAndParc(id: number,parc: Parc ): Observable <Achat>{
     this.initHeaders();
-    return this.httpClient.post<Achat>(this.url +"/byElementAndParc/"+ element,parc,{headers:this.headers});
+    return this.httpClient.post<Achat>(this.url +"/byElementAndParc/"+ id,parc,{headers:this.headers});
   }
 
 

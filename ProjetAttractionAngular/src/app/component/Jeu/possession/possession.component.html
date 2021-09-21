@@ -2,7 +2,7 @@
   <h1 id="titreh1">Les possessions du parc {{getParc().nomParc}} </h1>
   <br><br>
 
-    <div id="listAttraction*ngIf="attractions.size>0""
+    <div id="listAttraction" *ngIf="attractions.size>0">
     <table class="table table-striped">
       <thead>
         <tr>
@@ -31,7 +31,7 @@
             <a (click)="ameliorer(attraction.key.id)" class ="btn btn-warning">Améliorer</a>
           </td>
 				  <td>
-            <a (click)="vendre(attraction.key.id)" class ="btn btn-danger">Vendre</a>
+            <a (click)="vendre(attraction.key.id,attraction.key.nom)" class ="btn btn-danger">Vendre</a>
           </td>
 			  </tr>
 		  </tbody>
@@ -73,7 +73,7 @@
             <a (click)="ameliorer(boutique.key.id)" class ="btn btn-warning">Améliorer</a>
           </td>
           <td>
-            <a (click)="vendre(boutique.key.id)" class ="btn btn-danger">Vendre</a>
+            <a (click)="vendre(boutique.key.id,boutique.key.nom)" class ="btn btn-danger">Vendre</a>
           </td>
 			  </tr>
 		  </tbody>
@@ -114,7 +114,7 @@
            	<a (click)="ameliorer(restaurant.key.id)" class ="btn btn-warning">Améliorer</a>
           </td>
           <td>
-            <a (click)="vendre(restaurant.key.id)" class ="btn btn-danger">Vendre</a>
+            <a (click)="vendre(restaurant.key.id,restaurant.key.nom)" class ="btn btn-danger">Vendre</a>
           </td>
 			  </tr>
 		  </tbody>
@@ -145,7 +145,7 @@
   				<td>{{commodite.key.nom}}</td>
 	  			<td>{{commodite.key.Taille}}</td>
 		  		<td>
-            <a (click)="vendre(commodite.key.id)" class ="btn btn-danger">Vendre</a>
+            <a (click)="vendre(commodite.key.id,commodite.key.nom)" class ="btn btn-danger">Vendre</a>
           </td>
 			  </tr>
 		  </tbody>
@@ -176,7 +176,7 @@
 	  			<td>{{employe.key.metier}}</td>
 		  		<td>{{employe.key.salaire}}</td>
 			  	<td>
-            <a (click)="vendre(employe.key.id)" class ="btn btn-danger">Vendre</a>
+            <a (click)="virer(employe.key.id,employe.key.metier)" class ="btn btn-danger">Virer</a>
           </td>
 		  	</tr>
 		  </tbody>

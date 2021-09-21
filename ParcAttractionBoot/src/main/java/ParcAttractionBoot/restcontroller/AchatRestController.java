@@ -45,7 +45,7 @@ import ParcAttractionBoot.repositories.RestaurantRepository;
 @RequestMapping("/api/achat")
 @CrossOrigin(origins="*")
 public class AchatRestController {
-	
+
 	@Autowired
 	AchatRepository daoA;
 	@Autowired
@@ -60,15 +60,15 @@ public class AchatRestController {
 	EmployeRepository daoE;
 	@Autowired
 	ParcRepository daoP;
-	
-	
+
+
 	@GetMapping("")
 	@JsonView(JsonViews.Common.class)
 	public List<Achat> getAllAchat(){
 		return daoA.findAll();
 	}
-	
-	
+
+
 	@GetMapping("/{id}")
 	@JsonView(JsonViews.Common.class)
 	public Achat get(@PathVariable Integer id){
@@ -78,8 +78,8 @@ public class AchatRestController {
 		}
 		throw new AchatException("Achat demandé inexistant");
 	}
-	
-	
+
+
 	@PostMapping("/create/{id}")
 	@JsonView(JsonViews.Common.class)
 	public Achat create(@Valid @RequestBody Achat achat, @PathVariable Integer id, BindingResult br){
@@ -90,58 +90,94 @@ public class AchatRestController {
 		{
 			throw new AchatException("Achat avec des données incorrectes - création impossible");			
 		}
-		
+
 		switch (achat.getTypeElement()) {
-			case "attraction" : 
-				if(daoAt.findById(id).isPresent()) 
-					{achat.setElement(daoAt.findById(id).get());}
-				else
-					{throw new AchatException("Element innexistant - création achat impossible");}
-				break;
-			case "boutique" : 
-				if(daoB.findById(id).isPresent()) 
-					{achat.setElement(daoB.findById(id).get());}
-				else
-					{throw new AchatException("Element innexistant - création achat impossible");}
-				break;
-			case "restaurant" : 
-				if(daoR.findById(id).isPresent()) 
-					{achat.setElement(daoR.findById(id).get());}
-				else
-					{throw new AchatException("Element innexistant - création achat impossible");}
-				break;
-			case "employe" : 
-				if(daoE.findById(id).isPresent()) 
-					{achat.setElement(daoE.findById(id).get());}
-				else
-					{throw new AchatException("Element innexistant - création achat impossible");}
-				break;
-			case "commodite" : 
-				if(daoC.findById(id).isPresent()) 
-					{achat.setElement(daoC.findById(id).get());}
-				else
-					{throw new AchatException("Element innexistant - création achat impossible");}
-				break;
-			default : throw new AchatException("Element innexistant - création achat impossible");
+		case "attraction" : 
+			if(daoAt.findById(id).isPresent()) 
+			{achat.setElement(daoAt.findById(id).get());}
+			else
+			{throw new AchatException("Element innexistant - création achat impossible");}
+			break;
+		case "boutique" : 
+			if(daoB.findById(id).isPresent()) 
+			{achat.setElement(daoB.findById(id).get());}
+			else
+			{throw new AchatException("Element innexistant - création achat impossible");}
+			break;
+		case "restaurant" : 
+			if(daoR.findById(id).isPresent()) 
+			{achat.setElement(daoR.findById(id).get());}
+			else
+			{throw new AchatException("Element innexistant - création achat impossible");}
+			break;
+		case "employe" : 
+			if(daoE.findById(id).isPresent()) 
+			{achat.setElement(daoE.findById(id).get());}
+			else
+			{throw new AchatException("Element innexistant - création achat impossible");}
+			break;
+		case "commodite" : 
+			if(daoC.findById(id).isPresent()) 
+			{achat.setElement(daoC.findById(id).get());}
+			else
+			{throw new AchatException("Element innexistant - création achat impossible");}
+			break;
+		default : throw new AchatException("Element innexistant - création achat impossible");
 		}
 		return daoA.save(achat);
 	}
-	
-	
-	@PutMapping("/replace")
+
+
+	@PutMapping("/replace/{id}")
 	@JsonView(JsonViews.Common.class)
-	public Achat replace (@Valid @RequestBody Achat achat,BindingResult br){
+	public Achat replace (@Valid @RequestBody Achat achat,@PathVariable Integer id,BindingResult br){
 		if (br.hasErrors()){
 			throw new AchatException(br.getGlobalError().toString());
 		}
-		else if(achat.getId()==null || achat.getParc().getId()==null || !daoA.findById(achat.getId()).isPresent())
+		else if(achat.getId()==null 
+				|| achat.getParc().getId()==null 
+				|| !daoA.findById(achat.getId()).isPresent()
+				|| !daoP.findById(achat.getParc().getId()).isPresent())
 		{
 			throw new AchatException("Achat demandé inexistant - remplacement impossible");			
 		}
+		switch (achat.getTypeElement()) {
+		case "attraction" : 
+			if(daoAt.findById(id).isPresent()) 
+			{achat.setElement(daoAt.findById(id).get());}
+			else
+			{throw new AchatException("Element innexistant - création achat impossible");}
+			break;
+		case "boutique" : 
+			if(daoB.findById(id).isPresent()) 
+			{achat.setElement(daoB.findById(id).get());}
+			else
+			{throw new AchatException("Element innexistant - création achat impossible");}
+			break;
+		case "restaurant" : 
+			if(daoR.findById(id).isPresent()) 
+			{achat.setElement(daoR.findById(id).get());}
+			else
+			{throw new AchatException("Element innexistant - création achat impossible");}
+			break;
+		case "employe" : 
+			if(daoE.findById(id).isPresent()) 
+			{achat.setElement(daoE.findById(id).get());}
+			else
+			{throw new AchatException("Element innexistant - création achat impossible");}
+			break;
+		case "commodite" : 
+			if(daoC.findById(id).isPresent()) 
+			{achat.setElement(daoC.findById(id).get());}
+			else
+			{throw new AchatException("Element innexistant - création achat impossible");}
+			break;
+		default : throw new AchatException("Element innexistant - création achat impossible");
+		}
 		return daoA.save(achat);
 	}
-	
-	
+
+
 	@PatchMapping("/save/{id}")
 	@JsonView(JsonViews.Common.class)
 	public Achat save (@RequestBody Map<String, Object> fields,BindingResult br,@PathVariable Integer id) {
@@ -157,16 +193,16 @@ public class AchatRestController {
 		}
 		throw new AchatException("Achat demandé inexistant - modification impossible");
 	}
-	
-	
+
+
 	@DeleteMapping("/delete/{id}")
 	@JsonView(JsonViews.Common.class)
-	public void delete(@PathVariable Integer id,BindingResult br){
-		if (br.hasErrors())
-		{
-			throw new AchatException(br.getGlobalError().toString());
-		}
-		else if (id==null || id==0)
+	public void delete(@PathVariable Integer id){
+		//		if (br.hasErrors())
+		//		{
+		//			throw new AchatException(br.getGlobalError().toString());
+		//		}
+		if (id==null || id==0)
 		{
 			throw new AchatException("Achat avec des données incorrectes - suppression impossible");
 		}
@@ -174,11 +210,11 @@ public class AchatRestController {
 		{
 			throw new AchatException("Achat demandé inexistant - suppression impossible");		
 		}
-		
+
 		daoA.deleteById(id);
 	}
-	
-	
+
+
 	@GetMapping("/byParc/{id}")
 	@JsonView(JsonViews.Common.class)
 	public List<Achat> getAllAchatByIdParc(@PathVariable Integer id){
@@ -188,8 +224,8 @@ public class AchatRestController {
 		}
 		return daoA.findByIdParc(id);
 	}
-	
-	
+
+
 	@PostMapping("/byParc")
 	@JsonView(JsonViews.Common.class)
 	public List<Achat> getAllAchatByParc(@Valid @RequestBody Parc parc){
@@ -204,21 +240,21 @@ public class AchatRestController {
 
 	@PostMapping("/byElementAndParc/{id}")
 	@JsonView(JsonViews.Common.class)
-	public Achat getAllAchatByElementAndParc(@Valid @RequestBody Parc parc,@PathVariable String type,@PathVariable Integer id){
+	public Achat getAllAchatByElementAndParc(@Valid @RequestBody Parc parc,@PathVariable Integer id){
 		if(parc.getId()==null || !daoP.findById(parc.getId()).isPresent())
 		{
 			throw new AchatException("Parc inexistant - liste des achats associés impossible");
 		}
-		
+
 		Optional<Achat> achat = daoA.findByParcAndIdElement(parc,id);
 		if (achat.isPresent()) {
 			return achat.get();
 		}
-		
+
 		throw new AchatException("Achat inexistant");
 	}
-	
-	
+
+
 	@PostMapping("/byTypeElementAndParc/{type}")
 	@JsonView(JsonViews.Common.class)
 	public List<Achat> getAllAchatByTypeElementAndParc(@Valid @RequestBody Parc parc,@PathVariable String type){
@@ -227,13 +263,13 @@ public class AchatRestController {
 			throw new AchatException("Parc inexistant - liste des achats associés impossible");
 		}
 		else if(!type.equalsIgnoreCase("attraction") &&
-			!type.equalsIgnoreCase("boutique") &&
-			!type.equalsIgnoreCase("commodite") &&
-			!type.equalsIgnoreCase("employe") &&
-			!type.equalsIgnoreCase("restaurant") )
+				!type.equalsIgnoreCase("boutique") &&
+				!type.equalsIgnoreCase("commodite") &&
+				!type.equalsIgnoreCase("employe") &&
+				!type.equalsIgnoreCase("restaurant") )
 		{
 			throw new AchatException("Type d'élement inexistant - liste des achats associés impossible");
-			
+
 		}
 		return daoA.findByTypeElementAndParc(type,parc);
 	}
@@ -243,7 +279,7 @@ public class AchatRestController {
 	@JsonView(JsonViews.Common.class)
 	public List<Achat> getAllAchatByElement(@Valid @RequestBody Element element){
 		boolean exist = false;
-		
+
 		if (element instanceof Attraction) {
 			exist = daoAt.findById(element.getId()).isPresent() ? true : false;
 		}
@@ -254,12 +290,12 @@ public class AchatRestController {
 			exist = daoR.findById(element.getId()).isPresent() ? true : false;
 		}
 		else if (element instanceof Employe) {
-			 exist = daoE.findById(element.getId()).isPresent() ? true : false;
+			exist = daoE.findById(element.getId()).isPresent() ? true : false;
 		}
 		else if (element instanceof Commodite) {
 			exist = daoC.findById(element.getId()).isPresent() ? true : false;
 		}
-		
+
 		if (exist)
 		{
 			return daoA.findByElement(element);
@@ -269,26 +305,26 @@ public class AchatRestController {
 			throw new AchatException("Element inexistant - listes des achats associés impossible");
 		}
 	}
-	
-	
+
+
 	@PostMapping("/byElement/{type}")
 	@JsonView(JsonViews.Common.class)
 	public List<Achat> getAllAchatByTypeElement(@PathVariable String type){
 		if(!type.equalsIgnoreCase("attraction") &&
-			!type.equalsIgnoreCase("boutique") &&
-			!type.equalsIgnoreCase("commodite") &&
-			!type.equalsIgnoreCase("employe") &&
-			!type.equalsIgnoreCase("restaurant") )
+				!type.equalsIgnoreCase("boutique") &&
+				!type.equalsIgnoreCase("commodite") &&
+				!type.equalsIgnoreCase("employe") &&
+				!type.equalsIgnoreCase("restaurant") )
 		{
 			throw new AchatException("Type d'élement inexistant - liste des achats associés impossible");
-			
+
 		}
 		return daoA.findByTypeElement(type);
 	}
-	
-	
-	
-	
+
+
+
+
 	@DeleteMapping("/delete/allByParc")
 	@JsonView(JsonViews.Common.class)
 	public void deleteAllByParc(@Valid @RequestBody Parc parc,BindingResult br){
@@ -309,9 +345,9 @@ public class AchatRestController {
 			}
 		}
 	}
-	
-	
-	
+
+
+
 	@DeleteMapping("/delete/allByElement")
 	@JsonView(JsonViews.Common.class)
 	public void deleteAllByElement(@Valid @RequestBody Element element,BindingResult br){
@@ -323,18 +359,18 @@ public class AchatRestController {
 		{
 			throw new AchatException("Element avec des données incorrectes - suppression des achats associés impossible");		
 		}
-		
+
 		boolean exist = false;
-	
+
 		switch (element.getClass().toString())
 		{
-			case "attraction": exist = daoAt.findById(element.getId()).isPresent() ? true : false; break;
-			case "boutique" : exist = daoB.findById(element.getId()).isPresent() ? true : false; break;
-			case "employe" : exist = daoE.findById(element.getId()).isPresent() ? true : false; break;
-			case "commodite" : exist = daoC.findById(element.getId()).isPresent() ? true : false; break;
-			case "restaurant" : exist = daoR.findById(element.getId()).isPresent() ? true : false; break;
+		case "attraction": exist = daoAt.findById(element.getId()).isPresent() ? true : false; break;
+		case "boutique" : exist = daoB.findById(element.getId()).isPresent() ? true : false; break;
+		case "employe" : exist = daoE.findById(element.getId()).isPresent() ? true : false; break;
+		case "commodite" : exist = daoC.findById(element.getId()).isPresent() ? true : false; break;
+		case "restaurant" : exist = daoR.findById(element.getId()).isPresent() ? true : false; break;
 		}
-		
+
 		if (exist)
 		{
 			List<Achat> achats = daoA.findByElement(element);
@@ -348,9 +384,9 @@ public class AchatRestController {
 			throw new AchatException("Element inexistant - suppression des achats associés impossible");
 		}
 	}
-	
 
-	
+
+
 	@DeleteMapping("/delete/byElementAndParc")
 	@JsonView(JsonViews.Common.class)
 	public void deleteByElementAndParc(@Valid @RequestBody Parc parc,@Valid @RequestBody Element element,BindingResult br){
@@ -366,18 +402,18 @@ public class AchatRestController {
 		{
 			throw new AchatException("Element avec des données incorrectes - suppression des achats associés impossible");		
 		}
-		
+
 		boolean exist = false;
-	
+
 		switch (element.getClass().toString())
 		{
-			case "attraction": exist = daoAt.findById(element.getId()).isPresent() ? true : false; break;
-			case "boutique" : exist = daoB.findById(element.getId()).isPresent() ? true : false; break;
-			case "employe" : exist = daoE.findById(element.getId()).isPresent() ? true : false; break;
-			case "commodite" : exist = daoC.findById(element.getId()).isPresent() ? true : false; break;
-			case "restaurant" : exist = daoR.findById(element.getId()).isPresent() ? true : false; break;
+		case "attraction": exist = daoAt.findById(element.getId()).isPresent() ? true : false; break;
+		case "boutique" : exist = daoB.findById(element.getId()).isPresent() ? true : false; break;
+		case "employe" : exist = daoE.findById(element.getId()).isPresent() ? true : false; break;
+		case "commodite" : exist = daoC.findById(element.getId()).isPresent() ? true : false; break;
+		case "restaurant" : exist = daoR.findById(element.getId()).isPresent() ? true : false; break;
 		}
-		
+
 		if (exist){
 			List<Achat> achats = daoA.findByParc(parc);
 			for (Achat a : achats)
@@ -390,6 +426,6 @@ public class AchatRestController {
 			throw new AchatException("Element inexistant - suppression des achats associés impossible");
 		}
 	}
-	
+
 
 }

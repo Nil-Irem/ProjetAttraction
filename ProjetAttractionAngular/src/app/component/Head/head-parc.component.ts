@@ -8,15 +8,14 @@ import { Parc } from 'src/app/model/parc';
 })
 export class HeadParcComponent implements OnInit {
 
-  parcStorage = localStorage.getItem("parcChosen");
-
   constructor() { }
 
   ngOnInit(): void {}
 
   public getParc():Parc{
-    if(this.parcStorage){
-      return JSON.parse(this.parcStorage);
+    let parcStorage = localStorage.getItem("parcChosen");
+    if(parcStorage){
+      return JSON.parse(parcStorage);
     }
     return new Parc("probleme","probleme");
   }
