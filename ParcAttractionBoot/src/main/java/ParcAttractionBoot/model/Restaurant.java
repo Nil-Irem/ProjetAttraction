@@ -1,5 +1,6 @@
 package ParcAttractionBoot.model;
 
+import javax.persistence.Column;
 //import javax.persistence.Column;
 import javax.persistence.Entity;
 
@@ -8,8 +9,8 @@ import com.fasterxml.jackson.annotation.JsonView;
 @Entity
 public class Restaurant extends Construction {
 
-	//@Column(name="revenu_jour_personne")
 	@JsonView(JsonViews.Common.class)
+	@Column(name="revenu_jour_personne")
     private double revenuJourPersonne;
     
     

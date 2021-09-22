@@ -36,7 +36,7 @@ export class PossessionComponent implements OnInit {
   ngOnInit(): void {}
 
 
-  public listPossession(){
+  private listPossession(){
     this.attractions.clear();
     this.boutiques.clear();
     this.restaurants.clear();
@@ -110,7 +110,7 @@ export class PossessionComponent implements OnInit {
   }
 
 
-  ameliorer(element:Element){
+  public ameliorer(element:Element){
     let confirmation = confirm("Voulez vous vraiment améliorer "+element.nom+" pour "+ this.prixAmelioration+"€ ?");
     let storage = localStorage.getItem("parcChosen");
     if (storage && element.id && confirmation){
@@ -148,19 +148,20 @@ export class PossessionComponent implements OnInit {
   }
 
 
-  vendre(idElement:number|undefined,nom:string,prixAchat:number){
-    let confirmation = confirm("Voulez vous vraiment vendre "+nom+" pour "+prixAchat*this.pourcentageVente+"€ ?");
+  public vendre(element:Element){
+    let confirmation = confirm("Voulez vous vraiment vendre "+element.nom+" pour "+element.prixAcquisition!*this.pourcentageVente+"€ ?");
     let storage = localStorage.getItem("parcChosen");
-    if (storage && idElement && confirmation){
+    if (storage && element.id && confirmation){
       let parc:Parc = JSON.parse(storage);
 
-      this.gestionAchatService.getByElementAndParc(idElement,parc).subscribe(
+      this.gestionAchatService.getByElementAndParc(element.id,parc).subscribe(
         (res) => {
           if (res.id){
             this.gestionAchatService.delete(res.id).subscribe(
               (res2) =>{
-                if (parc.argent){
-                  parc.argent += prixAchat*this.pourcentageVente;
+                if (parc.argent && element.prixAcquisition && parc.taille && element.taille){
+                  parc.argent += element.prixAcquisition*this.pourcentageVente;
+                  parc.taille += element.taille;
                 }
                 localStorage.setItem("parcChosen",JSON.stringify(parc));
                 this.listPossession();
@@ -175,19 +176,97 @@ export class PossessionComponent implements OnInit {
   }
 
 
-  virer(element:Element,nbTotal:number){
-    let nbRenvoie = Number(prompt("Combien de "+element.metier+"Voulez vous renvoyer ?"));
-    while (isNaN(nbRenvoie)){
-      if(confirm("Vous devez rentrer un nombre voulez vous réessayer ?")){
-        nbRenvoie = Number(prompt("Combien de "+element.metier+"Voulez vous renvoyer ?"));
+  public vendreCommodite(element:Element,nbTotal:number){
+    let nbVente: number;
+    if (nbTotal!==1){
+      nbVente = Math.round(Number(prompt("Vous avez "+nbTotal+" "+ element.nom+", combien voulez vous en vendre ?")));
+      while (isNaN(nbVente)){
+        if(confirm("Vous devez rentrer un nombre voulez vous réessayer ?")){
+          nbVente = Math.round(Number(prompt("Vous avez "+nbTotal+" "+ element.nom+", combien voulez vous en vendre ?")));
+        }
+        else{
+          nbVente = 0;
+        }
+      }
+    }
+    else{
+      nbVente=1;
+    }
+
+    if (nbVente!==0){
+      if (nbVente > nbTotal){
+        alert("Vous n'avez pas autant de "+element.nom);
+      }
+      else if (nbVente < 0){
+        alert("Impossible de vendre "+nbVente+" "+element.nom);
       }
       else{
-        nbRenvoie = 0;
+        let confirmationRenvoie = confirm("Voulez vous vraiment ventre "+nbVente+" "+element.nom+" ?");
+        let storage = localStorage.getItem("parcChosen");
+        if (storage && element.id && confirmationRenvoie){
+          let parc:Parc = JSON.parse(storage);
+
+          this.gestionAchatService.getByElementAndParc(element.id,parc).subscribe(
+            (res) => {
+              if (res.id){
+                if (res.nbSameElement>1 && res.nbSameElement>nbVente){
+                  res.nbSameElement-=nbVente;
+                  this.gestionAchatService.update(res).subscribe(
+                    (res2) => {
+                      if (parc.argent && element.prixAcquisition && parc.taille && element.taille){
+                        parc.argent += element.prixAcquisition*this.pourcentageVente;
+                        parc.taille += element.taille;
+                      }
+                      this.listPossession()
+                    },
+                    (error) => console.log(error)
+                  );
+                }
+                else if (res.nbSameElement===1 || res.nbSameElement===nbVente){
+                  this.gestionAchatService.delete(res.id).subscribe(
+                    (res2) =>  {
+                      if (parc.argent && element.prixAcquisition && parc.taille && element.taille){
+                        parc.argent += element.prixAcquisition*this.pourcentageVente;
+                        parc.taille += element.taille;
+                      }
+                      this.listPossession()
+                    },
+                    (error) => console.log(error)
+                  );
+                }
+              }
+            },
+            (error) => console.log(error)
+          );
+        }
       }
+    }
+  }
+
+
+
+  public virer(element:Element,nbTotal:number){
+    let nbRenvoie:number;
+    if (nbTotal!==1){
+      nbRenvoie = Math.round(Number(prompt(nbTotal+" "+ element.metier+" travaille(nt) pour vous, combien voulez vous en renvoyer ?")));
+      while (isNaN(nbRenvoie)){
+        if(confirm("Vous devez rentrer un nombre voulez vous réessayer ?")){
+          nbRenvoie = Math.round(Number(prompt(nbTotal+" "+ element.metier+" travaille(nt) pour vous, combien voulez vous en renvoyer ?")));
+        }
+        else{
+          nbRenvoie = 0;
+        }
+      }
+    }
+    else{
+      nbRenvoie=1;
     }
     if (nbRenvoie!==0){
       if (nbRenvoie > nbTotal){
         alert("Vous n'avez pas autant de "+element.metier);
+      }
+      else if (nbRenvoie < 0){
+        alert("Impossible de renvoyer "+nbRenvoie+" "+element.metier);
       }
       else{
         let confirmationRenvoie = confirm("Voulez vous vraiment renvoyer "+nbRenvoie+" "+element.metier+" ?");

@@ -1,5 +1,4 @@
-
-<div class="body">
+<div class="container-fluid">
 
 <div class="header">
 <h1 id="titreh1">Bienvenue dans votre parc {{getParc().nomParc}} ! </h1>
@@ -14,23 +13,20 @@
         <li><a id="button" [routerLink]="['/jeu/achat']" routerLinkActive="active" class="btn btn-outline-info">Acheter du terrain</a></li>
         <li><a  id="button" [routerLink]="['/jeu/achat']" routerLinkActive="active" class="btn btn-outline-info">Acheter des batiments ou employés</a></li>
         <li> <a id="button" [routerLink]="['/jeu/possession']" routerLinkActive="active" class="btn btn-outline-info">Voir et modifier vos Possessions</a></li>
-        <li><button (click)="finJourneeA()" class="btn btn-secondary btn-lg" id="buttonJ">Finir la Journée</button></li>
+        <li><button (click)="finJournee()" class="btn btn-secondary btn-lg" id="buttonJ">Finir la Journée</button></li>
       </ul>
 
     </nav>
-  <app-map></app-map>
+    <app-map></app-map>
   <aside>
 
     <h2>Informations</h2>
-    <div *ngIf="debut()">
+    <div *ngIf="debutPartie()">
       LALALALAL
     </div>
 
   </aside>
 
 
-</section>
-
-<footer></footer>
+  </section>
 </div>
-<!--  -->

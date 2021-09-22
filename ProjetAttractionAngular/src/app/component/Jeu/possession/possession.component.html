@@ -41,7 +41,7 @@
             Amélioration maximum atteinte
           </th>
 				  <td>
-            <a (click)="vendre(attraction.key.id,attraction.key.nom,attraction.key.prixAcquisition)" class ="btn btn-danger">Vendre ({{attraction.key.prixAcquisition*pourcentageVente}} €)</a>
+            <a (click)="vendre(attraction.key)" class ="btn btn-danger">Vendre ({{attraction.key.prixAcquisition*pourcentageVente}} €)</a>
           </td>
 			  </tr>
 		  </tbody>
@@ -85,7 +85,7 @@
             Amélioration max Atteinte
           </td>
           <td>
-            <a (click)="vendre(boutique.key.id,boutique.key.nom,boutique.key.prixAcquisition)" class ="btn btn-danger">Vendre ({{boutique.key.prixAcquisition*pourcentageVente}} €)</a>
+            <a (click)="vendre(boutique.key)" class ="btn btn-danger">Vendre ({{boutique.key.prixAcquisition*pourcentageVente}} €)</a>
           </td>
 			  </tr>
 		  </tbody>
@@ -129,7 +129,7 @@
             Amélioration max Atteinte
           </td>
           <td>
-            <a (click)="vendre(restaurant.key.id,restaurant.key.nom,restaurant.key.prixAcquisition)" class ="btn btn-danger">
+            <a (click)="vendre(restaurant.key)" class ="btn btn-danger">
               Vendre ({{restaurant.key.prixAcquisition*pourcentageVente}} €)</a>
           </td>
 			  </tr>
@@ -161,7 +161,7 @@
   				<td>{{commodite.key.nom}}</td>
 	  			<td>{{commodite.key.taille}}</td>
 		  		<td>
-            <a (click)="vendre(commodite.key.id,commodite.key.nom,commodite.key.prixAcquisition)" class ="btn btn-danger">
+            <a (click)="vendreCommodite(commodite.key,commodite.value)" class ="btn btn-danger">
               Vendre ({{commodite.key.prixAcquisition*pourcentageVente}} €)</a>
           </td>
 			  </tr>
@@ -193,7 +193,7 @@
 	  			<td>{{employe.key.metier}}</td>
 		  		<td>{{employe.key.salaire}}</td>
 			  	<td>
-            <button (click)="virer(employe.key,employe.value)" class="btn btn-danger">Virer</button>
+            <button (click)="virer(employe.key,employe.value)" class="btn btn-danger">Licencier</button>
           </td>
 		  	</tr>
 		  </tbody>

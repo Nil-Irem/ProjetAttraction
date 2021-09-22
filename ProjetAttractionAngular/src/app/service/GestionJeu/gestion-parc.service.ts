@@ -18,7 +18,6 @@ export class GestionParcService {
 
   public initHeaders(){
     this.headers = new HttpHeaders({
-      // Access-Control-Allow-Origin: *
       'Content-Type': 'application/json'
     });
   }
@@ -36,6 +35,11 @@ export class GestionParcService {
   public getAll(): Observable<Parc[]>{
     this.initHeaders();
     return this.httpClient.post<Parc[]>(this.url,{headers:this.headers});
+  }
+
+  public save(parc:Parc): Observable<Parc>{
+    this.initHeaders();
+    return this.httpClient.put<Parc>(this.url+"/replace",parc,{headers:this.headers});
   }
 
   public create(parc:Parc,compte:Compte): Observable<Parc>{

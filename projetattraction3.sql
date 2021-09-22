@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1:3306
--- Généré le : mer. 22 sep. 2021 à 07:41
+-- Généré le : mer. 22 sep. 2021 à 18:39
 -- Version du serveur :  5.7.31
 -- Version de PHP : 7.3.21
 
@@ -39,14 +39,7 @@ CREATE TABLE IF NOT EXISTS `achat` (
   `niveau_amelioration` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK5n1t2pq2311cwcv5bi9khx6le` (`id_parc`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8;
-
---
--- Déchargement des données de la table `achat`
---
-
-INSERT INTO `achat` (`id`, `type_element`, `id_element`, `id_parc`, `nb_same_element`, `niveau_amelioration`) VALUES
-(4, 'attraction', 17, 3, 0, 6);
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 -- --------------------------------------------------------
 
@@ -93,7 +86,6 @@ CREATE TABLE IF NOT EXISTS `boutique` (
   `prix_fonctionnement` double DEFAULT NULL,
   `taille` double NOT NULL,
   `taux_incident` double DEFAULT NULL,
-  `revenuJourPersonne` double NOT NULL,
   `revenu_jour_personne` double NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -102,9 +94,9 @@ CREATE TABLE IF NOT EXISTS `boutique` (
 -- Déchargement des données de la table `boutique`
 --
 
-INSERT INTO `boutique` (`id`, `affluence_max`, `nb_amelioration`, `nom`, `prix_acquisition`, `prix_fonctionnement`, `taille`, `taux_incident`, `revenuJourPersonne`, `revenu_jour_personne`) VALUES
-(4, 400, 6, 'Boutique PAPoon', 300000, 1500, 250, 10, 300, 3000),
-(5, 400, 6, 'Boutique Dream', 300000, 1000, 250, 10, 200, 1500);
+INSERT INTO `boutique` (`id`, `affluence_max`, `nb_amelioration`, `nom`, `prix_acquisition`, `prix_fonctionnement`, `taille`, `taux_incident`, `revenu_jour_personne`) VALUES
+(4, 400, 6, 'Boutique PAPoon', 300000, 1500, 250, 10, 300),
+(5, 400, 6, 'Boutique Dream', 300000, 1000, 250, 10, 200);
 
 -- --------------------------------------------------------
 
@@ -225,8 +217,7 @@ CREATE TABLE IF NOT EXISTS `parc` (
 --
 
 INSERT INTO `parc` (`id`, `argent`, `nbjour`, `nom`, `taille`, `typeDifficulte`, `id_joueur`, `type_difficulte`) VALUES
-(2, 750000, 0, 'Test2', 8000, NULL, 1, 'Moyen'),
-(3, 1000000, 0, 'monParc', 10000, NULL, 1, 'Facile');
+(3, 1043665, 3, 'monParc', 9130, NULL, 1, 'Facile');
 
 -- --------------------------------------------------------
 
@@ -244,7 +235,6 @@ CREATE TABLE IF NOT EXISTS `restaurant` (
   `prix_fonctionnement` double DEFAULT NULL,
   `taille` double NOT NULL,
   `taux_incident` double DEFAULT NULL,
-  `revenuJourPersonne` double NOT NULL,
   `revenu_jour_personne` double NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
@@ -253,11 +243,11 @@ CREATE TABLE IF NOT EXISTS `restaurant` (
 -- Déchargement des données de la table `restaurant`
 --
 
-INSERT INTO `restaurant` (`id`, `affluence_max`, `nb_amelioration`, `nom`, `prix_acquisition`, `prix_fonctionnement`, `taille`, `taux_incident`, `revenuJourPersonne`, `revenu_jour_personne`) VALUES
-(11, 600, 15, 'Le Yololo', 450000, 1500, 250, 45, 300, 1500),
-(12, 400, 12, 'Tacotycoon ', 300000, 1250, 200, 45, 200, 1950),
-(13, 300, 8, 'YoloDouceur ', 150000, 1000, 100, 30, 150, 1300),
-(14, 300, 4, 'Glacoon', 100000, 800, 70, 20, 90, 1200);
+INSERT INTO `restaurant` (`id`, `affluence_max`, `nb_amelioration`, `nom`, `prix_acquisition`, `prix_fonctionnement`, `taille`, `taux_incident`, `revenu_jour_personne`) VALUES
+(11, 600, 15, 'Le Yololo', 450000, 1500, 250, 45, 300),
+(12, 400, 12, 'Tacotycoon ', 300000, 1250, 200, 45, 200),
+(13, 300, 8, 'YoloDouceur ', 150000, 1000, 100, 30, 150),
+(14, 300, 4, 'Glacoon', 100000, 800, 70, 20, 90);
 
 --
 -- Contraintes pour les tables déchargées

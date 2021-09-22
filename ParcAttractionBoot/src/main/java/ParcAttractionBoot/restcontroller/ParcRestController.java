@@ -128,16 +128,16 @@ public class ParcRestController {
 	
 	
 	@PutMapping("/replace") 
-	public Parc replace(@RequestBody Parc parc, BindingResult br) {
-		
+	public Parc replace(@RequestBody Parc parc, BindingResult br) {		
 		if(br.hasErrors()) {
 			throw new ParcException(br.getGlobalError().toString());
 		}
-		else if(parc.getId()!=null || !daoP.findById(parc.getId()).isPresent())
+		else if(parc.getId()==null || !daoP.findById(parc.getId()).isPresent())
 		{
 			throw new ParcException("Parc avec des données incorrectes - modification impossible");		
 		}
-		
+
+		System.out.println("save");
 		return daoP.save(parc);
 	}
 	

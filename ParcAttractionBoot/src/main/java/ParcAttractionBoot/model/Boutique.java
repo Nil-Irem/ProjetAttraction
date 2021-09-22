@@ -1,5 +1,6 @@
 package ParcAttractionBoot.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 
 import com.fasterxml.jackson.annotation.JsonView;
@@ -8,6 +9,7 @@ import com.fasterxml.jackson.annotation.JsonView;
 public class Boutique extends Construction {
 
 	@JsonView(JsonViews.Common.class)
+	@Column(name="revenu_jour_personne")
 	private double revenuJourPersonne;
 
 	public Boutique(Integer id, String nom, double prixAcquisition, double prixFonctionnement,
