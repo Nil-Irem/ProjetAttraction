@@ -1,21 +1,28 @@
 .body {
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    max-height: fit-content;
+
+
   }
   #main {
     margin: 10px 10px 10px 10px;
-    height: 500px;
-    width: 600px;
     border: darkgreen solid 2px;
     position: relative;
+
+  }
+   #map-container {
+    max-height: fit-content(800px);
+    /* max-height: 100%; */
+    max-width: 100%;
+    overflow: auto;
     background-image: url("/assets/img/ground.png");
   }
-  #map-container {
-    max-height: 100%;
-    overflow: auto;
-  }
+
   .element {
     display: inline-block;
     margin: 10px 10px 10px 10x;
   }
+h2{
+  text-align: center;
+}

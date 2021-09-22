@@ -1,28 +1,36 @@
-<br><br>
+
+<div class="body">
+
+<div class="header">
 <h1 id="titreh1">Bienvenue dans votre parc {{getParc().nomParc}} ! </h1>
 <br>
-
-<app-map></app-map>
-
-<div>
-<br><br>
-    <a id="button" [routerLink]="['/jeu/achat']" routerLinkActive="active" class="btn btn-outline-info">Acheter du terrain</a>
-
-    <a  id="button" [routerLink]="['/jeu/achat']" routerLinkActive="active" class="btn btn-outline-info">Acheter des attractions, restaurants, boutiques, commodités ou employés</a>
-
-    <a id="button" [routerLink]="['/jeu/possession']" routerLinkActive="active" class="btn btn-outline-info">Voir et modifier vos Possessions</a>
-
-&emsp; &emsp;
-
-<button (click)="finJourneeA()" class="btn btn-secondary btn-lg" id="buttonJ">Finir la Journée</button>
-
 </div>
 
-<!--
- <div class="resFinJ">
-    <p>Aujourd'hui il a fait {{finJourneeA().meteo}}</p>
-    <p>Vous avez eu {{finJourneeA().nbV}} Visiteurs</p>
-    <p>Vous avez dépensé {{finJourneeA().depenses}}€.</p>
-    <p>Vous avez gagné {{finJourneeA().recette}} €.</p>
+<section>
+
+    <nav>
+
+      <ul>
+        <li><a id="button" [routerLink]="['/jeu/achat']" routerLinkActive="active" class="btn btn-outline-info">Acheter du terrain</a></li>
+        <li><a  id="button" [routerLink]="['/jeu/achat']" routerLinkActive="active" class="btn btn-outline-info">Acheter des batiments ou employés</a></li>
+        <li> <a id="button" [routerLink]="['/jeu/possession']" routerLinkActive="active" class="btn btn-outline-info">Voir et modifier vos Possessions</a></li>
+        <li><button (click)="finJourneeA()" class="btn btn-secondary btn-lg" id="buttonJ">Finir la Journée</button></li>
+      </ul>
+
+    </nav>
+  <app-map></app-map>
+  <aside>
+
+    <h2>Informations</h2>
+    <div *ngIf="debut()">
+      LALALALAL
+    </div>
+
+  </aside>
+
+
+</section>
+
+<footer></footer>
 </div>
--->
+<!--  -->

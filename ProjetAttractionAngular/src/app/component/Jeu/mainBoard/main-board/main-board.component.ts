@@ -53,7 +53,18 @@ export class MainBoardComponent implements OnInit {
     );
     return this.gestionJourneeService.finJourneeS(JSON.parse(this.parcStorage)).subscribe();
 
-*/
+  */
+    }
 
+    public debut(): boolean{
+      let storage = localStorage.getItem("parcChosen");
+      if(storage){
+        let parc = JSON.parse(storage);
+        if(parc.nbjour>0){
+          return true;
+        }
+      }
+      return false;
   }
+
 }

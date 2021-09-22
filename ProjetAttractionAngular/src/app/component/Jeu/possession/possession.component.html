@@ -13,7 +13,7 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <input id="filterAttraction" placeholder="Filtre attraction">
+          <!-- <input id="filterAttraction" placeholder="Filtre attraction"> -->
           <td colspan=6 class="centerText">Liste des attractions :</td>
         </tr>
         <tr>
@@ -22,8 +22,8 @@
           <th>Prix de fonctionnement quotidient (€)</th>
           <th>Niveau d'amélioration</th>
           <th>Affluence maximum quotidient</th>
-          <th>5€ / amélioration</th>
-          <th>80% du Prix d'achat </th>
+          <th></th>
+          <th></th>
         </tr>
       </thead>
 
@@ -34,14 +34,14 @@
 	  			<td>{{attraction.key.prixFonctionnement}}</td>
 		  		<td>{{attraction.value}} / {{attraction.key.nbAmelioration}}</td>
 			  	<td>{{attraction.key.affluence}}</td>
-				  <td *ngIf="!disabledAmelioration(attraction.value,attraction.key.nbAmelioration)">
-            <button (click)="ameliorer(attraction.key)" class ="btn btn-warning" [disabled]="disabledAmelioration(attraction.value,attraction.key.nbAmelioration)" >Améliorer</button>
+				  <td *ngIf="attraction.value!==attraction.key.nbAmelioration">
+            <button (click)="ameliorer(attraction.key)" class ="btn btn-warning" >Améliorer ({{prixAmelioration}} €)</button>
           </td>
-				  <th *ngIf="disabledAmelioration(attraction.value,attraction.key.nbAmelioration)">
+				  <th *ngIf="attraction.value===attraction.key.nbAmelioration">
             Amélioration maximum atteinte
           </th>
 				  <td>
-            <a (click)="vendre(attraction.key.id,attraction.key.nom)" class ="btn btn-danger">Vendre</a>
+            <a (click)="vendre(attraction.key.id,attraction.key.nom,attraction.key.prixAcquisition)" class ="btn btn-danger">Vendre ({{attraction.key.prixAcquisition*pourcentageVente}} €)</a>
           </td>
 			  </tr>
 		  </tbody>
@@ -56,7 +56,7 @@
     <table class="table table-striped">
       <thead>
 		    <tr>
-          <input id="filterBoutique" placeholder="Filtre boutique">
+          <!-- <input id="filterBoutique" placeholder="Filtre boutique"> -->
           <td colspan=7 class="centerText">Liste des boutiques : </td>
         </tr>
         <tr>
@@ -78,11 +78,14 @@
 		  		<td>{{boutique.value}} / {{boutique.key.nbAmelioration}}</td>
 			  	<td>{{boutique.key.affluence}}</td>
           <td>{{boutique.key.revenuJourPersonne}}</td>
-				  <td>
-            <button (click)="ameliorer(boutique.key)" class ="btn btn-warning" [disabled]="disabledAmelioration(boutique.value,boutique.key.nbAmelioration)">Améliorer</button>
+				  <td *ngIf="boutique.value!==boutique.key.nbAmelioration">
+           	<button (click)="ameliorer(boutique.key)" class ="btn btn-warning">Améliorer ({{prixAmelioration}} €)</button>
+          </td>
+				  <td *ngIf="boutique.value===boutique.key.nbAmelioration">
+            Amélioration max Atteinte
           </td>
           <td>
-            <a (click)="vendre(boutique.key.id,boutique.key.nom)" class ="btn btn-danger">Vendre</a>
+            <a (click)="vendre(boutique.key.id,boutique.key.nom,boutique.key.prixAcquisition)" class ="btn btn-danger">Vendre ({{boutique.key.prixAcquisition*pourcentageVente}} €)</a>
           </td>
 			  </tr>
 		  </tbody>
@@ -97,7 +100,7 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <input id="filterRestaurant" placeholder="Filtre restaurant">
+          <!-- <input id="filterRestaurant" placeholder="Filtre restaurant"> -->
           <td colspan=7 class="centerText">Liste des restaurants :</td>
         </tr>
         <tr>
@@ -119,14 +122,15 @@
 		  		<td>{{restaurant.value}} / {{restaurant.key.nbAmelioration}}</td>
 			  	<td>{{restaurant.key.affluence}}</td>
           <td>{{restaurant.key.revenuJourPersonne}}</td>
-				  <td *ngIf="!disabledAmelioration(restaurant.value,restaurant.key.nbAmelioration)">
-           	<button (click)="ameliorer(restaurant.key)" class ="btn btn-warning">Améliorer</button>
+				  <td *ngIf="restaurant.value!==restaurant.key.nbAmelioration">
+           	<button (click)="ameliorer(restaurant.key)" class ="btn btn-warning">Améliorer ({{prixAmelioration}} €)</button>
           </td>
-				  <td *ngIf="disabledAmelioration(restaurant.value,restaurant.key.nbAmelioration)">
+				  <td *ngIf="restaurant.value===restaurant.key.nbAmelioration">
             Amélioration max Atteinte
           </td>
           <td>
-            <a (click)="vendre(restaurant.key.id,restaurant.key.nom)" class ="btn btn-danger">Vendre</a>
+            <a (click)="vendre(restaurant.key.id,restaurant.key.nom,restaurant.key.prixAcquisition)" class ="btn btn-danger">
+              Vendre ({{restaurant.key.prixAcquisition*pourcentageVente}} €)</a>
           </td>
 			  </tr>
 		  </tbody>
@@ -141,7 +145,7 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <input id="filterCommodite" placeholder="Filtre commodite">
+          <!-- <input id="filterCommodite" placeholder="Filtre commodite"> -->
           <td colspan=3 class="centerText">Liste des commodités :</td>
         </tr>
         <tr>
@@ -157,7 +161,8 @@
   				<td>{{commodite.key.nom}}</td>
 	  			<td>{{commodite.key.taille}}</td>
 		  		<td>
-            <a (click)="vendre(commodite.key.id,commodite.key.nom)" class ="btn btn-danger">Vendre</a>
+            <a (click)="vendre(commodite.key.id,commodite.key.nom,commodite.key.prixAcquisition)" class ="btn btn-danger">
+              Vendre ({{commodite.key.prixAcquisition*pourcentageVente}} €)</a>
           </td>
 			  </tr>
 		  </tbody>
@@ -172,7 +177,7 @@
     <table class="table table-striped">
       <thead>
         <tr>
-          <input id="filteremploye" placeholder="Filtre employe">
+          <!-- <input id="filteremploye" placeholder="Filtre employe"> -->
           <td colspan=3 class="centerText">Liste des employés :</td>
         </tr>
         <tr>
@@ -188,7 +193,7 @@
 	  			<td>{{employe.key.metier}}</td>
 		  		<td>{{employe.key.salaire}}</td>
 			  	<td>
-            <a (click)="virer(employe.key.id,employe.key.metier)" class ="btn btn-danger">Virer</a>
+            <button (click)="virer(employe.key,employe.value)" class="btn btn-danger">Virer</button>
           </td>
 		  	</tr>
 		  </tbody>

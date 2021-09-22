@@ -19,21 +19,19 @@ export class PossessionComponent implements OnInit {
   boutiques = new Map();
   restaurants = new Map();
   employes = new Map();
+
   prixAmelioration = 500;
-  prixVente = 0;
-
-
+  pourcentageVente = 0.7;
 
   private parcStorage = localStorage.getItem("parcChosen");
 
  constructor(
     private ar: ActivatedRoute,
-    private gestionAchatService:GestionAchatService,
-    private formBuilder: FormBuilder) {
+    private gestionAchatService:GestionAchatService) {
 
       this.listPossession();
-
   }
+
 
   ngOnInit(): void {}
 
@@ -113,25 +111,56 @@ export class PossessionComponent implements OnInit {
 
 
   ameliorer(element:Element){
+    let confirmation = confirm("Voulez vous vraiment améliorer "+element.nom+" pour "+ this.prixAmelioration+"€ ?");
     let storage = localStorage.getItem("parcChosen");
-    if (storage && element.id){
+    if (storage && element.id && confirmation){
       let parc:Parc = JSON.parse(storage);
-      let prixAmelioration = 5;
+
+      if (parc.argent && parc.argent>this.prixAmelioration){
+        this.gestionAchatService.getByElementAndParc(element.id,JSON.parse(storage)).subscribe(
+          (res) => {
+            if(element.nbAmelioration && res.niveauAmelioration===element.nbAmelioration){
+              console.log("amelioration max atteinte");
+            }
+            else
+            {
+              res.niveauAmelioration++;
+
+              this.gestionAchatService.update(res).subscribe(
+                (res2) => {
+                  if (parc.argent){
+                    parc.argent -= this.prixAmelioration;
+                  }
+                  localStorage.setItem("parcChosen",JSON.stringify(parc));
+                  this.listPossession();
+                },
+                (error) => console.log(error)
+              );
+            }
+          },
+          (error) => console.log(error)
+        );
+      }
+      else{
+        alert("Vous n'avez pas assez d'argent pour améliorer "+element.nom);
+      }
+    }
+  }
 
 
-      this.gestionAchatService.getByElementAndParc(element.id,JSON.parse(storage)).subscribe(
+  vendre(idElement:number|undefined,nom:string,prixAchat:number){
+    let confirmation = confirm("Voulez vous vraiment vendre "+nom+" pour "+prixAchat*this.pourcentageVente+"€ ?");
+    let storage = localStorage.getItem("parcChosen");
+    if (storage && idElement && confirmation){
+      let parc:Parc = JSON.parse(storage);
+
+      this.gestionAchatService.getByElementAndParc(idElement,parc).subscribe(
         (res) => {
-          if(element.nbAmelioration && res.niveauAmelioration===element.nbAmelioration){
-            console.log("amelioration max atteinte");
-          }
-          else
-          {
-            res.niveauAmelioration++;
-
-            this.gestionAchatService.update(res).subscribe(
-              (res2) => {
+          if (res.id){
+            this.gestionAchatService.delete(res.id).subscribe(
+              (res2) =>{
                 if (parc.argent){
-                  parc.argent -= prixAmelioration;
+                  parc.argent += prixAchat*this.pourcentageVente;
                 }
                 localStorage.setItem("parcChosen",JSON.stringify(parc));
                 this.listPossession();
@@ -146,55 +175,48 @@ export class PossessionComponent implements OnInit {
   }
 
 
-  vendre(id:number|undefined,nom:string){
-    let confirmation = confirm("Voulez vous vraiment vendre "+nom+" ?");
-    let storage = localStorage.getItem("parcChosen");
-    if (storage && id && confirmation){
-      let parc:Parc = JSON.parse(storage);
-      let prixVente = 100.5;
-
-      this.gestionAchatService.getByElementAndParc(id,JSON.parse(storage)).subscribe(
-        (res) => {
-          if (res.id){
-          this.gestionAchatService.delete(res.id).subscribe(
-            (res2) =>{
-              if (parc.argent){
-                parc.argent += prixVente;
-              }
-              localStorage.setItem("parcChosen",JSON.stringify(parc));
-              this.listPossession();
-            },
-            (error) => console.log(error)
-          );
-        }},
-        (error) => console.log(error)
-      );
+  virer(element:Element,nbTotal:number){
+    let nbRenvoie = Number(prompt("Combien de "+element.metier+"Voulez vous renvoyer ?"));
+    while (isNaN(nbRenvoie)){
+      if(confirm("Vous devez rentrer un nombre voulez vous réessayer ?")){
+        nbRenvoie = Number(prompt("Combien de "+element.metier+"Voulez vous renvoyer ?"));
+      }
+      else{
+        nbRenvoie = 0;
+      }
     }
-  }
+    if (nbRenvoie!==0){
+      if (nbRenvoie > nbTotal){
+        alert("Vous n'avez pas autant de "+element.metier);
+      }
+      else{
+        let confirmationRenvoie = confirm("Voulez vous vraiment renvoyer "+nbRenvoie+" "+element.metier+" ?");
+        let storage = localStorage.getItem("parcChosen");
+        if (storage && element.id && confirmationRenvoie){
+          let parc:Parc = JSON.parse(storage);
 
-  virer(id:number|undefined,nom:string){
-    let confirmation = confirm("Voulez vous vraiment virer "+nom+" ?");
-    let storage = localStorage.getItem("parcChosen");
-    if (storage && id && confirmation){
-      let parc:Parc = JSON.parse(storage);
-      let prixVente = 100.5;
-
-      this.gestionAchatService.getByElementAndParc(id,JSON.parse(storage)).subscribe(
-        (res) => {
-          if (res.id){
-          this.gestionAchatService.delete(res.id).subscribe(
-            (res2) =>{
-              if (parc.argent){
-                parc.argent += prixVente;
+          this.gestionAchatService.getByElementAndParc(element.id,parc).subscribe(
+            (res) => {
+              if (res.id){
+                if (res.nbSameElement>1 && res.nbSameElement>nbRenvoie){
+                  res.nbSameElement-=nbRenvoie;
+                  this.gestionAchatService.update(res).subscribe(
+                    (res2) => this.listPossession(),
+                    (error) => console.log(error)
+                  );
+                }
+                else if (res.nbSameElement===1 || res.nbSameElement===nbRenvoie){
+                  this.gestionAchatService.delete(res.id).subscribe(
+                    (res2) => this.listPossession(),
+                    (error) => console.log(error)
+                  );
+                }
               }
-              localStorage.setItem("parcChosen",JSON.stringify(parc));
-              this.listPossession();
             },
             (error) => console.log(error)
           );
-        }},
-        (error) => console.log(error)
-      );
+        }
+      }
     }
   }
 
@@ -207,12 +229,5 @@ export class PossessionComponent implements OnInit {
     return new Parc("probleme","probleme");
   }
 
-
-  public disabledAmelioration(nvAmelioration:number,nbAmeliorationMax:number):boolean{
-    if (nvAmelioration===nbAmeliorationMax){
-      return true;
-    }
-    return false;
-  }
 }
 
