@@ -1,7 +1,6 @@
 import { GestionCompteService } from './../../../service/GestionJeu/gestion-compte.service';
 
 import { CustomValidator } from './../../../Validator/custom-validator';
-import { Joueur } from './../../../model/joueur';
 import { Compte } from './../../../model/compte';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -16,7 +15,7 @@ export class EditCompteComponent implements OnInit {
 
   Formulaire:FormGroup;
   Input:FormControl;
-  compte:Compte=new Joueur();
+  compte:Compte=new Compte();
 
   constructor(
     private fb:FormBuilder,

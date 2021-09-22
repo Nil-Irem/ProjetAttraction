@@ -1,0 +1,21 @@
+.body {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  #main {
+    margin: 10px 10px 10px 10px;
+    height: 500px;
+    width: 600px;
+    border: darkgreen solid 2px;
+    position: relative;
+    background-image: url("/assets/img/ground.png");
+  }
+  #map-container {
+    max-height: 100%;
+    overflow: auto;
+  }
+  .element {
+    display: inline-block;
+    margin: 10px 10px 10px 10x;
+  }

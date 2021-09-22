@@ -22,8 +22,7 @@ import { ChoixParcComponent } from './component/Jeu/choix-parc/choix-parc.compon
 import { AdminComponent } from './component/Admin/admin/admin.component';
 import { MainBoardComponent } from './component/Jeu/mainBoard/main-board/main-board.component';
 import { MapComponent } from './component/Jeu/mainBoard/map/map.component';
-
-
+import {MenubarModule} from 'primeng/menubar';
 
 @NgModule({
   declarations: [
@@ -44,14 +43,13 @@ import { MapComponent } from './component/Jeu/mainBoard/map/map.component';
     PossessionComponent,
     MainBoardComponent,
     MapComponent
-
-
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    MenubarModule,
     RouterModule.forRoot(routes)
   ],
   providers: [],

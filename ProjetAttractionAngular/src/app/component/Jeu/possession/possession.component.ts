@@ -19,6 +19,8 @@ export class PossessionComponent implements OnInit {
   boutiques = new Map();
   restaurants = new Map();
   employes = new Map();
+  prixAmelioration = 500;
+  prixVente = 0;
 
 
 

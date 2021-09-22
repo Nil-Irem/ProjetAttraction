@@ -1,1 +1,28 @@
-<p>map works!</p>
+<body>
+    <h2>Votre parc d'attraction : {{ getParc().nomParc }}</h2>
+    <div id="main">
+      <div id="map-container">
+        <div
+          id="map"
+          [ngStyle]="{ 'width.px': mapSize / 10, 'height.px': mapSize / 10 }"
+        >
+
+            <div class="element"
+              *ngFor="let element of elements"
+              [ngStyle]="{
+                'width.px': element.taille,
+                'height.px': element.taille
+              }"
+            >
+              <img
+                style="height: 100%; width: 100%; object-fit: contain"
+                src="/assets/img/elements/{{element.nom}}.png"
+                alt=""
+              />
+              {{ element.nom }}
+            </div>
+
+        </div>
+      </div>
+    </div>
+  </body>

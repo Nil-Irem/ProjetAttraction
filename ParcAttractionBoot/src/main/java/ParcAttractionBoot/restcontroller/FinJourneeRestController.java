@@ -222,6 +222,7 @@ public class FinJourneeRestController {
 
 		System.out.println(nbVisiteur);
 		System.out.println(argentGagne);
+		System.out.println(meteo);
 	
 		
 		return res;

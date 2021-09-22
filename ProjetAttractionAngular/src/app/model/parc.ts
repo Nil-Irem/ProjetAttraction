@@ -1,4 +1,4 @@
-import { Joueur } from './joueur';
+import { Compte } from './compte';
 export class Parc {
 
   constructor(
@@ -7,7 +7,7 @@ export class Parc {
     private _taille?: number,
     private _nbjour?: number,
   	private _argent?: number,
-    private _joueur?: Joueur,
+    private _joueur?: Compte,
     private _id?: number
   ){}
 
@@ -59,12 +59,12 @@ export class Parc {
 	}
 
 
-	public get joueur(): Joueur|undefined {
+	public get joueur(): Compte|undefined {
 		return this._joueur;
 	}
 
 
-	public set joueur(joueur: Joueur|undefined) {
+	public set joueur(joueur: Compte|undefined) {
 		this._joueur = joueur;
 	}
 
