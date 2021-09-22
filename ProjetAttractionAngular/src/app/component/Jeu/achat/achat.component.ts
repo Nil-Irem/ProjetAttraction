@@ -27,7 +27,7 @@ export class AchatComponent implements OnInit {
     private gestionAchatService:GestionAchatService,
     private gestionElementService:GestionElementService) {
 
-      this.constructionListes();
+    this.constructionListes();
   }
 
   ngOnInit(): void {
@@ -63,11 +63,17 @@ export class AchatComponent implements OnInit {
     });
   }
 
-  private listAttractionWithoutAchat(){
+
+  private async listAttractionWithoutAchat(){
     let parcStorage = localStorage.getItem("parcChosen");
     if (parcStorage){
-      this.gestionElementService.getAttraction().subscribe(
-        (res) => this.attractions = res,
+      await this.gestionElementService.getAttraction().subscribe(
+        (res) => {
+          res.forEach(
+            attraction => attraction.typeElement = "attraction"
+          );
+          this.attractions = res;
+        },
         (error) => console.log(error)
       );
 
@@ -75,14 +81,15 @@ export class AchatComponent implements OnInit {
         (res) => {
           res.forEach(
             achat => {
-              if(this.attractions.includes(achat.element))
-                {this.attractions.splice(this.attractions.indexOf(achat.element),1);}
+              this.attractions.forEach(
+                attraction => {
+                  if (attraction.id===achat.element.id)
+                    {this.attractions.splice(this.attractions.indexOf(attraction),1)}
+                }
+              )
             }
           );
-
-          this.attractions.forEach(
-            attraction => attraction.typeElement = "attraction"
-          );},
+        },
         (error) => console.log(error)
       );
     }
@@ -90,12 +97,17 @@ export class AchatComponent implements OnInit {
 
 
 
-  private listBoutiqueWithoutAchat(){
+  private async listBoutiqueWithoutAchat(){
     let parcStorage = localStorage.getItem("parcChosen");
 
     if (parcStorage){
-      this.gestionElementService.getBoutique().subscribe(
-        (res) => this.boutiques = res,
+      await this.gestionElementService.getBoutique().subscribe(
+        (res) => {
+          res.forEach(
+            boutique => boutique.typeElement = "boutique"
+          );
+          this.boutiques = res;
+        },
         (error) => console.log(error)
       );
 
@@ -103,38 +115,44 @@ export class AchatComponent implements OnInit {
         (res) => {
           res.forEach(
             achat => {
-              if(this.attractions.includes(achat.element))
-                {this.attractions.splice(this.attractions.indexOf(achat.element),1);}
+              this.boutiques.forEach(
+                boutique => {
+                  if (boutique.id===achat.element.id)
+                    {this.boutiques.splice(this.boutiques.indexOf(boutique),1)}
+                }
+              )
             }
-          );
-          this.boutiques.forEach(
-            boutique => boutique.typeElement = "boutique"
           );
         },
         (error) => console.log(error)
       );
-
     }
   }
 
-  private listRestaurantWithoutAchat(){
+  private async listRestaurantWithoutAchat(){
     let parcStorage = localStorage.getItem("parcChosen");
     if (parcStorage){
-      this.gestionElementService.getRestaurant().subscribe(
-        (res) => this.restaurants = res,
+      await this.gestionElementService.getRestaurant().subscribe(
+        (res) =>{
+          res.forEach(
+            restaurant => restaurant.typeElement = "restaurant"
+          );
+          this.restaurants = res;
+        },
         (error) => console.log(error)
       );
 
-      this.gestionAchatService.getByTypeElementAndParc("restaurant",JSON.parse(parcStorage)).subscribe(
+      await this.gestionAchatService.getByTypeElementAndParc("restaurant",JSON.parse(parcStorage)).subscribe(
         (res) => {
           res.forEach(
             achat => {
-              if(this.restaurants.includes(achat.element))
-                {this.restaurants.splice(this.restaurants.indexOf(achat.element),1);}
+              this.restaurants.forEach(
+                restaurant => {
+                  if (restaurant.id===achat.element.id)
+                    {this.restaurants.splice(this.restaurants.indexOf(restaurant),1)}
+                }
+              )
             }
-          );
-          this.restaurants.forEach(
-            restaurant => restaurant.typeElement = "restaurant"
           );
         },
         (error) => console.log(error)
@@ -162,7 +180,10 @@ export class AchatComponent implements OnInit {
     this.gestionElementService.getEmploye().subscribe(
       (res) => {
         res.forEach(
-          employe => employe.typeElement = "employe"
+          employe => {
+            employe.typeElement = "employe";
+            employe.nom = employe.metier;
+          }
         );
         this.employes = res;
       },
@@ -173,57 +194,86 @@ export class AchatComponent implements OnInit {
 
 
   public achat(element:Element){
-    console.log("type="+element.typeElement);
     let parcStorage = localStorage.getItem("parcChosen");
     if (parcStorage){
-      if (element.typeElement==="attraction" || element.typeElement==="boutique" || element.typeElement==="restaurant"){
-        this.gestionAchatService.create(new Achat(JSON.parse(parcStorage),element,element.typeElement,0,0)).subscribe(
-          (res) => {
-            this.elementAcheter=element;
-            this.newParc();
-          },
-          (error) => console.log(error)
-        );
-      }
-      else if (element.typeElement==="commodite" || element.typeElement==="employe"){
-        let exist = false;
-        this.gestionAchatService.getByTypeElementAndParc(element.typeElement,JSON.parse(parcStorage)).subscribe(
-          (res) => {
-            res.forEach(
-              achat => {
-                if(element.id === achat.element.id){
-                  exist=true;
-                  achat.nbSameElement++;
-                  this.gestionAchatService.update(achat).subscribe();
-                }
-              }
+      let parc:Parc = JSON.parse(parcStorage);
+      if (element.typeElement==="employe"||(parc.argent && element.prixAcquisition && parc.argent>element.prixAcquisition)){
+        if ((parc.taille && element.taille && parc.taille>element.taille)||element.typeElement==="employe") {
+          if (element.typeElement==="attraction" || element.typeElement==="boutique" || element.typeElement==="restaurant"){
+            this.gestionAchatService.create(new Achat(parc,element,element.typeElement,0,0)).subscribe(
+              (res) => {
+                this.elementAcheter=element;
+                this.newParc(parc);
+              },
+              (error) => console.log(error)
             );
-            this.elementAcheter = element;
-            this.afficheMessage = true;
-            this.newParc();
-          },
-          (error) => console.log(error)
-        )
+          }
+          else if (element.typeElement==="commodite" || element.typeElement==="employe"){
+            let exist = false;
+            this.gestionAchatService.getByTypeElementAndParc(element.typeElement,parc).subscribe(
+              (res) => {
+                res.forEach(
+                  achat => {
+                    if(element.id === achat.element.id){
+                      exist=true;
+                      achat.nbSameElement++;
+                      this.gestionAchatService.update(achat).subscribe(
+                        (res2) => {
+                          this.elementAcheter = element;
+                          this.newParc(parc);
+                        },
+                        (error) => console.log(error)
+                      );
+                    }
+                  }
+                )
+                if (!exist){
+                  this.gestionAchatService.create(new Achat(parc,element,element.typeElement,0,1)).subscribe(
+                    (res) => {
+                      this.elementAcheter=element;
+                      this.newParc(parc);
+                    },
+                    (error) => console.log(error)
+                  );
+                }
+              },
+              (error) => console.log(error)
+            )
+          }
+          else{
+            console.log("Erreur de donnée")
+          }
+        }
+        else {
+          alert("Vous n'avez pas assez de terrain pour acheter "+element.nom);
+        }
+      }
+      else{
+        alert("Vous n'avez pas assez d'argent pour acheter "+element.nom);
       }
     }
   }
 
 
-  newParc(){
-    let storage = localStorage.getItem("parcChosen");
-    if (storage){
-      let parc:Parc = JSON.parse(storage);
-
-      if (parc.argent && this.elementAcheter.prixAcquisition){
-        parc.argent -= this.elementAcheter.prixAcquisition;
-      }
-
-      if (parc.taille && this.elementAcheter.taille){
-        parc.taille -= this.elementAcheter.taille;
-      }
-
-      localStorage.setItem("parcChosen",JSON.stringify(parc));
+  private newParc(parc:Parc){
+    if (parc.argent && this.elementAcheter.prixAcquisition){
+      parc.argent -= this.elementAcheter.prixAcquisition;
     }
+
+    if (parc.taille && this.elementAcheter.taille){
+      parc.taille -= this.elementAcheter.taille;
+    }
+
+    if(this.elementAcheter.nom){
+      if (this.elementAcheter.typeElement==="employe"){
+        alert("l'employé "+this.elementAcheter.nom+" a bien été embauché");
+      }
+      else{
+        alert(this.elementAcheter.nom+" a bien été acheté");
+      }
+    }
+
+    localStorage.setItem("parcChosen",JSON.stringify(parc));
     this.constructionListes();
   }
 

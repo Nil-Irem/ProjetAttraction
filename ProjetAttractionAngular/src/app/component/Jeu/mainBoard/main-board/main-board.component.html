@@ -1,0 +1,59 @@
+<br><br>
+<h1 id="titreh1">Bienvenue dans votre parc {{getParc().nomParc}} ! </h1>
+<br>
+<!--
+<div>
+
+    <tr *ngFor="let achat of achats">
+        <td> {{achat.element.nom}}</td>
+
+    </tr>
+
+</div>
+-->
+<div>
+<br><br>
+<div class="box">
+<div class="terrain">
+  <div id="titreT">
+    <a id="button" [routerLink]="['/jeu/achat']" routerLinkActive="active" class="btn btn-outline-info">Acheter du terrain</a>
+  </div>
+  <div id="imageT">
+<img src="assets/img/logoYoloIcon.png" width="25%" >
+  </div>
+</div>
+<br><br>
+<div class="element">
+  <div id="titreE" >
+    <a  id="button" [routerLink]="['/jeu/achat']" routerLinkActive="active" class="btn btn-outline-info">Acheter des attractions, restaurants, boutiques, commodités ou employés</a>
+  </div>
+    <div id="imageE">
+  <img src="assets/img/logoYoloIcon.png" width="25%"  >
+    </div>
+  </div>
+</div>
+
+<br><br>
+<div class="possession">
+  <div id="titreP">
+    <a id="button" [routerLink]="['/jeu/possession']" routerLinkActive="active" class="btn btn-outline-info">Voir et modifier vos Possessions</a>
+  </div>
+    <div id="imageP">
+      <img src="assets/img/logoYoloIcon.png" width="25%"  >
+        </div>
+  </div>
+
+&emsp; &emsp;
+
+<button (click)="finJourneeA()" class="btn btn-secondary btn-lg" id="buttonJ">Finir la Journée</button>
+
+</div>
+
+<!--
+ <div class="resFinJ">
+    <p>Aujourd'hui il a fait {{finJourneeA().meteo}}</p>
+    <p>Vous avez eu {{finJourneeA().nbV}} Visiteurs</p>
+    <p>Vous avez dépensé {{finJourneeA().depenses}}€.</p>
+    <p>Vous avez gagné {{finJourneeA().recette}} €.</p>
+</div>
+-->

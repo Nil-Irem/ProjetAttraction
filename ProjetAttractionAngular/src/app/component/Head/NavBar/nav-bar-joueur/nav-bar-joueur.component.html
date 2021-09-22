@@ -1,11 +1,11 @@
 <nav class="navbar navbar-expand-lg navbar-light">
   <div class="container-fluid">
     <div class="navbar-nav">
-      <a (click)="deconnection()" class="nav-item btn btn-dark">Déconnexion</a>
+      <a (click)="deconnection()" class="nav-item nav-link active" id="deconnexion">Déconnexion</a>
       &nbsp;&nbsp;
-      <a *ngIf="parcIsChosen()" (click)="changerParc()" class="nav-item btn btn-secondary">Changer de parc</a>
+      <a *ngIf="parcIsChosen()" (click)="changerParc()" class="nav-item nav-link active" id="parc">Changer de parc</a>
       &nbsp;&nbsp;
-      <a *ngIf="parcIsChosen()" class="nav-item btn btn-info" [routerLink]="['/jeu/achat']" routerLinkActive="active" >Achat</a>
+      <a *ngIf="parcIsChosen()" class="nav-item nav-link active" [routerLink]="['/jeu/achat']" routerLinkActive="active" id="achat" >Achat</a>
       <!-- <a class="nav-item dropdown btn btn-info dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Achat</a>
       <div class="dropdown-menu">
         <a class="dropdown-item" href="#" [routerLink]="['/jeu/achat']" routerLinkActive="active">Menu Achat</a>
@@ -17,7 +17,8 @@
         <a class="dropdown-item" href="#" [routerLink]="['/jeu/achat/employe']" routerLinkActive="active">Embaucher un employé</a>
       </div> -->
       &nbsp;&nbsp;
-      <a *ngIf="parcIsChosen()" class="nav-item btn btn-warning" [routerLink]="['/jeu/mainBoard']" routerLInkActive="active">Map</a>
+      <a *ngIf="parcIsChosen()" class="nav-item nav-link active" [routerLink]="['/jeu/mainBoard']" routerLInkActive="active" id="map">Map</a>
+      <a *ngIf="parcIsChosen()" class="nav-item nav-link active" [routerLink]="['/jeu/possession']" routerLInkActive="active" id="possession">Possession</a>
     </div>
     <img class="navbar-brand" src="assets/img/logoYoloSmall.png" alt="YoloLogo">
   </div>

@@ -11,6 +11,7 @@ export class Element {
 	  private _affluence?: number,
     private _revenuJourPersonne?:number,
   	private _salaire?: number,
+  	private _metier?: string,
     private _id?: number
   ){}
 
@@ -118,5 +119,13 @@ export class Element {
 
 	public set salaire(salaire: number|undefined) {
 		this._salaire = salaire;
+	}
+
+	public get metier(): string|undefined {
+		return this._metier;
+	}
+
+	public set metier(metier: string|undefined) {
+		this._metier = metier;
 	}
 }

@@ -1,3 +1,30 @@
 nav {
 	background-color: #5809ecb3;
 }
+
+#deconnexion{
+  font-weight: bold;
+  color:black;
+}
+
+#possession{
+  font-weight: bold;
+  color:#312d2d;
+}
+
+#map{
+  font-weight: bold;
+  color:#312d2dd4;
+}
+
+#parc{
+  font-weight: bold;
+  color:#000000b5;
+
+}
+
+#achat{
+  font-weight: bold;
+  color:#000000b5;
+}
+

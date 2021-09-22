@@ -1,7 +1,14 @@
-<div class="conatiner-fluid">
-  <h1 id="titreh1">Les possessions du parc {{getParc().nomParc}} </h1>
-  <br><br>
+<br>
+  <h1 id="titreh1"
+    *ngIf="attractions.size>0||boutiques.size>0||restaurants.size>0||employes.size>0||commodites.size>0">
+    Les possessions du parc {{getParc().nomParc}} </h1>
 
+  <h1 id="titreh1"
+    *ngIf="attractions.size<=0&&boutiques.size<=0&&restaurants.size<=0&&employes.size<=0&&commodites.size<=0">
+    Le parc {{getParc().nomParc}} n'a pas encore de possession</h1>
+
+  <br><br>
+  <div class="container-fluid">
     <div id="listAttraction" *ngIf="attractions.size>0">
     <table class="table table-striped">
       <thead>
@@ -15,28 +22,30 @@
           <th>Prix de fonctionnement quotidient (€)</th>
           <th>Niveau d'amélioration</th>
           <th>Affluence maximum quotidient</th>
-          <th></th>
-          <th></th>
+          <th>5€ / amélioration</th>
+          <th>80% du Prix d'achat </th>
         </tr>
       </thead>
 
       <tbody class="contentTable">
 			  <tr *ngFor="let attraction of attractions | keyvalue">
 				  <td>{{attraction.key.nom}}</td>
-  				<td>{{attraction.key.Taille}}</td>
+  				<td>{{attraction.key.taille}}</td>
 	  			<td>{{attraction.key.prixFonctionnement}}</td>
 		  		<td>{{attraction.value}} / {{attraction.key.nbAmelioration}}</td>
 			  	<td>{{attraction.key.affluence}}</td>
-				  <td>
-            <a (click)="ameliorer(attraction.key.id)" class ="btn btn-warning">Améliorer</a>
+				  <td *ngIf="!disabledAmelioration(attraction.value,attraction.key.nbAmelioration)">
+            <button (click)="ameliorer(attraction.key)" class ="btn btn-warning" [disabled]="disabledAmelioration(attraction.value,attraction.key.nbAmelioration)" >Améliorer</button>
           </td>
+				  <th *ngIf="disabledAmelioration(attraction.value,attraction.key.nbAmelioration)">
+            Amélioration maximum atteinte
+          </th>
 				  <td>
             <a (click)="vendre(attraction.key.id,attraction.key.nom)" class ="btn btn-danger">Vendre</a>
           </td>
 			  </tr>
 		  </tbody>
     </table>
-    <br>
     <a id="button" [routerLink]="['/jeu/achat/attraction']" class="btn btn-success">Acheter une nouvelle attraction</a>
   </div>
 
@@ -61,16 +70,16 @@
           <th></th>
         </tr>
       </thead>
-      <tbody>tbody class="contentTable">
+      <tbody class="contentTable">
 			  <tr *ngFor="let boutique of boutiques | keyvalue">
 				  <td>{{boutique.key.nom}}</td>
-  				<td>{{boutique.key.Taille}}</td>
+  				<td>{{boutique.key.taille}}</td>
 	  			<td>{{boutique.key.prixFonctionnement}}</td>
 		  		<td>{{boutique.value}} / {{boutique.key.nbAmelioration}}</td>
 			  	<td>{{boutique.key.affluence}}</td>
           <td>{{boutique.key.revenuJourPersonne}}</td>
 				  <td>
-            <a (click)="ameliorer(boutique.key.id)" class ="btn btn-warning">Améliorer</a>
+            <button (click)="ameliorer(boutique.key)" class ="btn btn-warning" [disabled]="disabledAmelioration(boutique.value,boutique.key.nbAmelioration)">Améliorer</button>
           </td>
           <td>
             <a (click)="vendre(boutique.key.id,boutique.key.nom)" class ="btn btn-danger">Vendre</a>
@@ -105,13 +114,16 @@
       <tbody class="contentTable">
 			  <tr *ngFor="let restaurant of restaurants | keyvalue">
 				  <td>{{restaurant.key.nom}}</td>
-  				<td>{{restaurant.key.Taille}}</td>
+  				<td>{{restaurant.key.taille}}</td>
 	  			<td>{{restaurant.key.prixFonctionnement}}</td>
 		  		<td>{{restaurant.value}} / {{restaurant.key.nbAmelioration}}</td>
 			  	<td>{{restaurant.key.affluence}}</td>
           <td>{{restaurant.key.revenuJourPersonne}}</td>
-				  <td>
-           	<a (click)="ameliorer(restaurant.key.id)" class ="btn btn-warning">Améliorer</a>
+				  <td *ngIf="!disabledAmelioration(restaurant.value,restaurant.key.nbAmelioration)">
+           	<button (click)="ameliorer(restaurant.key)" class ="btn btn-warning">Améliorer</button>
+          </td>
+				  <td *ngIf="disabledAmelioration(restaurant.value,restaurant.key.nbAmelioration)">
+            Amélioration max Atteinte
           </td>
           <td>
             <a (click)="vendre(restaurant.key.id,restaurant.key.nom)" class ="btn btn-danger">Vendre</a>
@@ -143,7 +155,7 @@
 			  <tr *ngFor="let commodite of commodites | keyvalue">
 				  <td>{{commodite.value}}</td>
   				<td>{{commodite.key.nom}}</td>
-	  			<td>{{commodite.key.Taille}}</td>
+	  			<td>{{commodite.key.taille}}</td>
 		  		<td>
             <a (click)="vendre(commodite.key.id,commodite.key.nom)" class ="btn btn-danger">Vendre</a>
           </td>

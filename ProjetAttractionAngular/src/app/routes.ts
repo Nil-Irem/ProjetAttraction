@@ -1,6 +1,6 @@
 import { AdminRightsService } from './service/Security/admin-rights.service';
 import { AnonymousRightsService } from './service/Security/anonymous-rights.service';
-import { MainBoardComponent } from './component/Jeu/main-board/main-board.component';
+import { MainBoardComponent } from './component/Jeu/mainBoard/main-board/main-board.component';
 import { PartieChosenRightsService } from './service/Security/partie-chosen-rights.service';
 import { JoueurRightsService } from './service/Security/joueur-rights.service';
 import { AdminComponent } from './component/Admin/admin/admin.component';

@@ -1,7 +1,11 @@
+import { Achat } from 'src/app/model/achat';
+import { FormControl, Validators } from '@angular/forms';
+import { FormGroup, FormBuilder } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { GestionAchatService } from 'src/app/service/GestionJeu/gestion-achat.service';
 import { Parc } from 'src/app/model/parc';
+import { Element } from 'src/app/model/element';
 
 @Component({
   selector: 'app-possession',
@@ -16,15 +20,18 @@ export class PossessionComponent implements OnInit {
   restaurants = new Map();
   employes = new Map();
 
+
+
   private parcStorage = localStorage.getItem("parcChosen");
 
  constructor(
     private ar: ActivatedRoute,
-    private gestionAchatService:GestionAchatService) {
+    private gestionAchatService:GestionAchatService,
+    private formBuilder: FormBuilder) {
 
       this.listPossession();
-  }
 
+  }
 
   ngOnInit(): void {}
 
@@ -103,25 +110,33 @@ export class PossessionComponent implements OnInit {
   }
 
 
-  ameliorer(id:number|undefined){
+  ameliorer(element:Element){
     let storage = localStorage.getItem("parcChosen");
-    if (storage && id){
+    if (storage && element.id){
       let parc:Parc = JSON.parse(storage);
       let prixAmelioration = 5;
 
-      this.gestionAchatService.getByElementAndParc(id,JSON.parse(storage)).subscribe(
+
+      this.gestionAchatService.getByElementAndParc(element.id,JSON.parse(storage)).subscribe(
         (res) => {
-          res.niveauAmelioration++;
-          this.gestionAchatService.update(res).subscribe(
-            (res2) => {
-              if (parc.argent){
-                parc.argent -= prixAmelioration;
-              }
-              localStorage.setItem("parcChosen",JSON.stringify(parc));
-              this.listPossession();
-            },
-            (error) => console.log(error)
-          );
+          if(element.nbAmelioration && res.niveauAmelioration===element.nbAmelioration){
+            console.log("amelioration max atteinte");
+          }
+          else
+          {
+            res.niveauAmelioration++;
+
+            this.gestionAchatService.update(res).subscribe(
+              (res2) => {
+                if (parc.argent){
+                  parc.argent -= prixAmelioration;
+                }
+                localStorage.setItem("parcChosen",JSON.stringify(parc));
+                this.listPossession();
+              },
+              (error) => console.log(error)
+            );
+          }
         },
         (error) => console.log(error)
       );
@@ -190,5 +205,12 @@ export class PossessionComponent implements OnInit {
     return new Parc("probleme","probleme");
   }
 
+
+  public disabledAmelioration(nvAmelioration:number,nbAmeliorationMax:number):boolean{
+    if (nvAmelioration===nbAmeliorationMax){
+      return true;
+    }
+    return false;
+  }
 }
 

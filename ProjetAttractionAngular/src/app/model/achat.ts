@@ -3,14 +3,14 @@ import { Parc } from './parc';
 
 export class Achat {
 
-  constructor(
+  	constructor(
 	  private _parc : Parc,
 	  private _element : Element,
 	  private _typeElement : string,
 	  private _niveauAmelioration : number,
 	  private _nbSameElement : number,
-    private _id? : number
-  ){}
+    	private _id? : number
+ 	){}
 
 
 	public get typeElement() : string {

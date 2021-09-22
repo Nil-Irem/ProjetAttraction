@@ -2,7 +2,7 @@ import { Element } from 'src/app/model/element';
 import { Component, OnInit } from '@angular/core';
 import { Parc } from 'src/app/model/parc';
 import { GestionAchatService } from 'src/app/service/GestionJeu/gestion-achat.service';
-import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink} from '@angular/router';
 import { Achat } from 'src/app/model/achat';
 
 @Component({

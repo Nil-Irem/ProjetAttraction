@@ -20,7 +20,10 @@ import { InscriptionComponent } from './component/Accueil/inscription/inscriptio
 import { InfosComponent } from './component/Accueil/infos/infos.component';
 import { ChoixParcComponent } from './component/Jeu/choix-parc/choix-parc.component';
 import { AdminComponent } from './component/Admin/admin/admin.component';
-import { MainBoardComponent } from './component/Jeu/main-board/main-board.component';
+import { MainBoardComponent } from './component/Jeu/mainBoard/main-board/main-board.component';
+import { MapComponent } from './component/Jeu/mainBoard/map/map.component';
+
+
 
 @NgModule({
   declarations: [
@@ -37,9 +40,12 @@ import { MainBoardComponent } from './component/Jeu/main-board/main-board.compon
     ChoixParcComponent,
     AdminComponent,
     AchatComponent,
-    MainBoardComponent,
     HeadParcComponent,
-    PossessionComponent
+    PossessionComponent,
+    MainBoardComponent,
+    MapComponent
+
+
   ],
   imports: [
     BrowserModule,

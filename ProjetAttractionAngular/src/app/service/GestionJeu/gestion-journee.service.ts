@@ -1,5 +1,6 @@
-/*
 import { Observable } from 'rxjs';
+import { Parc } from 'src/app/model/parc';
+
 import { HttpHeaders, HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
@@ -9,7 +10,7 @@ import { Injectable } from '@angular/core';
 
 export class GestionJourneeService {
 
-  private url: string="http://localhost:8080/Yolo/api/journee"
+  private url: string="http://localhost:8080/Yolo/api/finJournee/byParc"
   private headers: HttpHeaders =new HttpHeaders();
 
   constructor(private httpClient: HttpClient) { }
@@ -20,13 +21,13 @@ export class GestionJourneeService {
     });
   }
 
-  public finJourneeS(parc:Parc){
+  public finJourneeS(parc:Parc):Observable<String[]>{
     this.initHeaders();
-    return this.httpClient.finJournee(this.url+"&parc="+parc,{headers:this.headers});
+    return this.httpClient.post<String[]>(this.url,parc,{headers:this.headers});
   }
 
 
 
 
 }
-*/
+

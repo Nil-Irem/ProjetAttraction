@@ -1,19 +1,28 @@
 package ParcAttractionBoot.restcontroller;
-import com.fasterxml.jackson.annotation.JsonView;
-import org.springframework.beans.factory.annotation.Autowired;
-import java.util.Random;
+import java.text.NumberFormat;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.text.NumberFormat;
+import java.util.Random;
+
 import javax.validation.Valid;
 
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ParcAttractionBoot.model.*;
+
+import com.fasterxml.jackson.annotation.JsonView;
+
+import ParcAttractionBoot.model.Achat;
+import ParcAttractionBoot.model.Attraction;
+import ParcAttractionBoot.model.Boutique;
+import ParcAttractionBoot.model.Employe;
+import ParcAttractionBoot.model.JsonViews;
+import ParcAttractionBoot.model.Parc;
+import ParcAttractionBoot.model.Restaurant;
 import ParcAttractionBoot.repositories.AchatRepository;
 import ParcAttractionBoot.repositories.ParcRepository;
 
@@ -34,7 +43,7 @@ public class FinJourneeRestController {
 	double prixEntree = 100.00;
 
 
-    @GetMapping("/byParc")
+    @PostMapping("/byParc")
 	@JsonView(JsonViews.Common.class)
     public List<String> finJournee(@Valid @RequestBody Parc parc){
 		double prixFonctionnement=0;
@@ -211,8 +220,13 @@ public class FinJourneeRestController {
 		res.add(Myformat.format(salaire+prixFonctionnement));
 		res.add(Myformat.format(parc.getArgent()));
 
+		System.out.println(nbVisiteur);
+		System.out.println(argentGagne);
+	
+		
 		return res;
 
+		
 
     }
 

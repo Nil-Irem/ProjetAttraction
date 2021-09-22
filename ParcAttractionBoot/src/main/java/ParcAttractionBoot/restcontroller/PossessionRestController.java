@@ -39,5 +39,7 @@ public class PossessionRestController {
 	public Achat get(@PathVariable Integer id){
 		return achat.get(id);
 	}
-
+	
+	
+	
 }
