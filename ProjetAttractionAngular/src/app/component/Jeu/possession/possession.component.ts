@@ -309,6 +309,11 @@ export class PossessionComponent implements OnInit {
     );
   }
 
+  public prixVente(prixAcquisition:number):number{
+    return Math.round(prixAcquisition*this.pourcentageVente);
+
+  }
+
 
   public getParc(): Parc{
     let parc = localStorage.getItem("parcChosen");
