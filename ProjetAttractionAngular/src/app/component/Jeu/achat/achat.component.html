@@ -1,7 +1,16 @@
+<br>
 <h1 id="titreh1">Yolocoaster Tycoon Achat</h1>
 <br><br>
 <div class="container-fluid">
+  <form (ngSubmit)="acheterTerrain()" [formGroup]="AchatTerrainForm" *ngIf="achatTerrain" class="formulaire">
+    <span><strong>Nombre de m² de terrain à acheter ({{prixM2Terrain}}€ le m²) : </strong></span>&nbsp;
+    <input name="tailleAchatTerrain" [formControl]="InputM2Terrain" required type="number">&nbsp;&nbsp;
+    <button type="submit" [disabled]="AchatTerrainForm.invalid" class="btn btn-success">Acheter du terrain</button>
+    <br>
+    <span *ngIf="f.m2Terrain.errors?.max" class="erreur">Vous n'avez pas assez d'argent pour acheter autant de terrain</span>
+  </form>
 
+  <br><br>
   <table class="table table-striped">
     <thead>
       <tr>

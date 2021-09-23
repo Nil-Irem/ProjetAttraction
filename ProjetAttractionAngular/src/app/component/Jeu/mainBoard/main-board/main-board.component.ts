@@ -10,7 +10,8 @@ import { GestionAchatService } from 'src/app/service/GestionJeu/gestion-achat.se
 })
 export class MainBoardComponent implements OnInit {
 
-  meteo:string="";
+  typeMeteo:string="";
+  meteo:number=0;
   argentGagne:number=0;
   argentDepense:number=0;
   nbIncident:number=0;
@@ -37,10 +38,10 @@ export class MainBoardComponent implements OnInit {
     if(storage){
       let parc = JSON.parse(storage);
       if(parc.nbjour>0){
-        return true;
+        return false;
       }
     }
-    return false;
+    return true;
 }
 
   public finJournee() {
@@ -98,16 +99,16 @@ export class MainBoardComponent implements OnInit {
               else if (attractivite<0){attractivite=0.1;}
 
               switch (Math.round(Math.random()*4)){
-                case 0 : this.meteo = "beaucoup plu";
-                  this.nbVisiteur = capaciteMax*attractivite*0.5;break;
-                case 1 : this.meteo = "un peu plu";
-                  this.nbVisiteur = capaciteMax*attractivite*0.7;break;
-                case 2 : this.meteo = "fait nuageux";
-                  this.nbVisiteur = capaciteMax*attractivite*0.9;break;
-                case 3 : this.meteo = "fait beau";
-                  this.nbVisiteur = capaciteMax*attractivite;break;
-                case 4 : this.meteo = "fait très chaud";
-                  this.nbVisiteur = capaciteMax*attractivite*0.7;break;
+                case 0 : this.typeMeteo = "beaucoup plu";
+                  this.nbVisiteur = Math.round(capaciteMax*attractivite*0.5);break;
+                case 1 : this.typeMeteo = "un peu plu";
+                  this.nbVisiteur = Math.round(capaciteMax*attractivite*0.7);break;
+                case 2 : this.typeMeteo = "fait nuageux";
+                  this.nbVisiteur = Math.round(capaciteMax*attractivite*0.9);break;
+                case 3 : this.typeMeteo = "fait beau";
+                  this.nbVisiteur =  Math.round(capaciteMax*attractivite);break;
+                case 4 : this.typeMeteo = "fait très chaud";
+                  this.nbVisiteur = Math.round(capaciteMax*attractivite*0.7);break;
                 default : console.log("pb dans calcul météo (fin de journee)")
               }
 
@@ -121,11 +122,6 @@ export class MainBoardComponent implements OnInit {
                 (parcSave) => localStorage.setItem("parcChosen",JSON.stringify(parcSave)),
                 (error) => console.log("Erreur finDeJournee, saveParc ",error)
               );
-              console.log("argent gagne = "+this.argentGagne)
-              console.log("argent depense = "+this.argentDepense)
-              console.log("nb incident = "+this.nbIncident)
-              console.log("nb visiteur = "+this.nbVisiteur)
-              console.log("meteo = "+this.meteo)
             },
             (error) => console.log("Erreur finDeJournee, getAchatByParc ",error)
           );

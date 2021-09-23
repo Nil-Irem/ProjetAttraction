@@ -5,6 +5,7 @@ nav {
 #deconnexion{
   font-weight: bold;
   color:#000000b5;
+  cursor:pointer;
 }
 
 #possession{
@@ -20,6 +21,7 @@ nav {
 #parc{
   font-weight: bold;
   color:#000000b5;
+  cursor:pointer;
 
 }
 

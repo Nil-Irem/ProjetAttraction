@@ -1,11 +1,13 @@
-import { GestionParcService } from './../../../service/GestionJeu/gestion-parc.service';
-import { Element } from 'src/app/model/element';
-import { Parc } from 'src/app/model/parc';
+import { AbstractControl, AsyncValidatorFn, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from '@angular/forms';
 import { GestionElementService } from './../../../service/GestionJeu/gestion-element.service';
-import { ActivatedRoute } from '@angular/router';
 import { GestionAchatService } from './../../../service/GestionJeu/gestion-achat.service';
+import { GestionParcService } from './../../../service/GestionJeu/gestion-parc.service';
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { Element } from 'src/app/model/element';
 import { Achat } from 'src/app/model/achat';
+import { Parc } from 'src/app/model/parc';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-achat',
@@ -19,22 +21,43 @@ export class AchatComponent implements OnInit {
   boutiques : Element[]=[];
   restaurants : Element[]=[];
   employes : Element[]=[];
-  afficheMessage = false;
+  achatTerrain = false;
+  prixM2Terrain = 1000;
   private elementAcheter:Element=new Element("undefined");
 
+  AchatTerrainForm: FormGroup;
+  InputM2Terrain : FormControl;
 
   constructor(
     private ar: ActivatedRoute,
+    private formBuilder:FormBuilder,
     private gestionAchatService:GestionAchatService,
     private gestionElementService:GestionElementService,
     private gestionParcService: GestionParcService) {
 
+    let storage = localStorage.getItem("parcChosen");
+    let maxM2 = 100;
+
+    if (storage){
+      let parc:Parc = JSON.parse(storage);
+      maxM2 = parc.argent!/this.prixM2Terrain;
+    }
+
+    this.InputM2Terrain = this.formBuilder.control('',[
+      Validators.required,
+      Validators.min(1),
+      Validators.max(maxM2)
+    ]);
+
+    this.AchatTerrainForm = this.formBuilder.group({
+      m2Terrain: this.InputM2Terrain
+    });
     this.constructionListes();
   }
 
-  ngOnInit(): void {
-  }
+  ngOnInit(): void {}
 
+  get f() { return this.AchatTerrainForm.controls; }
 
   private constructionListes(){
     this.ar.params.subscribe((params) => {
@@ -54,8 +77,12 @@ export class AchatComponent implements OnInit {
         else if (params.typeElement==="commodite"){
           this.listCommodite();
         }
+        else if (params.typeElement==="terrain"){
+          this.achatTerrain = true;
+        }
       }
       else{
+        this.achatTerrain = true;
         this.listAttractionWithoutAchat();
         this.listBoutiqueWithoutAchat();
         this.listRestaurantWithoutAchat();
@@ -76,7 +103,7 @@ export class AchatComponent implements OnInit {
           );
           this.attractions = res;
         },
-        (error) => console.log(error)
+        (error) => console.log("Erreur achat, liste all attraction ",error)
       );
 
       this.gestionAchatService.getByTypeElementAndParc("attraction",JSON.parse(parcStorage)).subscribe(
@@ -92,7 +119,7 @@ export class AchatComponent implements OnInit {
             }
           );
         },
-        (error) => console.log(error)
+        (error) => console.log("Erreur achat, liste attractions parc ",error)
       );
     }
   }
@@ -110,7 +137,7 @@ export class AchatComponent implements OnInit {
           );
           this.boutiques = res;
         },
-        (error) => console.log(error)
+        (error) => console.log("Erreur achat, liste all boutiques ",error)
       );
 
       this.gestionAchatService.getByTypeElementAndParc("boutique",JSON.parse(parcStorage)).subscribe(
@@ -126,7 +153,7 @@ export class AchatComponent implements OnInit {
             }
           );
         },
-        (error) => console.log(error)
+        (error) => console.log("Erreur achat, liste boutiques parc ",error)
       );
     }
   }
@@ -141,7 +168,7 @@ export class AchatComponent implements OnInit {
           );
           this.restaurants = res;
         },
-        (error) => console.log(error)
+        (error) => console.log("Erreur achat, liste tous restaurants ",error)
       );
 
       await this.gestionAchatService.getByTypeElementAndParc("restaurant",JSON.parse(parcStorage)).subscribe(
@@ -157,7 +184,7 @@ export class AchatComponent implements OnInit {
             }
           );
         },
-        (error) => console.log(error)
+        (error) => console.log("Erreur achat, liste restaurants parc ",error)
       );
     }
   }
@@ -171,7 +198,7 @@ export class AchatComponent implements OnInit {
         );
         this.commodites = res;
       },
-      (error) => console.log(error)
+      (error) => console.log("Erreur achat, liste commodites ",error)
     );
   }
 
@@ -189,7 +216,7 @@ export class AchatComponent implements OnInit {
         );
         this.employes = res;
       },
-      (error) => console.log(error)
+      (error) => console.log("Erreur achat, liste employe ",error)
     );
   }
 
@@ -198,15 +225,15 @@ export class AchatComponent implements OnInit {
   public achat(element:Element){
     let parcStorage = localStorage.getItem("parcChosen");
     let confirmation = false;
-    if(this.elementAcheter.nom){
-      if (this.elementAcheter.typeElement==="employe"){
+    if(element.nom){
+      if (element.typeElement==="employe"){
         confirmation = confirm("Voulez vous vraiment embaucher l'employé "+element.nom+" ?");
       }
       else{
         confirmation = confirm("Voulez vous vraiment acheter "+element.nom+" pour "+element.prixAcquisition+"€ ?");
       }
     }
-    if (parcStorage){
+    if (parcStorage && confirmation){
       let parc:Parc = JSON.parse(parcStorage);
       if (element.typeElement==="employe"||(parc.argent && element.prixAcquisition && parc.argent>element.prixAcquisition)){
         if ((parc.taille && element.taille && parc.taille>element.taille)||element.typeElement==="employe") {
@@ -216,7 +243,7 @@ export class AchatComponent implements OnInit {
                 this.elementAcheter=element;
                 this.newParc(parc);
               },
-              (error) => console.log(error)
+              (error) => console.log("Erreur achat, création achat ",error)
             );
           }
           else if (element.typeElement==="commodite" || element.typeElement==="employe"){
@@ -233,7 +260,7 @@ export class AchatComponent implements OnInit {
                           this.elementAcheter = element;
                           this.newParc(parc);
                         },
-                        (error) => console.log(error)
+                        (error) => console.log("Erreur achat, save achat ",error)
                       );
                     }
                   }
@@ -244,11 +271,11 @@ export class AchatComponent implements OnInit {
                       this.elementAcheter=element;
                       this.newParc(parc);
                     },
-                    (error) => console.log(error)
+                    (error) => console.log("Erreur achat, création achat ",error)
                   );
                 }
               },
-              (error) => console.log(error)
+              (error) => console.log("Erreur getAchat, création achat ",error)
             )
           }
           else{
@@ -266,6 +293,27 @@ export class AchatComponent implements OnInit {
   }
 
 
+  public acheterTerrain(){
+    let parcStorage = localStorage.getItem("parcChosen");
+    let tailleAchatTerrain = this.AchatTerrainForm.get('m2Terrain')?.value;
+    let confirmation = confirm("Voulez vous vraiment acheter "+tailleAchatTerrain+"m² de terrain pour "+this.prixM2Terrain*tailleAchatTerrain+"€ ?");
+
+    if (confirmation && parcStorage){
+      let parc = JSON.parse(parcStorage);
+
+      if (parc.argent && parc.argent>this.prixM2Terrain*tailleAchatTerrain && parc.taille){
+        parc.argent -= this.prixM2Terrain*tailleAchatTerrain;
+        parc.taille += tailleAchatTerrain;
+      }
+
+      this.gestionParcService.save(parc).subscribe(
+        (parcSave) => localStorage.setItem("parcChosen",JSON.stringify(parcSave)),
+        (error) => console.log("Erreur achatTerrain, saveParc ",error)
+      );
+    }
+  }
+
+
   private newParc(parc:Parc){
     if (parc.argent && this.elementAcheter.prixAcquisition){
       parc.argent -= this.elementAcheter.prixAcquisition;
@@ -277,7 +325,7 @@ export class AchatComponent implements OnInit {
 
     this.gestionParcService.save(parc).subscribe(
         (parcSave) => {localStorage.setItem("parcChosen",JSON.stringify(parcSave));},
-        (error) => console.log("Erreur deconnexion, saveParc ",error)
+        (error) => console.log("Erreur achat, saveParc ",error)
       );
     this.constructionListes();
   }

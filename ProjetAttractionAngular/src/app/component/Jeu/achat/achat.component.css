@@ -11,6 +11,17 @@
   text-align: center;
 }
 
+.formulaire
+{
+	text-align: center;
+}
+
+.erreur{
+  font-size: 18px;
+  color: rgb(202, 6, 6);
+}
+
+
 .table{
   font-weight: bold;
   text-align: center;

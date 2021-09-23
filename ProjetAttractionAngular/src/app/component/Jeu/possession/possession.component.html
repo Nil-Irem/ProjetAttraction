@@ -41,7 +41,7 @@
             Amélioration maximum atteinte
           </th>
 				  <td>
-            <a (click)="vendre(attraction.key)" class ="btn btn-danger">Vendre ({{attraction.key.prixAcquisition*pourcentageVente}} €)</a>
+            <a (click)="vendre(attraction.key)" class ="btn btn-danger">Vendre ({{prixVente(attraction.key.prixAcquisition)}} €)</a>
           </td>
 			  </tr>
 		  </tbody>
