@@ -1,32 +1,35 @@
 nav {
-	background-color: #5809ecb3;
+  background-color: #5809ecb3;
 }
 
-#deconnexion{
+#deconnexion {
   font-weight: bold;
   color:#000000b5;
   cursor:pointer;
 }
 
-#possession{
+#possession {
   font-weight: bold;
-  color:#000000b5;
+  color: #000000b5;
 }
 
-#map{
+#map {
   font-weight: bold;
-  color:#000000b5;
+  color: #000000b5;
 }
 
-#parc{
+#parc {
   font-weight: bold;
   color:#000000b5;
   cursor:pointer;
 
 }
 
-#achat{
+#achat {
   font-weight: bold;
-  color:#000000b5;
+  color: #000000b5;
 }
 
+a {
+  cursor: pointer;
+}

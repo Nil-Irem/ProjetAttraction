@@ -1,17 +1,23 @@
 .body {
   display: flex;
   flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 #main {
   margin: 10px 10px 10px 10px;
   border: darkgreen solid 2px;
   position: relative;
+  max-width: 90%;
 }
 #map-container {
   max-width: 100%;
   max-height: 700px;
-  overflow: auto;
+  min-width: 800px;
+  min-height: 700px;
+  overflow: scroll;
   background-image: url("/assets/img/ground.png");
+  scrollbar-color: #5809ecb3;
 }
 
 .element {
@@ -27,4 +33,12 @@ h2 {
   object-fit: contain;
   height: 100%;
   width: 100%;
+}
+
+#vide {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-weight: bold;
 }

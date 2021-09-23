@@ -2,9 +2,18 @@
   <h2></h2>
   <div id="main">
     <div id="map-container">
+      <div id="vide" *ngIf="empty()">
+        <img
+          id="virevoletant"
+          style="height: 120px; width: 120px"
+          src="/assets/img/virevoletant.gif"
+        />
+        <p>Votre parc est vide...</p>
+      </div>
       <div
+        *ngIf="!empty()"
         id="map"
-        [ngStyle]="{ 'width.px': mapSize / 10, 'height.px': mapSize / 10 }"
+        [ngStyle]="{ 'width.px': mapSize, 'height.px': mapSize }"
       >
         <div
           class="element"

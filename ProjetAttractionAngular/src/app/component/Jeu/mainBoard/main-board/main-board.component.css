@@ -38,3 +38,14 @@ app-map {
   background-color: #5809ecb3;
   height: 5%;
 } */
+
+#button {
+  background-color: #5809ecb3;
+  color: white;
+  border-color: white;
+}
+
+#journee {
+  background-color: #5809ecb3;
+  font-size: large;
+}

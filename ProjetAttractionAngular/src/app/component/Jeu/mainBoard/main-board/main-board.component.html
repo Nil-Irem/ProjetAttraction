@@ -56,6 +56,21 @@
 
   <div class="col-8" id="section">
     <app-map></app-map>
+    <aside>
+      <span id="journee" class="badge">Infos journée</span>
+
+      <div *ngIf="debutPartie()">
+        <ul>
+          <li>🌡️Météo: {{ meteo }}</li>
+          <li>🤑Argent gagné: {{ argentGagne | number: "1.1-1" }}€</li>
+          <li>💸Argent dépensé: {{ argentDepense | number: "1.1-1" }}€</li>
+          <li>🔨Incident: {{ nbIncident }}</li>
+          <li>🧑‍🤝‍🧑Visiteurs: {{ nbVisiteur | number: "1.0-0" }}</li>
+          <li>🎟️Prix entrée:{{ prixEntree }}€</li>
+        </ul>
+      </div>
+    </aside>
+  </section>
   </div>
 
   <div class="col-2" id="asideRight">
