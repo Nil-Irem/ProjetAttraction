@@ -1,3 +1,4 @@
+import { GestionParcService } from './../../../service/GestionJeu/gestion-parc.service';
 import { Achat } from 'src/app/model/achat';
 import { FormControl, Validators } from '@angular/forms';
 import { FormGroup, FormBuilder } from '@angular/forms';
@@ -27,7 +28,8 @@ export class PossessionComponent implements OnInit {
 
  constructor(
     private ar: ActivatedRoute,
-    private gestionAchatService:GestionAchatService) {
+    private gestionAchatService:GestionAchatService,
+    private gestionParcService: GestionParcService) {
 
       this.listPossession();
   }
@@ -131,8 +133,7 @@ export class PossessionComponent implements OnInit {
                   if (parc.argent){
                     parc.argent -= this.prixAmelioration;
                   }
-                  localStorage.setItem("parcChosen",JSON.stringify(parc));
-                  this.listPossession();
+                  this.newParc(parc);
                 },
                 (error) => console.log(error)
               );
@@ -164,7 +165,7 @@ export class PossessionComponent implements OnInit {
                   parc.taille += element.taille;
                 }
                 localStorage.setItem("parcChosen",JSON.stringify(parc));
-                this.listPossession();
+                this.newParc(parc);
               },
               (error) => console.log(error)
             );
@@ -201,7 +202,7 @@ export class PossessionComponent implements OnInit {
         alert("Impossible de vendre "+nbVente+" "+element.nom);
       }
       else{
-        let confirmationRenvoie = confirm("Voulez vous vraiment ventre "+nbVente+" "+element.nom+" ?");
+        let confirmationRenvoie = confirm("Voulez vous vraiment vendre "+nbVente+" "+element.nom+" ?");
         let storage = localStorage.getItem("parcChosen");
         if (storage && element.id && confirmationRenvoie){
           let parc:Parc = JSON.parse(storage);
@@ -217,7 +218,7 @@ export class PossessionComponent implements OnInit {
                         parc.argent += element.prixAcquisition*this.pourcentageVente;
                         parc.taille += element.taille;
                       }
-                      this.listPossession()
+                      this.newParc(parc);
                     },
                     (error) => console.log(error)
                   );
@@ -229,7 +230,7 @@ export class PossessionComponent implements OnInit {
                         parc.argent += element.prixAcquisition*this.pourcentageVente;
                         parc.taille += element.taille;
                       }
-                      this.listPossession()
+                      this.newParc(parc);
                     },
                     (error) => console.log(error)
                   );
@@ -297,6 +298,15 @@ export class PossessionComponent implements OnInit {
         }
       }
     }
+  }
+
+  public newParc(parc:Parc){
+    this.gestionParcService.save(parc).subscribe(
+      (parcSave) => {
+        localStorage.setItem("parcChosen",JSON.stringify(parc));
+        this.listPossession();},
+      (error) => console.log("Erreur deconnexion, saveParc ",error)
+    );
   }
 
 

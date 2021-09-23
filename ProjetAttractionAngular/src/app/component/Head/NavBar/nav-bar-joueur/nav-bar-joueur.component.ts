@@ -1,3 +1,4 @@
+import { GestionParcService } from './../../../../service/GestionJeu/gestion-parc.service';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -8,19 +9,33 @@ import { Router } from '@angular/router';
 })
 export class NavBarJoueurComponent implements OnInit {
 
-  constructor(private router:Router) { }
+  constructor(private router:Router,
+    private gestionParcService: GestionParcService) { }
 
   ngOnInit(): void {
   }
 
   deconnection(){
-    localStorage.clear();
-    this.router.navigate(['/accueil']);
+    let storage = localStorage.getItem("parcChosen");
+    if (storage){
+      this.gestionParcService.save(JSON.parse(storage)).subscribe(
+        (parcSave) => {localStorage.clear();
+          this.router.navigate(['/accueil']);},
+        (error) => console.log("Erreur deconnexion, saveParc ",error)
+      );
+    }
   }
 
   changerParc(){
-    localStorage.removeItem("parcChosen");
-    this.router.navigate(['/jeu/choixparc']);
+    let storage = localStorage.getItem("parcChosen");
+    if (storage){
+      this.gestionParcService.save(JSON.parse(storage)).subscribe(
+        (parcSave) => {
+          localStorage.removeItem("parcChosen");
+          this.router.navigate(['/jeu/choixparc']);},
+        (error) => console.log("Erreur deconnexion, saveParc ",error)
+      );
+    }
   }
 
   parcIsChosen():boolean{

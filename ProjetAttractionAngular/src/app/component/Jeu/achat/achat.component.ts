@@ -1,3 +1,4 @@
+import { GestionParcService } from './../../../service/GestionJeu/gestion-parc.service';
 import { Element } from 'src/app/model/element';
 import { Parc } from 'src/app/model/parc';
 import { GestionElementService } from './../../../service/GestionJeu/gestion-element.service';
@@ -25,7 +26,8 @@ export class AchatComponent implements OnInit {
   constructor(
     private ar: ActivatedRoute,
     private gestionAchatService:GestionAchatService,
-    private gestionElementService:GestionElementService) {
+    private gestionElementService:GestionElementService,
+    private gestionParcService: GestionParcService) {
 
     this.constructionListes();
   }
@@ -195,6 +197,15 @@ export class AchatComponent implements OnInit {
 
   public achat(element:Element){
     let parcStorage = localStorage.getItem("parcChosen");
+    let confirmation = false;
+    if(this.elementAcheter.nom){
+      if (this.elementAcheter.typeElement==="employe"){
+        confirmation = confirm("Voulez vous vraiment embaucher l'employé "+element.nom+" ?");
+      }
+      else{
+        confirmation = confirm("Voulez vous vraiment acheter "+element.nom+" pour "+element.prixAcquisition+"€ ?");
+      }
+    }
     if (parcStorage){
       let parc:Parc = JSON.parse(parcStorage);
       if (element.typeElement==="employe"||(parc.argent && element.prixAcquisition && parc.argent>element.prixAcquisition)){
@@ -264,17 +275,13 @@ export class AchatComponent implements OnInit {
       parc.taille -= this.elementAcheter.taille;
     }
 
-    if(this.elementAcheter.nom){
-      if (this.elementAcheter.typeElement==="employe"){
-        alert("l'employé "+this.elementAcheter.nom+" a bien été embauché");
-      }
-      else{
-        alert(this.elementAcheter.nom+" a bien été acheté");
-      }
-    }
-
-    localStorage.setItem("parcChosen",JSON.stringify(parc));
+    this.gestionParcService.save(parc).subscribe(
+        (parcSave) => {localStorage.setItem("parcChosen",JSON.stringify(parcSave));},
+        (error) => console.log("Erreur deconnexion, saveParc ",error)
+      );
     this.constructionListes();
   }
+
+
 
 }
