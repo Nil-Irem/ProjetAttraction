@@ -7,6 +7,7 @@
 
 #asideLeft {
   margin-top: 1.5%;
+
 }
 
 #section {
@@ -34,15 +35,17 @@ app-map {
   padding-left: 5%;
   padding-right: 10%;
 }
-/* #foot {
-  background-color: #5809ecb3;
-  height: 5%;
-} */
 
 #button {
   background-color: #5809ecb3;
   color: white;
   border-color: white;
+  width: 100%;
+
+}
+
+.textCentre{
+  text-align: center;
 }
 
 #journee {

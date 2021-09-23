@@ -15,7 +15,7 @@
         [routerLink]="['/jeu/achat/boutique']"
         routerLinkActive="active"
         class="btn btn-outline-info"
-      >Acheter de nouvells boutiques</a>
+      >Acheter de nouvelles boutiques</a>
       <br><br>
       <a id="button"
         [routerLink]="['/jeu/achat/attraction']"
@@ -56,21 +56,6 @@
 
   <div class="col-8" id="section">
     <app-map></app-map>
-    <aside>
-      <span id="journee" class="badge">Infos journée</span>
-
-      <div *ngIf="debutPartie()">
-        <ul>
-          <li>🌡️Météo: {{ meteo }}</li>
-          <li>🤑Argent gagné: {{ argentGagne | number: "1.1-1" }}€</li>
-          <li>💸Argent dépensé: {{ argentDepense | number: "1.1-1" }}€</li>
-          <li>🔨Incident: {{ nbIncident }}</li>
-          <li>🧑‍🤝‍🧑Visiteurs: {{ nbVisiteur | number: "1.0-0" }}</li>
-          <li>🎟️Prix entrée:{{ prixEntree }}€</li>
-        </ul>
-      </div>
-    </aside>
-  </section>
   </div>
 
   <div class="col-2" id="asideRight">
@@ -79,18 +64,19 @@
       class="btn btn-secondary btn-lg">
     Finir la Journée </button>
     <br>
-    <div class="card text-center bg-light mb-3" *ngIf="!debutPartie()">
-      <div class="card-header"><i> Récapitulatif de la journée : </i></div>
+
+    <div class="card bg-light border-dark mb-3" *ngIf="!debutPartie()">
+      <span id="journee" class="card-header"><i> Récapitulatif de la journée : </i></span>
       <div class="card-body">
-        <br>
-        <p class="card-text">Hier il a {{typeMeteo}}</p>
-        <p class="card-text">{{nbVisiteur}} visiteurs sont venus s'amuser dans votre parc</p>
-        <p class="card-text">{{nbIncident}} incidents ont eu lieu mais on été gérer</p>
-        <p class="card-text"> Vous avez fait {{argentGagne}}€ de recette pour {{argentDepense}}€ de dépensé</p><br>
+        <p>🌡️ Météo : {{ meteo }}</p>
+        <p>🧑‍🤝‍🧑 Visiteurs : {{ nbVisiteur | number: "1.0-0" }}</p>
+        <p>🎟️ Prix d'entrée : {{ prixEntree }}€</p>
+        <p>🔨 Incident : {{ nbIncident }}</p>
+        <span>🤑 Argent gagné : </span>
+        <p class="textCentre"> {{ argentGagne | number: "1.1-1" }}€</p>
+        <span>💸 Argent dépensé :</span>
+        <p class="textCentre"> {{ argentDepense | number: "1.1-1" }}€</p>
       </div>
-      <img class="card-img-bottom" src="..." alt="Meteo">
     </div>
   </div>
 </div>
-</div>
-<!-- <div id="foot"></div> -->

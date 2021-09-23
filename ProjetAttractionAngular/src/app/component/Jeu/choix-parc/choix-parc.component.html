@@ -38,7 +38,7 @@
 				<tr *ngFor="let parc of parcs;let index = index">
 					<td>{{parc.nomParc}}</td>
 					<td>{{parc.taille}}</td>
-					<td>{{parc.argent}}</td>
+					<td>{{parc.argent| number: "1.1-1"}} </td>
 					<td>{{parc.nbjour}}</td>
 					<td>{{parc.typeDifficulte}}</td>
 					<td>

@@ -12,6 +12,16 @@
   color: #dd840fe1;
 }
 
+.formulaire
+{
+	text-align: center;
+}
+
+.erreur{
+  font-size: 18px;
+  color: rgb(202, 6, 6);
+}
+
 #button{
   display:block;
 margin-left: 30%;

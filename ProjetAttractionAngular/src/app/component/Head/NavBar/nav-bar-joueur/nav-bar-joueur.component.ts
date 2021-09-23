@@ -19,11 +19,12 @@ export class NavBarJoueurComponent implements OnInit {
     let storage = localStorage.getItem("parcChosen");
     if (storage){
       this.gestionParcService.save(JSON.parse(storage)).subscribe(
-        (parcSave) => {localStorage.clear();
-          this.router.navigate(['/accueil']);},
+        (parcSave) => {},
         (error) => console.log("Erreur deconnexion, saveParc ",error)
       );
     }
+    localStorage.clear()
+    this.router.navigate(['/accueil']);
   }
 
   changerParc(){

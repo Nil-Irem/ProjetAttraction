@@ -94,6 +94,7 @@ export class AchatComponent implements OnInit {
 
 
   private async listAttractionWithoutAchat(){
+    let allAttractions: Element[]=[];
     let parcStorage = localStorage.getItem("parcChosen");
     if (parcStorage){
       await this.gestionElementService.getAttraction().subscribe(
@@ -101,7 +102,7 @@ export class AchatComponent implements OnInit {
           res.forEach(
             attraction => attraction.typeElement = "attraction"
           );
-          this.attractions = res;
+          allAttractions = res;
         },
         (error) => console.log("Erreur achat, liste all attraction ",error)
       );
@@ -110,14 +111,15 @@ export class AchatComponent implements OnInit {
         (res) => {
           res.forEach(
             achat => {
-              this.attractions.forEach(
+              allAttractions.forEach(
                 attraction => {
                   if (attraction.id===achat.element.id)
-                    {this.attractions.splice(this.attractions.indexOf(attraction),1)}
+                    {allAttractions.splice(allAttractions.indexOf(attraction),1)}
                 }
               )
             }
           );
+          this.attractions = allAttractions;
         },
         (error) => console.log("Erreur achat, liste attractions parc ",error)
       );
@@ -127,6 +129,7 @@ export class AchatComponent implements OnInit {
 
 
   private async listBoutiqueWithoutAchat(){
+    let allBoutiques: Element[]=[];
     let parcStorage = localStorage.getItem("parcChosen");
 
     if (parcStorage){
@@ -135,7 +138,7 @@ export class AchatComponent implements OnInit {
           res.forEach(
             boutique => boutique.typeElement = "boutique"
           );
-          this.boutiques = res;
+          allBoutiques = res;
         },
         (error) => console.log("Erreur achat, liste all boutiques ",error)
       );
@@ -144,14 +147,15 @@ export class AchatComponent implements OnInit {
         (res) => {
           res.forEach(
             achat => {
-              this.boutiques.forEach(
+              allBoutiques.forEach(
                 boutique => {
                   if (boutique.id===achat.element.id)
-                    {this.boutiques.splice(this.boutiques.indexOf(boutique),1)}
+                    {allBoutiques.splice(allBoutiques.indexOf(boutique),1)}
                 }
               )
             }
           );
+          this.boutiques = allBoutiques;
         },
         (error) => console.log("Erreur achat, liste boutiques parc ",error)
       );
@@ -159,6 +163,7 @@ export class AchatComponent implements OnInit {
   }
 
   private async listRestaurantWithoutAchat(){
+    let allRestaurants: Element[]=[];
     let parcStorage = localStorage.getItem("parcChosen");
     if (parcStorage){
       await this.gestionElementService.getRestaurant().subscribe(
@@ -166,7 +171,7 @@ export class AchatComponent implements OnInit {
           res.forEach(
             restaurant => restaurant.typeElement = "restaurant"
           );
-          this.restaurants = res;
+          allRestaurants = res;
         },
         (error) => console.log("Erreur achat, liste tous restaurants ",error)
       );
@@ -175,14 +180,15 @@ export class AchatComponent implements OnInit {
         (res) => {
           res.forEach(
             achat => {
-              this.restaurants.forEach(
+              allRestaurants.forEach(
                 restaurant => {
                   if (restaurant.id===achat.element.id)
-                    {this.restaurants.splice(this.restaurants.indexOf(restaurant),1)}
+                    {allRestaurants.splice(allRestaurants.indexOf(restaurant),1)}
                 }
               )
             }
           );
+          this.restaurants = allRestaurants;
         },
         (error) => console.log("Erreur achat, liste restaurants parc ",error)
       );
@@ -319,14 +325,21 @@ export class AchatComponent implements OnInit {
       parc.argent -= this.elementAcheter.prixAcquisition;
     }
 
+    let storageTaille = localStorage.getItem("tailleTotStructure");
+    if (storageTaille && this.elementAcheter.taille){
+      let tailleTotStructure:number = JSON.parse(storageTaille);
+      tailleTotStructure += this.elementAcheter.taille;
+      localStorage.setItem("tailleTotStructure",JSON.stringify(tailleTotStructure));
+    }
+
     if (parc.taille && this.elementAcheter.taille){
       parc.taille -= this.elementAcheter.taille;
     }
 
     this.gestionParcService.save(parc).subscribe(
-        (parcSave) => {localStorage.setItem("parcChosen",JSON.stringify(parcSave));},
-        (error) => console.log("Erreur achat, saveParc ",error)
-      );
+      (parcSave) => {localStorage.setItem("parcChosen",JSON.stringify(parcSave));},
+      (error) => console.log("Erreur achat, saveParc ",error)
+    );
     this.constructionListes();
   }
 

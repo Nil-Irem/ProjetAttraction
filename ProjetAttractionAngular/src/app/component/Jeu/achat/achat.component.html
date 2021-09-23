@@ -10,8 +10,9 @@
     <span *ngIf="f.m2Terrain.errors?.max" class="erreur">Vous n'avez pas assez d'argent pour acheter autant de terrain</span>
   </form>
 
-  <br><br>
-  <table class="table table-striped">
+<br>
+  <table class="table table-striped"
+    *ngIf="attractions.length>0||boutiques.length>0||restaurants.length>0||commodites.length>0">
     <thead>
       <tr>
         <th>Type de construction</th>
@@ -42,7 +43,7 @@
         </td>
       </tr>
 
-      <tr>
+      <tr *ngIf="restaurants.length>0">
         <td></td>
         <td></td>
         <td></td>
@@ -70,7 +71,7 @@
         </td>
       </tr>
 
-      <tr>
+      <tr *ngIf="boutiques.length>0">
         <td></td>
         <td></td>
         <td></td>
@@ -98,7 +99,7 @@
         </td>
       </tr>
 
-      <tr>
+      <tr *ngIf="commodites.length>0">
         <td></td>
         <td></td>
         <td></td>
@@ -128,7 +129,7 @@
     </tbody>
   </table>
 
-  <br><br>
+
   <table *ngIf="employes.length >0" class="table table-striped">
     <thead>
       <tr>

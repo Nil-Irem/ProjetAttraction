@@ -17,3 +17,10 @@
   font-size: 18px;
   color: rgb(202, 6, 6);
 }
+
+
+#footer {
+	background-color: #ec8809b3;
+	height: 2.8%;
+  text-align: center;
+}

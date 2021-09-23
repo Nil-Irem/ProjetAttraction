@@ -15,6 +15,11 @@ import { Element } from 'src/app/model/element';
 })
 export class PossessionComponent implements OnInit {
 
+  VendreTerrainForm: FormGroup;
+  InputM2Terrain : FormControl;
+  prixM2Terrain = 700;
+  venteTerrain = false;
+
   attractions = new Map();
   commodites = new Map();
   boutiques = new Map();
@@ -28,9 +33,26 @@ export class PossessionComponent implements OnInit {
 
  constructor(
     private ar: ActivatedRoute,
+    private formBuilder:FormBuilder,
     private gestionAchatService:GestionAchatService,
     private gestionParcService: GestionParcService) {
 
+      let storage = localStorage.getItem("parcChosen");
+      let maxM2 = 0;
+
+      if (storage){
+        let parc:Parc = JSON.parse(storage);
+        maxM2 = parc.taille!;
+      }
+
+      this.InputM2Terrain = this.formBuilder.control('',[
+        Validators.required,
+        Validators.min(1)
+      ]);
+
+      this.VendreTerrainForm = this.formBuilder.group({
+        m2Terrain: this.InputM2Terrain
+      });
       this.listPossession();
   }
 
@@ -92,8 +114,12 @@ export class PossessionComponent implements OnInit {
             (error) => console.log(error)
           );
         }
+        else if (params.typeElement==="terrain"){
+          this.venteTerrain = true;
+        }
       }
       else if (this.parcStorage){
+        this.venteTerrain = true;
         this.gestionAchatService.getByParc(JSON.parse(this.parcStorage)).subscribe(
           (res) => {
             res.forEach(
@@ -111,6 +137,21 @@ export class PossessionComponent implements OnInit {
     });
   }
 
+  isMaxM2():boolean{
+    let storage = localStorage.getItem("parcChosen");
+    let storageTaille = localStorage.getItem("tailleTotStructure");
+    let venteM2 = this.VendreTerrainForm.get('m2Terrain')?.value;
+
+    if (venteM2){
+      if (storage && storageTaille){
+        let tailleTotStructure:number = JSON.parse(storageTaille);
+        let parc:Parc = JSON.parse(storage);
+        return  (tailleTotStructure > (parc.taille!-venteM2))? true:false;
+      }
+      return true;
+    }
+    return false;
+  }
 
   public ameliorer(element:Element){
     let confirmation = confirm("Voulez vous vraiment améliorer "+element.nom+" pour "+ this.prixAmelioration+"€ ?");
@@ -163,6 +204,12 @@ export class PossessionComponent implements OnInit {
                 if (parc.argent && element.prixAcquisition && parc.taille && element.taille){
                   parc.argent += element.prixAcquisition*this.pourcentageVente;
                   parc.taille += element.taille;
+                }
+                let storageTaille = localStorage.getItem("tailleTotStructure");
+                if (storageTaille && element.taille){
+                  let tailleTotStructure:number = JSON.parse(storageTaille);
+                  tailleTotStructure += element.taille;
+                  localStorage.setItem("tailleTotStructure",JSON.stringify(tailleTotStructure));
                 }
                 localStorage.setItem("parcChosen",JSON.stringify(parc));
                 this.newParc(parc);
@@ -218,6 +265,12 @@ export class PossessionComponent implements OnInit {
                         parc.argent += element.prixAcquisition*this.pourcentageVente;
                         parc.taille += element.taille;
                       }
+                      let storageTaille = localStorage.getItem("tailleTotStructure");
+                      if (storageTaille && element.taille){
+                        let tailleTotStructure:number = JSON.parse(storageTaille);
+                        tailleTotStructure += element.taille;
+                        localStorage.setItem("tailleTotStructure",JSON.stringify(tailleTotStructure));
+                      }
                       this.newParc(parc);
                     },
                     (error) => console.log(error)
@@ -229,6 +282,12 @@ export class PossessionComponent implements OnInit {
                       if (parc.argent && element.prixAcquisition && parc.taille && element.taille){
                         parc.argent += element.prixAcquisition*this.pourcentageVente;
                         parc.taille += element.taille;
+                      }
+                      let storageTaille = localStorage.getItem("tailleTotStructure");
+                      if (storageTaille && element.taille){
+                        let tailleTotStructure:number = JSON.parse(storageTaille);
+                        tailleTotStructure += element.taille;
+                        localStorage.setItem("tailleTotStructure",JSON.stringify(tailleTotStructure));
                       }
                       this.newParc(parc);
                     },
@@ -309,11 +368,31 @@ export class PossessionComponent implements OnInit {
     );
   }
 
+
   public prixVente(prixAcquisition:number):number{
     return Math.round(prixAcquisition*this.pourcentageVente);
-
   }
 
+
+  public vendreTerrain(){
+    let parcStorage = localStorage.getItem("parcChosen");
+    let tailleVendreTerrain = this.VendreTerrainForm.get('m2Terrain')?.value;
+    let confirmation = confirm("Voulez vous vraiment vendre "+tailleVendreTerrain+"m² de terrain pour "+this.prixM2Terrain*tailleVendreTerrain+"€ ?");
+
+    if (confirmation && parcStorage){
+      let parc = JSON.parse(parcStorage);
+
+      if (parc.argent && parc.argent>this.prixM2Terrain*tailleVendreTerrain && parc.taille){
+        parc.argent += this.prixM2Terrain*tailleVendreTerrain;
+        parc.taille -= tailleVendreTerrain;
+      }
+
+      this.gestionParcService.save(parc).subscribe(
+        (parcSave) => localStorage.setItem("parcChosen",JSON.stringify(parcSave)),
+        (error) => console.log("Erreur VendreTerrain, saveParc ",error)
+      );
+    }
+  }
 
   public getParc(): Parc{
     let parc = localStorage.getItem("parcChosen");

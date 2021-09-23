@@ -1,11 +1,30 @@
 <br>
+<!--
   <h1 id="titreh1"
-    *ngIf="attractions.size>0||boutiques.size>0||restaurants.size>0||employes.size>0||commodites.size>0">
+    *ngIf="attractions.size>0||boutiques.size>0||restaurants.size>0||commodites.size>0">
+    Les possessions du parc {{getParc().nomParc}} </h1>
+-->
+  <h1 id="titreh1"
+    *ngIf="employes.size>0&&(attractions.size>0||boutiques.size>0||restaurants.size>0||commodites.size>0)">
     Les possessions du parc {{getParc().nomParc}} </h1>
 
   <h1 id="titreh1"
+    *ngIf="attractions.size<=0&&boutiques.size<=0&&restaurants.size<=0&&employes.size>0&&commodites.size<=0">
+    Les employés du parc {{getParc().nomParc}} </h1>
+
+  <h1 id="titreh1"
     *ngIf="attractions.size<=0&&boutiques.size<=0&&restaurants.size<=0&&employes.size<=0&&commodites.size<=0">
-    Le parc {{getParc().nomParc}} n'a pas encore de possession</h1>
+    Le parc {{getParc().nomParc}} n'a pas encore de possession ni d'employé</h1>
+
+  <br><br>
+
+  <form (ngSubmit)="vendreTerrain()" *ngIf="venteTerrain" [formGroup]="VendreTerrainForm" class="formulaire">
+    <span><strong>Nombre de m² de terrain à vendre ({{prixM2Terrain}}€ le m²) : </strong></span>&nbsp;
+    <input name="tailleVenteTerrain" [formControl]="InputM2Terrain" required type="number">&nbsp;&nbsp;
+    <button type="submit" [disabled]="VendreTerrainForm.invalid" class="btn btn-success">Vendre du terrain</button>
+    <br>
+    <span *ngIf="isMaxM2()" class="erreur">Vous n'avez pas autant de terrain disponible à vendre</span>
+  </form>
 
   <br><br>
   <div class="container-fluid">
@@ -82,10 +101,10 @@
            	<button (click)="ameliorer(boutique.key)" class ="btn btn-warning">Améliorer ({{prixAmelioration}} €)</button>
           </td>
 				  <td *ngIf="boutique.value===boutique.key.nbAmelioration">
-            Amélioration max Atteinte
+            Amélioration max atteinte
           </td>
           <td>
-            <a (click)="vendre(boutique.key)" class ="btn btn-danger">Vendre ({{boutique.key.prixAcquisition*pourcentageVente}} €)</a>
+            <a (click)="vendre(boutique.key)" class ="btn btn-danger">Vendre ({{prixVente(boutique.key.prixAcquisition)}} €)</a>
           </td>
 			  </tr>
 		  </tbody>
@@ -126,11 +145,11 @@
            	<button (click)="ameliorer(restaurant.key)" class ="btn btn-warning">Améliorer ({{prixAmelioration}} €)</button>
           </td>
 				  <td *ngIf="restaurant.value===restaurant.key.nbAmelioration">
-            Amélioration max Atteinte
+            Amélioration max atteinte
           </td>
           <td>
             <a (click)="vendre(restaurant.key)" class ="btn btn-danger">
-              Vendre ({{restaurant.key.prixAcquisition*pourcentageVente}} €)</a>
+              Vendre ({{prixVente(restaurant.key.prixAcquisition)}} €)</a>
           </td>
 			  </tr>
 		  </tbody>
@@ -162,7 +181,7 @@
 	  			<td>{{commodite.key.taille}}</td>
 		  		<td>
             <a (click)="vendreCommodite(commodite.key,commodite.value)" class ="btn btn-danger">
-              Vendre ({{commodite.key.prixAcquisition*pourcentageVente}} €)</a>
+              Vendre ({{prixVente(commodite.key.prixAcquisition)}}) €</a>
           </td>
 			  </tr>
 		  </tbody>

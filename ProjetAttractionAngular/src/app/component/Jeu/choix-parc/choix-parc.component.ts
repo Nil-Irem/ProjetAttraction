@@ -1,4 +1,5 @@
 import { GestionParcService } from './../../../service/GestionJeu/gestion-parc.service';
+import { GestionAchatService } from './../../../service/GestionJeu/gestion-achat.service';
 import { FormControl, FormGroup, FormBuilder, Validators, AsyncValidatorFn, AbstractControl, ValidationErrors } from '@angular/forms';
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
@@ -23,6 +24,7 @@ export class ChoixParcComponent implements OnInit {
   constructor(
     private formBuilder:FormBuilder,
     private gestionParcService:GestionParcService,
+    private gestionAchatService: GestionAchatService,
     private router:Router)
   {
     this.InputNom = this.formBuilder.control('',[
@@ -92,7 +94,18 @@ export class ChoixParcComponent implements OnInit {
 
 
   playParc(index:number){
-    localStorage.setItem("parcChosen",JSON.stringify(this.parcs[index]));
-    this.router.navigate(['/jeu/mainBoard']);
+    this.gestionAchatService.getByParc(this.parcs[index]).subscribe(
+      (achats) => {
+        let maxM2=0;
+        achats.forEach(
+          achat => {
+            if (achat.typeElement !== "employe"){maxM2+=achat.element.taille!}
+          }
+        );
+        localStorage.setItem("tailleTotStructure",JSON.stringify(maxM2));
+        localStorage.setItem("parcChosen",JSON.stringify(this.parcs[index]));
+        this.router.navigate(['/jeu/mainBoard']);
+      }
+    );
   }
 }

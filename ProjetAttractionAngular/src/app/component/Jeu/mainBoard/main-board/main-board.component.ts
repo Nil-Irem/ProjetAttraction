@@ -43,7 +43,11 @@ export class MainBoardComponent implements OnInit {
 }
 
   public finJournee() {
+    let nbIncidentInit = 0;
+    let nbVisiteurInit = 0;
+
     const storage = localStorage.getItem('parcChosen');
+
     let prixFonctionnement = 0;
     let revenuJourPersonne = 0;
     let attractivite = 0;
@@ -86,7 +90,7 @@ export class MainBoardComponent implements OnInit {
                     let aleatoire = Math.round(Math.random() * 10);
                     let incidentElement = 1;
                     if (aleatoire < achat.element.tauxIncident! / 10) {
-                      this.nbIncident++;
+                      nbIncidentInit++;
                       incidentElement -= 1 / impactEmployeCapacite;
                     }
                     if (
@@ -120,34 +124,34 @@ export class MainBoardComponent implements OnInit {
                 switch (Math.round(Math.random() * 4)) {
                   case 0:
                     this.meteo = 'Forte pluie ⛈️';
-                    this.nbVisiteur = capaciteMax * attractivite * 0.5;
+                    nbVisiteurInit = capaciteMax * attractivite * 0.5;
                     break;
                   case 1:
                     this.meteo = 'Faible pluie 🌧️';
-                    this.nbVisiteur = capaciteMax * attractivite * 0.7;
+                    nbVisiteurInit = capaciteMax * attractivite * 0.7;
                     break;
                   case 2:
                     this.meteo = 'Nuageux ☁️';
-                    this.nbVisiteur = capaciteMax * attractivite * 0.9;
+                    nbVisiteurInit = capaciteMax * attractivite * 0.9;
                     break;
                   case 3:
                     this.meteo = 'Belles éclaircies ⛅';
-                    this.nbVisiteur = capaciteMax * attractivite;
+                    nbVisiteurInit = capaciteMax * attractivite;
                     break;
                   case 4:
                     this.meteo = 'Ensoleillé ☀️';
-                    this.nbVisiteur = capaciteMax * attractivite * 0.7;
+                    nbVisiteurInit = capaciteMax * attractivite * 0.7;
                     break;
                   default:
                     console.log('pb dans calcul météo (fin de journee)');
                 }
 
-                this.argentGagne =
-                  this.nbVisiteur * (this.prixEntree + revenuJourPersonne);
+                this.argentGagne = nbVisiteurInit * (this.prixEntree + revenuJourPersonne);
                 this.argentDepense = salaire + prixFonctionnement;
+                this.nbVisiteur = nbVisiteurInit;
+                this.nbIncident = nbIncidentInit;
 
-                parc.argent =
-                  parc.argent + this.argentGagne - this.argentDepense;
+                parc.argent = parc.argent + this.argentGagne - this.argentDepense;
                 parc.nbjour++;
 
               this.gestionParcService.save(parc).subscribe(

@@ -52,7 +52,7 @@ export class MapComponent implements OnInit {
   }
 
   public empty(): boolean {
-    if (this.elements.length == 0) {
+    if (this.elements.length === 0) {
       return true;
     }
     return false;

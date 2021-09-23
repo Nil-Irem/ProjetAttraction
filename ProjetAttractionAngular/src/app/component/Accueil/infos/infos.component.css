@@ -34,5 +34,14 @@ padding-right: 5% ;
   font-size:20pt;
   color:#a8214de0;
   text-align: left;
+}
 
+#main{
+  height: 87%;
+}
+
+#footer {
+	background-color: #ec8809b3;
+	height: 2.8%;
+  text-align: center;
 }
