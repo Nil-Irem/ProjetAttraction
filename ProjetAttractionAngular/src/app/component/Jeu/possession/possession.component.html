@@ -1,82 +1,139 @@
-<br>
+<br />
 <!--
   <h1 id="titreh1"
     *ngIf="attractions.size>0||boutiques.size>0||restaurants.size>0||commodites.size>0">
     Les possessions du parc {{getParc().nomParc}} </h1>
 -->
-  <h1 id="titreh1"
-    *ngIf="employes.size>0&&(attractions.size>0||boutiques.size>0||restaurants.size>0||commodites.size>0)">
-    Les possessions du parc {{getParc().nomParc}} </h1>
+<h1
+  id="titreh1"
+  *ngIf="
+    employes.size > 0 &&
+    (attractions.size > 0 ||
+      boutiques.size > 0 ||
+      restaurants.size > 0 ||
+      commodites.size > 0)
+  "
+>
+  Les possessions du parc {{ getParc().nomParc }}
+</h1>
 
-  <h1 id="titreh1"
-    *ngIf="attractions.size<=0&&boutiques.size<=0&&restaurants.size<=0&&employes.size>0&&commodites.size<=0">
-    Les employés du parc {{getParc().nomParc}} </h1>
+<h1
+  id="titreh1"
+  *ngIf="
+    attractions.size <= 0 &&
+    boutiques.size <= 0 &&
+    restaurants.size <= 0 &&
+    employes.size > 0 &&
+    commodites.size <= 0
+  "
+>
+  Les employés du parc {{ getParc().nomParc }}
+</h1>
 
-  <h1 id="titreh1"
-    *ngIf="attractions.size<=0&&boutiques.size<=0&&restaurants.size<=0&&employes.size<=0&&commodites.size<=0">
-    Le parc {{getParc().nomParc}} n'a pas encore de possession ni d'employé</h1>
+<h1
+  id="titreh1"
+  *ngIf="
+    attractions.size <= 0 &&
+    boutiques.size <= 0 &&
+    restaurants.size <= 0 &&
+    employes.size <= 0 &&
+    commodites.size <= 0
+  "
+>
+  Le parc {{ getParc().nomParc }} n'a pas encore de possession ni d'employé
+</h1>
 
-  <br><br>
+<br /><br />
 
-  <form (ngSubmit)="vendreTerrain()" *ngIf="venteTerrain" [formGroup]="VendreTerrainForm" class="formulaire">
-    <span><strong>Nombre de m² de terrain à vendre ({{prixM2Terrain}}€ le m²) : </strong></span>&nbsp;
-    <input name="tailleVenteTerrain" [formControl]="InputM2Terrain" required type="number">&nbsp;&nbsp;
-    <button type="submit" [disabled]="VendreTerrainForm.invalid" class="btn btn-success">Vendre du terrain</button>
-    <br>
-    <span *ngIf="isMaxM2()" class="erreur">Vous n'avez pas autant de terrain disponible à vendre</span>
-  </form>
+<form
+  (ngSubmit)="vendreTerrain()"
+  *ngIf="venteTerrain"
+  [formGroup]="VendreTerrainForm"
+  class="formulaire"
+>
+  <span
+    ><strong
+      >Nombre de m² de terrain à vendre ({{ prixM2Terrain }}€ le m²) :
+    </strong></span
+  >&nbsp;
+  <input
+    name="tailleVenteTerrain"
+    [formControl]="InputM2Terrain"
+    required
+    type="number"
+  />&nbsp;&nbsp;
+  <button
+    type="submit"
+    [disabled]="VendreTerrainForm.invalid"
+    class="btn btn-success"
+  >
+    Vendre du terrain
+  </button>
+  <br />
+  <span *ngIf="isMaxM2()" class="erreur"
+    >Vous n'avez pas autant de terrain disponible à vendre</span
+  >
+</form>
 
-  <br><br>
-  <div class="container-fluid">
-    <div id="listAttraction" *ngIf="attractions.size>0">
+<br /><br />
+<div class="container-fluid">
+  <div id="listAttraction" *ngIf="attractions.size > 0">
     <table class="table table-striped">
       <thead>
         <tr>
           <!-- <input id="filterAttraction" placeholder="Filtre attraction"> -->
-          <td colspan=6 class="centerText">Liste des attractions :</td>
+          <td colspan="6" class="centerText">Liste des attractions :</td>
         </tr>
         <tr>
           <th>Nom</th>
           <th>Taille (m²)</th>
           <th>Prix de fonctionnement quotidient (€)</th>
           <th>Niveau d'amélioration</th>
-          <th>Affluence maximum quotidient</th>
+          <th>Affluence maximale quotidienne</th>
           <th></th>
           <th></th>
         </tr>
       </thead>
 
       <tbody class="contentTable">
-			  <tr *ngFor="let attraction of attractions | keyvalue">
-				  <td>{{attraction.key.nom}}</td>
-  				<td>{{attraction.key.taille}}</td>
-	  			<td>{{attraction.key.prixFonctionnement}}</td>
-		  		<td>{{attraction.value}} / {{attraction.key.nbAmelioration}}</td>
-			  	<td>{{attraction.key.affluence}}</td>
-				  <td *ngIf="attraction.value!==attraction.key.nbAmelioration">
-            <button (click)="ameliorer(attraction.key)" class ="btn btn-warning" >Améliorer ({{prixAmelioration}} €)</button>
+        <tr *ngFor="let attraction of attractions | keyvalue">
+          <td>{{ attraction.key.nom }}</td>
+          <td>{{ attraction.key.taille }}</td>
+          <td>{{ attraction.key.prixFonctionnement }}</td>
+          <td>{{ attraction.value }} / {{ attraction.key.nbAmelioration }}</td>
+          <td>{{ attraction.key.affluence }}</td>
+          <td *ngIf="attraction.value !== attraction.key.nbAmelioration">
+            <button (click)="ameliorer(attraction.key)" class="btn btn-warning">
+              Améliorer ({{ prixAmelioration }} €)
+            </button>
           </td>
-				  <th *ngIf="attraction.value===attraction.key.nbAmelioration">
+          <th *ngIf="attraction.value === attraction.key.nbAmelioration">
             Amélioration maximum atteinte
           </th>
-				  <td>
-            <a (click)="vendre(attraction.key)" class ="btn btn-danger">Vendre ({{prixVente(attraction.key.prixAcquisition)}} €)</a>
+          <td>
+            <a (click)="vendre(attraction.key)" class="btn btn-danger"
+              >Vendre ({{ prixVente(attraction.key.prixAcquisition) }} €)</a
+            >
           </td>
-			  </tr>
-		  </tbody>
+        </tr>
+      </tbody>
     </table>
-    <a id="button" [routerLink]="['/jeu/achat/attraction']" class="btn btn-success">Acheter une nouvelle attraction</a>
+    <a
+      id="button"
+      [routerLink]="['/jeu/achat/attraction']"
+      class="btn btn-success"
+      >Acheter une nouvelle attraction</a
+    >
   </div>
 
-
-  <br><br>
-  <div id="listBoutique" *ngIf="boutiques.size>0">
-	  &emsp; &emsp;
+  <br /><br />
+  <div id="listBoutique" *ngIf="boutiques.size > 0">
+    &emsp; &emsp;
     <table class="table table-striped">
       <thead>
-		    <tr>
+        <tr>
           <!-- <input id="filterBoutique" placeholder="Filtre boutique"> -->
-          <td colspan=7 class="centerText">Liste des boutiques : </td>
+          <td colspan="7" class="centerText">Liste des boutiques :</td>
         </tr>
         <tr>
           <th>Nom</th>
@@ -90,37 +147,46 @@
         </tr>
       </thead>
       <tbody class="contentTable">
-			  <tr *ngFor="let boutique of boutiques | keyvalue">
-				  <td>{{boutique.key.nom}}</td>
-  				<td>{{boutique.key.taille}}</td>
-	  			<td>{{boutique.key.prixFonctionnement| number: "1.1-1" }}</td>
-		  		<td>{{boutique.value}} / {{boutique.key.nbAmelioration}}</td>
-			  	<td>{{boutique.key.affluence}}</td>
-          <td>{{boutique.key.revenuJourPersonne | number: "1.1-1" }}</td>
-				  <td *ngIf="boutique.value!==boutique.key.nbAmelioration">
-           	<button (click)="ameliorer(boutique.key)" class ="btn btn-warning">Améliorer ({{prixAmelioration}} €)</button>
+        <tr *ngFor="let boutique of boutiques | keyvalue">
+          <td>{{ boutique.key.nom }}</td>
+          <td>{{ boutique.key.taille }}</td>
+          <td>{{ boutique.key.prixFonctionnement | number: "1.1-1" }}</td>
+          <td>{{ boutique.value }} / {{ boutique.key.nbAmelioration }}</td>
+          <td>{{ boutique.key.affluence }}</td>
+          <td>{{ boutique.key.revenuJourPersonne | number: "1.1-1" }}</td>
+          <td *ngIf="boutique.value !== boutique.key.nbAmelioration">
+            <button (click)="ameliorer(boutique.key)" class="btn btn-warning">
+              Améliorer ({{ prixAmelioration }} €)
+            </button>
           </td>
-				  <td *ngIf="boutique.value===boutique.key.nbAmelioration">
+          <td *ngIf="boutique.value === boutique.key.nbAmelioration">
             Amélioration max atteinte
           </td>
           <td>
-            <a (click)="vendre(boutique.key)" class ="btn btn-danger">Vendre ({{prixVente(boutique.key.prixAcquisition)}} €)</a>
+            <a (click)="vendre(boutique.key)" class="btn btn-danger"
+              >Vendre ({{ prixVente(boutique.key.prixAcquisition) }} €)</a
+            >
           </td>
-			  </tr>
-		  </tbody>
+        </tr>
+      </tbody>
     </table>
-    <br>
-    <a id="button"  [routerLink]="['/jeu/achat/boutique']" class="btn btn-success">Acheter une nouvelle boutique</a>
+    <br />
+    <a
+      id="button"
+      [routerLink]="['/jeu/achat/boutique']"
+      class="btn btn-success"
+      >Acheter une nouvelle boutique</a
+    >
   </div>
 
-  <br><br>
-  <div id="listRestaurant" *ngIf="restaurants.size>0">
-	  &emsp; &emsp;
+  <br /><br />
+  <div id="listRestaurant" *ngIf="restaurants.size > 0">
+    &emsp; &emsp;
     <table class="table table-striped">
       <thead>
         <tr>
           <!-- <input id="filterRestaurant" placeholder="Filtre restaurant"> -->
-          <td colspan=7 class="centerText">Liste des restaurants :</td>
+          <td colspan="7" class="centerText">Liste des restaurants :</td>
         </tr>
         <tr>
           <th>Nom</th>
@@ -134,38 +200,46 @@
         </tr>
       </thead>
       <tbody class="contentTable">
-			  <tr *ngFor="let restaurant of restaurants | keyvalue">
-				  <td>{{restaurant.key.nom}}</td>
-  				<td>{{restaurant.key.taille}}</td>
-	  			<td>{{restaurant.key.prixFonctionnement| number: "1.1-1" }}</td>
-		  		<td>{{restaurant.value}} / {{restaurant.key.nbAmelioration}}</td>
-			  	<td>{{restaurant.key.affluence}}</td>
-          <td>{{restaurant.key.revenuJourPersonne | number: "1.1-1" }}</td>
-				  <td *ngIf="restaurant.value!==restaurant.key.nbAmelioration">
-           	<button (click)="ameliorer(restaurant.key)" class ="btn btn-warning">Améliorer ({{prixAmelioration}} €)</button>
+        <tr *ngFor="let restaurant of restaurants | keyvalue">
+          <td>{{ restaurant.key.nom }}</td>
+          <td>{{ restaurant.key.taille }}</td>
+          <td>{{ restaurant.key.prixFonctionnement | number: "1.1-1" }}</td>
+          <td>{{ restaurant.value }} / {{ restaurant.key.nbAmelioration }}</td>
+          <td>{{ restaurant.key.affluence }}</td>
+          <td>{{ restaurant.key.revenuJourPersonne | number: "1.1-1" }}</td>
+          <td *ngIf="restaurant.value !== restaurant.key.nbAmelioration">
+            <button (click)="ameliorer(restaurant.key)" class="btn btn-warning">
+              Améliorer ({{ prixAmelioration }} €)
+            </button>
           </td>
-				  <td *ngIf="restaurant.value===restaurant.key.nbAmelioration">
+          <td *ngIf="restaurant.value === restaurant.key.nbAmelioration">
             Amélioration max atteinte
           </td>
           <td>
-            <a (click)="vendre(restaurant.key)" class ="btn btn-danger">
-              Vendre ({{prixVente(restaurant.key.prixAcquisition)}} €)</a>
+            <a (click)="vendre(restaurant.key)" class="btn btn-danger">
+              Vendre ({{ prixVente(restaurant.key.prixAcquisition) }} €)</a
+            >
           </td>
-			  </tr>
-		  </tbody>
+        </tr>
+      </tbody>
     </table>
-    <br>
-    <a id="button"  [routerLink]="['/jeu/achat/restaurant']" class="btn btn-success">Acheter un nouveau restaurant</a>
+    <br />
+    <a
+      id="button"
+      [routerLink]="['/jeu/achat/restaurant']"
+      class="btn btn-success"
+      >Acheter un nouveau restaurant</a
+    >
   </div>
 
-  <br><br>
-  <div id="listCommodite" *ngIf="commodites.size>0">
-	  &emsp; &emsp;
+  <br /><br />
+  <div id="listCommodite" *ngIf="commodites.size > 0">
+    &emsp; &emsp;
     <table class="table table-striped">
       <thead>
         <tr>
           <!-- <input id="filterCommodite" placeholder="Filtre commodite"> -->
-          <td colspan=3 class="centerText">Liste des commodités :</td>
+          <td colspan="3" class="centerText">Liste des commodités :</td>
         </tr>
         <tr>
           <th>Quantité</th>
@@ -175,29 +249,38 @@
         </tr>
       </thead>
       <tbody class="contentTable">
-			  <tr *ngFor="let commodite of commodites | keyvalue">
-				  <td>{{commodite.value}}</td>
-  				<td>{{commodite.key.nom}}</td>
-	  			<td>{{commodite.key.taille}}</td>
-		  		<td>
-            <a (click)="vendreCommodite(commodite.key,commodite.value)" class ="btn btn-danger">
-              Vendre ({{prixVente(commodite.key.prixAcquisition)}}) €</a>
+        <tr *ngFor="let commodite of commodites | keyvalue">
+          <td>{{ commodite.value }}</td>
+          <td>{{ commodite.key.nom }}</td>
+          <td>{{ commodite.key.taille }}</td>
+          <td>
+            <a
+              (click)="vendreCommodite(commodite.key, commodite.value)"
+              class="btn btn-danger"
+            >
+              Vendre ({{ prixVente(commodite.key.prixAcquisition) }}) €</a
+            >
           </td>
-			  </tr>
-		  </tbody>
+        </tr>
+      </tbody>
     </table>
-    <br>
-    <a id="button"  [routerLink]="['/jeu/achat/commodite']" class="btn btn-success">Acheter une nouvelle commodite</a>
+    <br />
+    <a
+      id="button"
+      [routerLink]="['/jeu/achat/commodite']"
+      class="btn btn-success"
+      >Acheter une nouvelle commodite</a
+    >
   </div>
 
-  <br><br>
-  <div id="listEmploye" *ngIf="employes.size>0">
-	  &emsp; &emsp;
+  <br /><br />
+  <div id="listEmploye" *ngIf="employes.size > 0">
+    &emsp; &emsp;
     <table class="table table-striped">
       <thead>
         <tr>
           <!-- <input id="filteremploye" placeholder="Filtre employe"> -->
-          <td colspan=3 class="centerText">Liste des employés :</td>
+          <td colspan="3" class="centerText">Liste des employés :</td>
         </tr>
         <tr>
           <th>Nombre</th>
@@ -207,17 +290,28 @@
         </tr>
       </thead>
       <tbody class="contentTable">
-			  <tr *ngFor="let employe of employes | keyvalue">
-  				<td>{{employe.value}}</td>
-	  			<td>{{employe.key.metier}}</td>
-		  		<td>{{employe.key.salaire | number: "1.1-1" }}</td>
-			  	<td>
-            <button (click)="virer(employe.key,employe.value)" class="btn btn-danger">Licencier</button>
+        <tr *ngFor="let employe of employes | keyvalue">
+          <td>{{ employe.value }}</td>
+          <td>{{ employe.key.metier }}</td>
+          <td>{{ employe.key.salaire | number: "1.1-1" }}</td>
+          <td>
+            <button
+              (click)="virer(employe.key, employe.value)"
+              class="btn btn-danger"
+            >
+              Licencier
+            </button>
           </td>
-		  	</tr>
-		  </tbody>
+        </tr>
+      </tbody>
     </table>
-    <br>
-    <a id="button"  [routerLink]="['/jeu/achat/employe']" type="button" class="btn btn-success">Embaucher un nouvel employe</a>
+    <br />
+    <a
+      id="button"
+      [routerLink]="['/jeu/achat/employe']"
+      type="button"
+      class="btn btn-success"
+      >Embaucher un nouvel employe</a
+    >
   </div>
 </div>

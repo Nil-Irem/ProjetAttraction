@@ -13,7 +13,10 @@
       <div
         *ngIf="!empty()"
         id="map"
-        [ngStyle]="{ 'width.px': mapSize, 'height.px': mapSize }"
+        [ngStyle]="{
+          'width.px': mapSize,
+          'height.px': mapSize
+        }"
       >
         <div
           class="element"

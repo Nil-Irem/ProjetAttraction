@@ -1,17 +1,32 @@
-#titreh1{
+#titreh1 {
   font-weight: bold;
   font-size: 50px;
- text-align: center;
- color: #dd840fe1;
+  text-align: center;
+  color: #dd840fe1;
 }
 
-.erreur{
+.erreur {
   font-size: 18px;
   color: rgb(202, 6, 6);
 }
 
-#titreh3{
+#titreh3 {
   font-weight: bold;
   color: #dd840fe1;
+}
 
+#noGame {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+#noGame img {
+  margin: auto;
+  max-width: 200px;
+}
+
+#noGame h1 {
+  font-weight: bold;
+  font-size: 40px;
 }

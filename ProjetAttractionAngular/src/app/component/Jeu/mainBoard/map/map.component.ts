@@ -11,6 +11,7 @@ import { GestionAchatService } from 'src/app/service/GestionJeu/gestion-achat.se
 })
 export class MapComponent implements OnInit {
   parcStorage = localStorage.getItem('parcChosen');
+  sizeAllElement = Number(localStorage.getItem('tailleTotStructure'));
 
   elements: Element[] = [];
   mapSize: number = 0;
@@ -26,7 +27,7 @@ export class MapComponent implements OnInit {
                 //  achat.element.typeElement=achat.typeElement;
                 if (achat.typeElement == 'commodite') {
                   console.log(achat);
-                  for (let i = 0; i < achat.nbSameElement; i++) {
+                  for (let i = 1; i < achat.nbSameElement; i++) {
                     this.elements.push(achat.element);
                   }
                 }
@@ -38,7 +39,8 @@ export class MapComponent implements OnInit {
           (error) => console.log(error)
         );
     }
-    this.mapSize = this.getParc().taille!;
+    this.mapSize = this.getParc().taille! + this.sizeAllElement;
+    console.log(this.mapSize);
   }
 
   ngOnInit(): void {}

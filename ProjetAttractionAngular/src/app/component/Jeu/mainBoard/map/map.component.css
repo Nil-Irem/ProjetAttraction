@@ -9,6 +9,7 @@
   border: darkgreen solid 2px;
   position: relative;
   max-width: 90%;
+  display: flex;
 }
 #map-container {
   max-width: 100%;
@@ -18,6 +19,7 @@
   overflow: scroll;
   background-image: url("/assets/img/ground.png");
   scrollbar-color: #5809ecb3;
+  margin: auto;
 }
 
 .element {
@@ -36,9 +38,9 @@ h2 {
 }
 
 #vide {
+  font-weight: bold;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-weight: bold;
 }

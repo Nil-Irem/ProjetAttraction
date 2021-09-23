@@ -1,4 +1,4 @@
-#titreh1{
+#titreh1 {
   font-weight: bold;
   font-size: 50px;
   text-align: center;
@@ -7,7 +7,6 @@
 
 #asideLeft {
   margin-top: 1.5%;
-
 }
 
 #section {
@@ -17,18 +16,19 @@
 app-map {
   max-width: 100%;
   min-width: 50%;
+  margin: auto;
 }
 
 #asideRight {
-  margin-top: 7%;
+  margin-top: 2%;
   display: flex;
   flex-direction: column;
 }
 
-#infos{
+#infos {
   text-align: center;
   background-color: lightgrey;
-  padding-top:5%;
+  padding-top: 5%;
   padding-bottom: 5%;
   padding-left: 5%;
   padding-right: 10%;
@@ -39,10 +39,9 @@ app-map {
   color: white;
   border-color: white;
   width: 100%;
-
 }
 
-.textCentre{
+.textCentre {
   text-align: center;
 }
 
