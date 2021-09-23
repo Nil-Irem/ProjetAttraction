@@ -2,23 +2,7 @@ nav {
 	background-color: #ec8809b3;
 }
 
-
-#infos{
-  font-weight: bold;
-  color:#327dcd;
-}
-
-#inscription{
-  font-weight: bold;
-  color:#ac1000;
-}
-
-#connexion{
-  font-weight: bold;
-  color:#537910;
-}
-
-#accueil{
+a{
   font-weight: bold;
   color:#353e40;
 }

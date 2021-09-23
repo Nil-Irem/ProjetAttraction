@@ -7,7 +7,6 @@
         id="deconnexion"
         >Déconnexion</a
       >
-      &nbsp;&nbsp;
       <a
         *ngIf="parcIsChosen()"
         (click)="changerParc()"
@@ -15,26 +14,14 @@
         id="parc"
         >Changer de parc</a
       >
-      &nbsp;&nbsp;
       <a
         *ngIf="parcIsChosen()"
         class="nav-item nav-link active"
         [routerLink]="['/jeu/achat']"
         routerLinkActive="active"
         id="achat"
-        >Achat</a
+        >Achats</a
       >
-      <!-- <a class="nav-item dropdown btn btn-info dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="true">Achat</a>
-      <div class="dropdown-menu">
-        <a class="dropdown-item" href="#" [routerLink]="['/jeu/achat']" routerLinkActive="active">Menu Achat</a>
-        <a class="dropdown-item" href="#" [routerLink]="['/jau/achat/terrain']" routerLinkActive="active">Acheter de terrain</a>
-        <a class="dropdown-item" href="#" [routerLink]="['/jeu/achat/attraction']" routerLinkActive="active">Acheter une attraction</a>
-        <a class="dropdown-item" href="#" [routerLink]="['/jeu/achat/boutique']" routerLinkActive="active">Acheter une boutique</a>
-        <a class="dropdown-item" href="#" [routerLink]="['/jeu/achat/restaurant']" routerLinkActive="active">Acheter un restaurant</a>
-        <a class="dropdown-item" href="#" [routerLink]="['/jeu/achat/commodite']" routerLinkActive="active">Acheter une commodité</a>
-        <a class="dropdown-item" href="#" [routerLink]="['/jeu/achat/employe']" routerLinkActive="active">Embaucher un employé</a>
-      </div> -->
-      &nbsp;&nbsp;
       <i class="pi pi-check"></i>
       <a
         *ngIf="parcIsChosen()"
@@ -42,7 +29,7 @@
         [routerLink]="['/jeu/mainBoard']"
         routerLInkActive="active"
         id="map"
-        >Map</a
+        >Carte du jeu</a
       >
       <a
         *ngIf="parcIsChosen()"
@@ -50,7 +37,15 @@
         [routerLink]="['/jeu/possession']"
         routerLInkActive="active"
         id="possession"
-        >Possession</a
+        >Possessions</a
+      >
+      <a
+        *ngIf="parcIsChosen()"
+        class="nav-item nav-link active"
+        [routerLink]="['/jeu/possession/employe']"
+        routerLInkActive="active"
+        id="possession"
+        >Employés</a
       >
     </div>
     <img

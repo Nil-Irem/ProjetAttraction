@@ -71,8 +71,10 @@ export class ChoixParcComponent implements OnInit {
   }
 
   addParc(){
+    this.ajout = false;
     const nom = this.newParcForm.get('nom')?.value;
     const difficulte = this.newParcForm.get('difficulte')?.value;
+    this.newParcForm.reset();
 
     if (this.joueur){
     this.gestionParcService.create(new Parc(nom,difficulte),JSON.parse(this.joueur)).subscribe(

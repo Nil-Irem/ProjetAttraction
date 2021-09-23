@@ -4,15 +4,15 @@
 <button id="btnAddParc" (click)="ajout=!ajout" class="btn btn-success">Créer une nouvelle partie</button>
 &emsp;
 <!-- <input id="filterPartie" placeholder="filtre"> -->
-
+<div class="container-fluid">
 <div id="addFormParc" *ngIf="ajout">
 	<h3 id="titreh3">Nouvelle partie</h3>
   <form (ngSubmit)="addParc()" [formGroup]="newParcForm" class="formulaire">
     <div class="form-group" >
-      Nom * <input required name="login" [formControl]="InputNom"><br><br>
-      <span *ngIf="InputNom.dirty&&InputNom.invalid" class="erreur">Vous possédez déjà un parc de ce nom</span>
+      Nom * <input required name="login" [formControl]="InputNom"><br>
+      <span *ngIf="InputNom.dirty&&InputNom.invalid" class="erreur">Vous possédez déjà un parc de ce nom</span><br>
       Difficulté * <select name="password" [formControl]="InputDifficulte" required><br><br>
-        <option value="Facile">Facile</option>
+        <option value="Facile" selected>Facile</option>
         <option value="Moyen">Moyen</option>
         <option value="Difficile">Difficile</option>
       </select>
@@ -49,4 +49,5 @@
           </td>
 				</tr>
 		</tbody>
-     </table>
+  </table>
+</div>

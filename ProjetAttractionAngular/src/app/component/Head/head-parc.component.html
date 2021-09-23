@@ -1,6 +1,8 @@
 <div class="container-fluid">
   <span id="texte"> Argent : {{ getParc().argent | number: "1.1-1" }} €</span>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+  <span id="texte"> Taille totale : {{ getTailleTot() }} m²</span>
+  &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <span id="texte"> Taille disponible : {{ getParc().taille }} m²</span>
   &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
   <span id="texte"> Nombre de jours joués : {{ getParc().nbjour }}</span>

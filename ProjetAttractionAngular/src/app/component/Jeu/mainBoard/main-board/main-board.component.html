@@ -9,7 +9,7 @@
         [routerLink]="['/jeu/achat/terrain']"
         routerLinkActive="active"
         class="btn btn-outline-info"
-      >Agrandir votre parc {{getParc().nomParc}}</a>
+      >Agrandir votre parc <br> {{getParc().nomParc}}</a>
       <br><br>
       <a id="button"
         [routerLink]="['/jeu/achat/boutique']"
@@ -39,19 +39,19 @@
         [routerLink]="['/jeu/achat/employe']"
         routerLinkActive="active"
         class="btn btn-outline-info"
-      >Embaucher du nouveau personnel</a>
+      >Embaucher <br> du personnel</a>
       <br><br>
       <a id="button"
         [routerLink]="['/jeu/possession']"
         routerLinkActive="active"
         class="btn btn-outline-info"
-      >Gérer vos possessions (amélioration et vente)</a>
+      >Gérer vos possessions <br> (amélioration et vente)</a>
       <br><br>
       <a id="button"
         [routerLink]="['/jeu/possession/employe']"
         routerLinkActive="active"
         class="btn btn-outline-info"
-      >Gérer vos employés (licenciement)</a>
+      >Gérer vos employés</a>
   </div>
 
   <div class="col-8" id="section">
@@ -62,7 +62,7 @@
     <button id="buttonJ"
       (click)="finJournee()"
       class="btn btn-secondary btn-lg">
-    Finir la Journée </button>
+    Finir la journée </button>
     <br>
 
     <div class="card bg-light border-dark mb-3" *ngIf="!debutPartie()">

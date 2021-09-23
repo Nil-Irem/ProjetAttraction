@@ -5,6 +5,10 @@
  color: #dd840fe1;
 }
 
+.erreur{
+  font-size: 18px;
+  color: rgb(202, 6, 6);
+}
 
 #titreh3{
   font-weight: bold;

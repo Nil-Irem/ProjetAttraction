@@ -302,6 +302,7 @@ export class AchatComponent implements OnInit {
   public acheterTerrain(){
     let parcStorage = localStorage.getItem("parcChosen");
     let tailleAchatTerrain = this.AchatTerrainForm.get('m2Terrain')?.value;
+    this.AchatTerrainForm.reset();
     let confirmation = confirm("Voulez vous vraiment acheter "+tailleAchatTerrain+"m² de terrain pour "+this.prixM2Terrain*tailleAchatTerrain+"€ ?");
 
     if (confirmation && parcStorage){

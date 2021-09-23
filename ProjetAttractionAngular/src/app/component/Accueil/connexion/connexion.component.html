@@ -7,7 +7,7 @@
           <span *ngIf="!userValid" class="erreur">Identifiant ou mot de passe incorrect</span>
           <br *ngIf="!userValid">
           <br>
-          Identifiant* <input required name="login" [formControl]="InputLogin"><br><br>
+          Pseudo* <input required name="login" [formControl]="InputLogin"><br><br>
           Mot de passe* <input name="password" [formControl]="InputPassword" required type="password"><br><br>
           <button type="submit" [disabled]="connexionForm.invalid" class="btn btn-success">Se Connecter</button>
           <br><br>

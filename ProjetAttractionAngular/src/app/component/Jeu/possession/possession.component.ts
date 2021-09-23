@@ -146,7 +146,7 @@ export class PossessionComponent implements OnInit {
       if (storage && storageTaille){
         let tailleTotStructure:number = JSON.parse(storageTaille);
         let parc:Parc = JSON.parse(storage);
-        return  (tailleTotStructure > (parc.taille!-venteM2))? true:false;
+        return  (tailleTotStructure > parc.taille!)? true:false;
       }
       return true;
     }
@@ -208,7 +208,7 @@ export class PossessionComponent implements OnInit {
                 let storageTaille = localStorage.getItem("tailleTotStructure");
                 if (storageTaille && element.taille){
                   let tailleTotStructure:number = JSON.parse(storageTaille);
-                  tailleTotStructure += element.taille;
+                  tailleTotStructure -= element.taille;
                   localStorage.setItem("tailleTotStructure",JSON.stringify(tailleTotStructure));
                 }
                 localStorage.setItem("parcChosen",JSON.stringify(parc));
@@ -268,7 +268,7 @@ export class PossessionComponent implements OnInit {
                       let storageTaille = localStorage.getItem("tailleTotStructure");
                       if (storageTaille && element.taille){
                         let tailleTotStructure:number = JSON.parse(storageTaille);
-                        tailleTotStructure += element.taille;
+                        tailleTotStructure -= element.taille;
                         localStorage.setItem("tailleTotStructure",JSON.stringify(tailleTotStructure));
                       }
                       this.newParc(parc);
@@ -286,7 +286,7 @@ export class PossessionComponent implements OnInit {
                       let storageTaille = localStorage.getItem("tailleTotStructure");
                       if (storageTaille && element.taille){
                         let tailleTotStructure:number = JSON.parse(storageTaille);
-                        tailleTotStructure += element.taille;
+                        tailleTotStructure -= element.taille;
                         localStorage.setItem("tailleTotStructure",JSON.stringify(tailleTotStructure));
                       }
                       this.newParc(parc);
@@ -377,6 +377,7 @@ export class PossessionComponent implements OnInit {
   public vendreTerrain(){
     let parcStorage = localStorage.getItem("parcChosen");
     let tailleVendreTerrain = this.VendreTerrainForm.get('m2Terrain')?.value;
+    this.VendreTerrainForm.reset();
     let confirmation = confirm("Voulez vous vraiment vendre "+tailleVendreTerrain+"m² de terrain pour "+this.prixM2Terrain*tailleVendreTerrain+"€ ?");
 
     if (confirmation && parcStorage){

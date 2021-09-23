@@ -137,7 +137,6 @@ public class ParcRestController {
 			throw new ParcException("Parc avec des données incorrectes - modification impossible");		
 		}
 
-		System.out.println("save");
 		return daoP.save(parc);
 	}
 	

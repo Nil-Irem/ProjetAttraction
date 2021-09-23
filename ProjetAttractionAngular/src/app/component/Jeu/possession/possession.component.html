@@ -93,10 +93,10 @@
 			  <tr *ngFor="let boutique of boutiques | keyvalue">
 				  <td>{{boutique.key.nom}}</td>
   				<td>{{boutique.key.taille}}</td>
-	  			<td>{{boutique.key.prixFonctionnement}}</td>
+	  			<td>{{boutique.key.prixFonctionnement| number: "1.1-1" }}</td>
 		  		<td>{{boutique.value}} / {{boutique.key.nbAmelioration}}</td>
 			  	<td>{{boutique.key.affluence}}</td>
-          <td>{{boutique.key.revenuJourPersonne}}</td>
+          <td>{{boutique.key.revenuJourPersonne | number: "1.1-1" }}</td>
 				  <td *ngIf="boutique.value!==boutique.key.nbAmelioration">
            	<button (click)="ameliorer(boutique.key)" class ="btn btn-warning">Améliorer ({{prixAmelioration}} €)</button>
           </td>
@@ -137,10 +137,10 @@
 			  <tr *ngFor="let restaurant of restaurants | keyvalue">
 				  <td>{{restaurant.key.nom}}</td>
   				<td>{{restaurant.key.taille}}</td>
-	  			<td>{{restaurant.key.prixFonctionnement}}</td>
+	  			<td>{{restaurant.key.prixFonctionnement| number: "1.1-1" }}</td>
 		  		<td>{{restaurant.value}} / {{restaurant.key.nbAmelioration}}</td>
 			  	<td>{{restaurant.key.affluence}}</td>
-          <td>{{restaurant.key.revenuJourPersonne}}</td>
+          <td>{{restaurant.key.revenuJourPersonne | number: "1.1-1" }}</td>
 				  <td *ngIf="restaurant.value!==restaurant.key.nbAmelioration">
            	<button (click)="ameliorer(restaurant.key)" class ="btn btn-warning">Améliorer ({{prixAmelioration}} €)</button>
           </td>
@@ -210,7 +210,7 @@
 			  <tr *ngFor="let employe of employes | keyvalue">
   				<td>{{employe.value}}</td>
 	  			<td>{{employe.key.metier}}</td>
-		  		<td>{{employe.key.salaire}}</td>
+		  		<td>{{employe.key.salaire | number: "1.1-1" }}</td>
 			  	<td>
             <button (click)="virer(employe.key,employe.value)" class="btn btn-danger">Licencier</button>
           </td>

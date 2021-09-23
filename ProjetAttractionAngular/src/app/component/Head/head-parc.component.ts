@@ -20,4 +20,13 @@ export class HeadParcComponent implements OnInit {
     return new Parc("probleme","probleme");
   }
 
+
+  public getTailleTot():Parc{
+    let storage = localStorage.getItem("tailleTotStructure");
+    if(storage){
+      return JSON.parse(storage)+this.getParc().taille!;
+    }
+    return new Parc("probleme","probleme");
+  }
+
 }
