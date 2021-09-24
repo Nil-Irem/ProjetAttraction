@@ -93,11 +93,11 @@ export class AchatComponent implements OnInit {
   }
 
 
-  private async listAttractionWithoutAchat(){
+  private listAttractionWithoutAchat(){
     let allAttractions: Element[]=[];
     let parcStorage = localStorage.getItem("parcChosen");
     if (parcStorage){
-      await this.gestionElementService.getAttraction().subscribe(
+      this.gestionElementService.getAttraction().subscribe(
         (res) => {
           res.forEach(
             attraction => attraction.typeElement = "attraction"
@@ -128,12 +128,12 @@ export class AchatComponent implements OnInit {
 
 
 
-  private async listBoutiqueWithoutAchat(){
+  private listBoutiqueWithoutAchat(){
     let allBoutiques: Element[]=[];
     let parcStorage = localStorage.getItem("parcChosen");
 
     if (parcStorage){
-      await this.gestionElementService.getBoutique().subscribe(
+      this.gestionElementService.getBoutique().subscribe(
         (res) => {
           res.forEach(
             boutique => boutique.typeElement = "boutique"
@@ -162,11 +162,11 @@ export class AchatComponent implements OnInit {
     }
   }
 
-  private async listRestaurantWithoutAchat(){
+  private listRestaurantWithoutAchat(){
     let allRestaurants: Element[]=[];
     let parcStorage = localStorage.getItem("parcChosen");
     if (parcStorage){
-      await this.gestionElementService.getRestaurant().subscribe(
+      this.gestionElementService.getRestaurant().subscribe(
         (res) =>{
           res.forEach(
             restaurant => restaurant.typeElement = "restaurant"
@@ -176,7 +176,7 @@ export class AchatComponent implements OnInit {
         (error) => console.log("Erreur achat, liste tous restaurants ",error)
       );
 
-      await this.gestionAchatService.getByTypeElementAndParc("restaurant",JSON.parse(parcStorage)).subscribe(
+      this.gestionAchatService.getByTypeElementAndParc("restaurant",JSON.parse(parcStorage)).subscribe(
         (res) => {
           res.forEach(
             achat => {
